@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Lista de Autores</h1>
+{% for autor in autores %}
+    <div>        
+        <p>
+            O id do autor é: {{ autor["id"] }}, o nome do autor é {{ autor["nome"] }} |
+            <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('autor.update', id=autor['id']) }}">Editar</a>
+        </p>
+        
+    </div>
+{% endfor %}
+{% endblock %}

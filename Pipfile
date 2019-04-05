@@ -11,6 +11,8 @@ autopep8 = "*"
 [packages]
 flask = "*"
 pymysql = "*"
+flask-mysql = "*"
+flask-mysqldb = "*"
 
 [requires]
 python_version = "3.6"

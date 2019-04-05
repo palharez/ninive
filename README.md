@@ -13,19 +13,19 @@ $ pipenv install --dev
 For linux and Mac:
 
 ```shell
-$ export FLASK_APP=progess
+$ export FLASK_APP=sgb
 $ export FLASK_ENV=development
 $ flask run
 ```
 
 ## Modules
 
-- [Flask](http://flask.pocoo.org/docs/1.0/#)
-- [MySQL](https://www.mysql.com/)
+-   [Flask](http://flask.pocoo.org/docs/1.0/#)
+-   [MySQL](https://www.mysql.com/)
 
 ## Authors
 
-- **Eduardo Palhares** - [palharez](https://github.com/palharez)
+-   **Eduardo Palhares** - [palharez](https://github.com/palharez)
 
 ## License
 
