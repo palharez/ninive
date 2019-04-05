@@ -7,7 +7,7 @@ class Database:
         host = 'localhost'
         user = 'root'
         password = 'root'
-        dbname = 'test_db'
+        dbname = 'TCC'
         self.con = pymysql.connect(
             host=host, user=user, password=password, db=dbname, cursorclass=pymysql.cursors.DictCursor)
         self.cur = self.con.cursor()
