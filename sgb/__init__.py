@@ -28,7 +28,8 @@ def create_app(test_config=None):
     def hello():
         return 'Hello, World!'
 
-    from sgb.controllers import autor_controller
-    app.register_blueprint(autor_controller.bp)
+    from sgb.controllers import autor, editora
+    app.register_blueprint(autor.bp)
+    app.register_blueprint(editora.bp)
 
     return app
