@@ -49,7 +49,7 @@ def create():
                 return redirect(url_for('autor.index'))
                 
             except:
-                return render_template('404.html')
+                return redirect(url_for('error'))
 
     return render_template('autor/create.html')
 
