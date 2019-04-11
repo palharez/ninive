@@ -11,7 +11,7 @@ from sgb.database import Database
 
 import unittest
 
-class TestGetEditora(unittest.TestCase):
+class TestEditora(unittest.TestCase):
 
     def setUp(self):            
         app = create_app('tcc_tests')

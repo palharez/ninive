@@ -11,7 +11,7 @@ from sgb.database import Database
 
 import unittest
 
-class TestGetAutor(unittest.TestCase):
+class TestAutor(unittest.TestCase):
 
     def setUp(self):            
         app = create_app('tcc_tests')
