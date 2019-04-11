@@ -8,3 +8,11 @@ nav {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+.botao-logout {
+    color: #000000;
+}
+
+.botao-logout:hover {
+    color: #000000;
+}

@@ -4,6 +4,7 @@ from flask import (
 
 from werkzeug.exceptions import abort
 from sgb import db
+from sgb.controllers.funcionario import login_required
 
 bp = Blueprint('editora', __name__)
 
@@ -20,6 +21,7 @@ def get_editora(id):
         return render_template('404.html')
 
 @bp.route('/editora')
+@login_required
 def index():
     """Exibe todas as editoras cadastradas."""
     try:
@@ -30,6 +32,7 @@ def index():
 
 
 @bp.route('/editora/create', methods=('GET', 'POST'))
+@login_required
 def create():
     """Cria uma nova editora."""
     if request.method == 'POST':
@@ -54,6 +57,7 @@ def create():
     return render_template('editora/create.html')
 
 @bp.route('/editora/<int:id>/update', methods=('GET', 'POST'))
+@login_required
 def update(id):
     """Atualiza uma editora pelo seu respectivo id."""
     editora = get_editora(id)
@@ -77,6 +81,7 @@ def update(id):
     return render_template('editora/update.html', editora=editora)
 
 @bp.route('/editora/<int:id>/delete', methods=('POST',))
+@login_required
 def delete(id):
     """Deleta um autor.
 

@@ -1,6 +1,7 @@
 import os, sys
 
 from utils import truncate, insert
+from utils_auth import AuthActions
 
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(root)
@@ -15,6 +16,8 @@ class TestGetAutor(unittest.TestCase):
     def setUp(self):            
         app = create_app('tcc_tests')
         self.app_test = app.test_client()
+        auth = AuthActions(self.app_test)
+        auth.login()
         truncate('autor')
 
     def test_get_autores(self):
