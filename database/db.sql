@@ -1,31 +1,28 @@
--- drop database tcc;
+DROP DATABASE TCC;
 
 CREATE DATABASE TCC;
 USE TCC;
 
 CREATE TABLE autor (
-    id INT NOT NULL AUTO_INCREMENT,
-    nome NVARCHAR(50) NOT NULL,
-    CONSTRAINT id_autor_pk PRIMARY KEY (id)
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nome NVARCHAR(50) NOT NULL
 );
 
 CREATE TABLE funcionario(
-	matricula INT NOT NULL UNIQUE,
+	matricula INT NOT NULL UNIQUE PRIMARY KEY,
     nome NVARCHAR(255),
-    cargo NVARCHAR(50),
-    CONSTRAINT matricula_pk PRIMARY KEY (MATRICULA)
+    cargo NVARCHAR(50)
 );
 
 
 
 CREATE TABLE editora (
-    id INT NOT NULL AUTO_INCREMENT,
-    nome NVARCHAR(50) NOT NULL,
-    CONSTRAINT id_editora_pk PRIMARY KEY (id)
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nome NVARCHAR(50) NOT NULL
 );
 
 CREATE TABLE livro (
-    tombo INT NOT NULL AUTO_INCREMENT,
+    tombo INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     titulo NVARCHAR(50) NOT NULL,
     entrada DATE NOT NULL,
     etq NVARCHAR(10) NOT NULL,
@@ -36,11 +33,8 @@ CREATE TABLE livro (
     id_autor INT NOT NULL,
     status ENUM('EMPRESTADO', 'ESTANTE', 'EXTRAVIADO', 'RESERVADO', 'PERDIDO'),
     nomenclatura ENUM ('LIN', 'LBR', 'POE', 'LES'),
-    CONSTRAINT tombo_pk PRIMARY KEY (TOMBO),
-    CONSTRAINT id_edtora_fk FOREIGN KEY (id_edtora)
-        REFERENCES editora (id),
-    CONSTRAINT id_autor_fk FOREIGN KEY (id_autor)
-        REFERENCES autor (id)
+    FOREIGN KEY (id_edtora) REFERENCES editora (id),
+    FOREIGN KEY (id_autor) REFERENCES autor (id)
 );
 
 CREATE TABLE socio (
@@ -67,10 +61,8 @@ CREATE TABLE emprestimo(
     devolucao DATE NOT NULL,
     tombo INT NOT NULL,
     id_socio INT NOT NULL,
-    CONSTRAINT id_socio_fk FOREIGN KEY (id_socio)
-        REFERENCES socio (id),
-    CONSTRAINT tombo_fk FOREIGN KEY (tombo)
-        REFERENCES livro (tombo)
+    FOREIGN KEY (id_socio) REFERENCES socio (id),
+    FOREIGN KEY (tombo) REFERENCES livro (tombo)
 );
 
 
