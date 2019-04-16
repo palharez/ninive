@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Novo Livro</h1>
+    <form method="POST">
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">Tombo</span>
+            </div>
+            <input name="tombo" type="number" class="form-control" aria-describedby="inputGroup-sizing-default" id="tombo" required>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">Título</span>
+            </div>
+            <input name="titulo" type="text" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="titulo" required>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">Entrada</span>
+            </div>
+            <input name="entrada" type="date" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="entrada" required>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">Etiqueta</span>
+            </div>
+            <input name="etiqueta"  type="text" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="etiqueta" required>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">Ano</span>
+            </div>
+            <input name="ano" type="number"  aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="ano" required>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">Volume</span>
+            </div>
+            <input name="volume" type="number" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="volume" required>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+               <span class="input-group-text" id="inputGroup-sizing-sm">Exemplar</span>
+            </div>
+           <input name="exemplar"  type="text" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="exemplar" required>
+        </div>
+        <div class="form-group">
+            <label for="autor">Autores</label>
+            <select name="autor" class="form-control" id="autor">     
+            {% for autor in livro_content['autores'] %}
+                <option value="{{autor.id}}"> {{autor.nome}}</option>   
+            {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="editora">Editoras</label>
+            <select name="editora" class="form-control" id="editora"> 
+            {% for editora in livro_content['editoras'] %}
+                <option value="{{editora.id}}"> {{editora.nome}}</option> 
+            {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="nomenclatura">nomenclatura</label>
+            <select name="nomenclatura" class="form-control" id="nomenclatura"> 
+                <option value="LIN" selected>LIN</option> 
+                <option value="LBR">LBR</option>
+                <option value="POE">POE</option>
+                <option value="LES">LES</option>
+             </select>
+        </div>
+        <input type="submit" class="btn btn-outline-secondary btn-sm" value="Salvar">
+    </form>
+{% endblock %}

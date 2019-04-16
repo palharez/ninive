@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Lista de Livros</h1>
+{% for livro in livros %}
+{% endfor %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Tombo</th>
+            <th scope="col">Título</th>
+            <th scope="col">Entrada</th>
+            <th scope="col">Etiqueta</th>
+            <th scope="col">Ano</th>
+            <th scope="col">Volume</th>
+            <th scope="col">Exemplar</th>
+            <th scope="col">Autor</th>
+            <th scope="col">Editora</th>
+            <th scope="col">Status</th>
+            <th scope="col">Nomenclatura</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for livro in livros %}
+            <tr>
+                <th scope="row">{{ livro.tombo }}</th>
+                <td>{{ livro.titulo }}</td>
+                <td>{{ livro.entrada }}</td>
+                <td>{{ livro.etq }}</td>
+                <td>{{ livro.ano }}</td>
+                <td>{{ livro.v }}</td>
+                <td>{{ livro.ex }}</td>
+                <td>{{ livro.nome }}</td>
+                <td>{{ livro['editora.nome'] }}</td>
+                <td>{{ livro.status.capitalize() }}</td>
+                <td>{{ livro.nomenclatura }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
