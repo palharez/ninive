@@ -4,13 +4,28 @@ from flask import (
 
 from werkzeug.exceptions import abort
 from sgb import db
+from sgb.controllers.funcionario import login_required
 
 bp = Blueprint('livro', __name__)
+
+def parse_request(request):
+    return {
+        'id_autor': int(request.form['autor']),
+        'id_editora': int(request.form['editora']),
+        'titulo': request.form['titulo'],
+        'tombo': int(request.form['tombo']),
+        'entrada': request.form['entrada'],
+        'etiqueta': request.form['etiqueta'],
+        'ano': int(request.form['ano']),
+        'exemplar': int(request.form['exemplar']),
+        'nomenclatura': request.form['nomenclatura'],
+        'volume': request.form['volume']
+    }
 
 
 def get_livro(id):
     try:
-        livro = db.query_one('select * from livro where id = %d' % id)
+        livro = db.query_one('select * from livro where tombo = %d' % id)
 
         if livro is None:
             return render_template('404.html')
@@ -20,74 +35,58 @@ def get_livro(id):
         return render_template('404.html')
 
 
+
 @bp.route('/livro')
+@login_required
 def index():
-    """Exibe todas os livros cadastrados junto com seu autor e editora."""
+    """Exibe todas as livros cadastradas."""
     try:
-        editoras = db.query_bd('select * from editora')
-        return render_template('editora/index.html', editoras=editoras)
-    except:
+        livros = db.query_bd('select * from livro inner join autor on autor.id = livro.id_autor inner join editora on editora.id = livro.id_edtora; ')
+        return render_template('livro/index.html', livros=livros)
+    except Exception as e:
+        print(e)
         return render_template('404.html')
 
 
-@bp.route('/editora/create', methods=('GET', 'POST'))
+@bp.route('/livro/create', methods=('GET', 'POST'))
+@login_required
 def create():
-    """Cria uma nova editora."""
+    """Cria um novo livro."""
+    editoras = db.query_bd('select * from editora')
+    autores = db.query_bd('select * from autor')
+
     if request.method == 'POST':
-        nome = request.form['nome']
-        error = None
-
-        if not nome:
-            error = 'Nome é obrigatório.'
-
-        if error is not None:
-            flash(error)
-            
-        else:
-
-            try:
-                db.insert_bd('INSERT INTO editora values (default, "%s")' % nome)
-                return redirect(url_for('editora.index'))
-                
-            except:
-                return render_template('404.html')
-
-    return render_template('editora/create.html')
+        try:
+            request_parsed = parse_request(request)
+            print(request_parsed['entrada'])
+            sql = 'INSERT INTO livro values ("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", default ,"%s")' % (request_parsed['tombo'], 
+                request_parsed['titulo'], request_parsed['entrada'], request_parsed['etiqueta'], request_parsed['ano'], 
+                request_parsed['volume'], request_parsed['exemplar'], request_parsed['id_autor'], request_parsed['id_editora'], 
+                request_parsed['nomenclatura'])
+            print(sql)
+            db.insert_bd(sql)
+            return redirect(url_for('livro.index'))
+        except Exception as e:
+            print(e)
+            return render_template('404.html')
 
 
-@bp.route('/editora/<int:id>/update', methods=('GET', 'POST'))
-def update(id):
-    """Atualiza uma editora pelo seu respectivo id."""
-    editora = get_editora(id)
-    if request.method == 'POST':
-        nome = request.form['nome']
-        error = None
-
-        if not nome:
-            error = 'Nome é obrigatório.'
-
-        if error is not None:
-            flash(error)
-        
-        else:
-            try:
-                db.insert_bd('UPDATE editora set nome = "%s" where id = %d' % (nome, id))
-                return redirect(url_for('editora.index'))
-            except:
-                return render_template('404.html')
-
-    return render_template('editora/update.html', editora=editora)
+    return render_template('livro/create.html', livro_content={'editoras': editoras, 'autores': autores})
 
 
-@bp.route('/editora/<int:id>/delete', methods=('POST',))
+
+@bp.route('/livro/<int:id>/delete', methods=('POST',))
+@login_required
 def delete(id):
-    """Deleta um autor.
+    """Deleta um livro.
 
-   Certifica que o autor existe.
+   Certifica que o livro existe.
     """
-    get_editora(id)
+    
     try:
-        db.insert_bd('DELETE FROM  editora WHERE id = %d' % id)
-        return redirect(url_for('editora.index'))
+        get_livro(id)
+
+        db.insert_bd('DELETE FROM  livro WHERE id = %d' % id)
+        return redirect(url_for('livro.index'))
     except:
         return render_template('404.html')

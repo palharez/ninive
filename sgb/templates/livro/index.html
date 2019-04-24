@@ -34,6 +34,11 @@
                 <td>{{ livro['editora.nome'] }}</td>
                 <td>{{ livro.status.capitalize() }}</td>
                 <td>{{ livro.nomenclatura }}</td>
+                <td>
+                    <form action="{{ url_for('livro.delete', id=livro.tombo) }}" method="post">
+                        <input class="btn btn-outline-secondary btn-sm" type="submit" value="Delete" onclick="return confirm('Tem certeza?');">
+                    </form>
+                </td>
             </tr>
         {% endfor %}
     </tbody>

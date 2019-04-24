@@ -22,7 +22,7 @@ CREATE TABLE editora (
 );
 
 CREATE TABLE livro (
-    tombo INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    tombo INT NOT NULL PRIMARY KEY,
     titulo NVARCHAR(50) NOT NULL,
     entrada DATE NOT NULL,
     etq NVARCHAR(10) NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE livro (
     ex INT NOT NULL,
     id_edtora INT NOT NULL,
     id_autor INT NOT NULL,
-    status ENUM('EMPRESTADO', 'ESTANTE', 'EXTRAVIADO', 'RESERVADO', 'PERDIDO'),
+    status ENUM('EMPRESTADO', 'ESTANTE', 'EXTRAVIADO', 'RESERVADO', 'PERDIDO') default 'ESTANTE',
     nomenclatura ENUM ('LIN', 'LBR', 'POE', 'LES'),
     FOREIGN KEY (id_edtora) REFERENCES editora (id),
     FOREIGN KEY (id_autor) REFERENCES autor (id)

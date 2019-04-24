@@ -28,10 +28,11 @@ def create_app(dbname='TCC'):
     def error():
         return 'Erro 500', 500
 
-    from sgb.controllers import autor, editora, funcionario
+    from sgb.controllers import autor, editora, funcionario, livro
 
     app.register_blueprint(funcionario.bp)
     app.register_blueprint(autor.bp)
     app.register_blueprint(editora.bp)
+    app.register_blueprint(livro.bp)
 
     return app
