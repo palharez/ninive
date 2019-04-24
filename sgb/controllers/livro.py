@@ -86,7 +86,7 @@ def delete(id):
     try:
         get_livro(id)
 
-        db.insert_bd('DELETE FROM  livro WHERE id = %d' % id)
+        db.insert_bd('DELETE FROM  livro WHERE tombo = %d' % id)
         return redirect(url_for('livro.index'))
     except:
         return render_template('404.html')
