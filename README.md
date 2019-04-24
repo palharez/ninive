@@ -14,7 +14,6 @@ For linux and Mac:
 
 ```shell
 $ export FLASK_APP=sgb
-$ export FLASK_ENV=development
 $ flask run
 ```
 
@@ -26,7 +25,9 @@ $ flask run
 ## Authors
 
 -   **Eduardo Palhares** - [palharez](https://github.com/palharez)
-
+-   **Leonardo Alves** - [leoAlvess](https://github.com/leoAlvess)
+-   **Vinicius Morini** - [vinimorini](https://github.com/vinimorini)
+-   
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
