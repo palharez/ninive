@@ -21,7 +21,6 @@ def login():
 
         if error is None:
             session.clear()
-            print(funcionario)
             session['funcionario_matricula'] = funcionario['matricula']
             return redirect(url_for('autor.index'))
 
