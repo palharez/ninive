@@ -27,11 +27,11 @@ CREATE TABLE livro (
     ano INT NOT NULL,
     v INT NOT NULL,
     ex INT NOT NULL,
-    id_edtora INT NOT NULL,
+    id_editora INT NOT NULL,
     id_autor INT NOT NULL,
     status ENUM('EMPRESTADO', 'ESTANTE', 'EXTRAVIADO', 'RESERVADO', 'PERDIDO') default 'ESTANTE',
     nomenclatura ENUM ('LIN', 'LBR', 'POE', 'LES'),
-    FOREIGN KEY (id_edtora) REFERENCES editora (id),
+    FOREIGN KEY (id_editora) REFERENCES editora (id),
     FOREIGN KEY (id_autor) REFERENCES autor (id)
 );
 
