@@ -14,6 +14,7 @@ flask = "*"
 pymysql = "*"
 flask-mysql = "*"
 flask-mysqldb = "*"
+flask-cors = "*"
 
 [requires]
 python_version = "3.6"

@@ -2,6 +2,7 @@ import os
 
 from flask import Flask, g
 from sgb.database import Database
+from flask_cors import CORS
 
 db = {}
 
@@ -17,6 +18,8 @@ def create_app(dbname='TCC'):
     app.config.from_mapping(
         SECRET_KEY='dev',
     )
+
+    CORS(app)
 
     db_app(dbname)
 
