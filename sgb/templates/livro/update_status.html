@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h3>Atualizar Status do Livro</h1>
+    <form method="POST">
+        <div class="form-group">
+            <label for="tombos">Tombos</label>
+            <select name="tombos" class="form-control" id="tombos">     
+            {% for livro in livros %}
+                <option value="{{livro.tombo}}"> {{livro.tombo}}</option> 
+            {% endfor %}
+            </select>
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Titulo</span>
+            </div>
+            <input name="titulo" id="titulo" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" readonly>
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Status Antigo</span>
+            </div>
+            <input name="statusAntigo" id="statusAntigo" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" readonly>
+        </div>
+        <div class="form-group">
+            <label for="status">Status Novo</label>
+            <select name="status" class="form-control" id="status">     
+                <option value="EMPRESTADO">EMPRESTADO</option> 
+                <option value="ESTANTE">ESTANTE</option>
+                <option value="EXTRAVIADO">EXTRAVIADO</option>
+                <option value="RESERVADO">RESERVADO</option>
+                <option value="PERDIDO">PERDIDO</option>
+            </select>
+        </div>
+        <input type="submit" class="btn btn-outline-secondary btn-block" value="Atualizar">
+    </form>
+
+    <script>
+        const inputTombo = document.getElementById("tombos");
+        const inputTitulo = document.getElementById("titulo");
+        const inputStatusAntigo = document.getElementById("statusAntigo");
+
+        inputTombo.addEventListener("click", () => {
+            let selectedOptionIndex = inputTombo.selectedIndex;
+            let selectedOptions = inputTombo.options;
+            let tombo = selectedOptions[selectedOptionIndex].text;
+            getTitulo(tombo);
+        });
+
+        function getTitulo(tombo){
+            fetch(`http://localhost:5000/livro/get_nome/${tombo}`)
+                .then(response => response.json())
+                .then(json => { 
+                    inputTitulo.value = json.titulo;
+                    inputStatusAntigo.value = json.status;
+                });
+        };
+
+    </script>
+{% endblock %}
