@@ -27,15 +27,12 @@ def create_app(dbname='TCC'):
     def hello():
         return 'Hello'
 
-    @app.route('/500')
-    def error():
-        return 'Erro 500', 500
-
-    from sgb.controllers import autor, editora, funcionario, livro
+    from sgb.controllers import autor, editora, funcionario, livro, landing
 
     app.register_blueprint(funcionario.bp)
     app.register_blueprint(autor.bp)
     app.register_blueprint(editora.bp)
     app.register_blueprint(livro.bp)
+    app.register_blueprint(landing.bp)
 
     return app
