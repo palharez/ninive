@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 
+{% block header %}
+<link rel="stylesheet" href="{{ url_for('static', filename='centeredContainer.css')  }}">
+{% endblock %}
+
 {% block content %}
+<div class="centered-container">
     <h4>Editando autor do id: {{ autor['id'] }}</h4>
     <form method="post">
         <div class="input-group input-group-sm mb-3">
@@ -14,4 +19,5 @@
     <form action="{{ url_for('autor.delete', id=autor['id']) }}" method="post">
         <input class="btn btn-outline-secondary btn-sm" type="submit" value="Delete" onclick="return confirm('Tem certeza?');">
     </form>
+</div>
 {% endblock %}

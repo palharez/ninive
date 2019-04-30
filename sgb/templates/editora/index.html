@@ -1,13 +1,19 @@
 {% extends 'base.html' %}
 
+{% block header %}
+<link rel="stylesheet" href="{{ url_for('static', filename='centeredContainer.css')  }}">
+{% endblock %}
+
 {% block content %}
-<h1>Lista de Editoras</h1>
-{% for editora in editoras %}
-    <div>        
-        <p>
-            O id da editora é: {{ editora["id"] }}, o nome da editora é {{ editora["nome"] }} |
-            <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('editora.update', id=editora['id']) }}">Editar</a>
-        </p>
-    </div>
-{% endfor %}
+<div class="centered-container">
+    <h1>Lista de Editoras</h1>
+    {% for editora in editoras %}
+        <div>        
+            <p>
+                O id da editora é: {{ editora["id"] }}, o nome da editora é {{ editora["nome"] }} |
+                <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('editora.update', id=editora['id']) }}">Editar</a>
+            </p>
+        </div>
+    {% endfor %}
+</div>
 {% endblock %}

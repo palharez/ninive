@@ -1,14 +1,20 @@
 {% extends 'base.html' %}
 
+{% block header %}
+<link rel="stylesheet" href="{{ url_for('static', filename='centeredContainer.css')  }}">
+{% endblock %}
+
 {% block content %}
-<h1>Lista de Autores</h1>
-{% for autor in autores %}
-    <div>        
-        <p>
-            O id do autor é: {{ autor["id"] }}, o nome do autor é {{ autor["nome"] }} |
-            <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('autor.update', id=autor['id']) }}">Editar</a>
-        </p>
-        
-    </div>
-{% endfor %}
+<div class="centered-container">
+    <h1>Lista de Autores</h1>
+    {% for autor in autores %}
+        <div>        
+            <p>
+                O id do autor é: {{ autor["id"] }}, o nome do autor é {{ autor["nome"] }} |
+                <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('autor.update', id=autor['id']) }}">Editar</a>
+            </p>
+            
+        </div>
+    {% endfor %}
+</div>
 {% endblock %}

@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 
 {% block header %}
-
+<link rel="stylesheet" href="{{ url_for('static', filename='centeredContainer.css')  }}">
 {% endblock %}
 
 {% block content %}
-<h1>Novo Autor</h1>
+<div class="centered-container">
+    <h1>Novo Autor</h1>
     <form method="post">
         <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">
@@ -15,4 +16,6 @@
         </div>
     <input type="submit" class="btn btn-outline-secondary btn-sm" value="Salvar">
     </form>
+</div>
+
 {% endblock %}
