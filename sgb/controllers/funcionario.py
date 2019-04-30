@@ -10,23 +10,21 @@ bp = Blueprint('funcionario', __name__)
 
 @bp.route('/', methods=('GET', 'POST'))
 def login():
+    error = None
     if request.method == 'POST':
         matricula = int(request.form['matricula'])
 
-        error = None
         funcionario = db.query_one('select * from funcionario where matricula = %d' % matricula)
 
         if funcionario is None:
-            error = 'Incorrect username.'
+            error = 'Matrícula incorreta.'
 
         if error is None:
             session.clear()
             session['funcionario_matricula'] = funcionario['matricula']
             return redirect(url_for('autor.index'))
 
-        flash(error)
-
-    return render_template('funcionario/login.html')
+    return render_template('funcionario/login.html', error=error)
 
 
 @bp.before_app_request
