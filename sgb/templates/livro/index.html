@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 
+{% block header %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/centeredContainer.css')  }}">
+{% endblock %}
+
 {% block content %}
+<div class="centered-container">
 <h1>Lista de Livros</h1>
 {% for livro in livros %}
 {% endfor %}
@@ -46,4 +51,5 @@
         {% endfor %}
     </tbody>
 </table>
+</div>
 {% endblock %}
