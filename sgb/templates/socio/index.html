@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<link rel="stylesheet" href="{{ url_for('static', filename='centeredContainer.css')  }}">
+{% endblock %}
+
+{% block content %}
+<div class="centered-container">
+    <h1>Lista de Sócios</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th style="width: 20%">RG</th>
+                <th style="width: 30%">Nome</th>
+                <th style="width: 20%">E-Mail</th>
+                <th style="width: 20%">Cel 1</th>
+                <th style="width: 20%">Verificar</th>
+                <th style="width: 20%">Atualizar</th>
+                <th style="width: 20%">Deletar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for socio in socios %}
+                <tr>
+                    <td>{{ socio.rg }}</td>
+                    <td>{{ socio.nome.split(" ")[0]  }} {{ socio.nome.split(" ")[-1] }}</td>
+                    <td>{{ socio.email }}</td>
+                    <td>{{ socio.cel_1 }}</td>
+                    <td><a class="btn btn-outline-secondary btn-sm" href="{{ url_for('socio.verifica', id=socio.id) }}">Verificar</a></td>
+                    <td><a class="btn btn-outline-secondary btn-sm" href="">Atualizar</a></td>
+                    <td><a class="btn btn-outline-secondary btn-sm" href="">Deletar</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

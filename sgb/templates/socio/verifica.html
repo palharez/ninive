@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<link rel="stylesheet" href="{{ url_for('static', filename='centeredContainer.css')  }}">
+{% endblock %}
+
+{% block content %}
+<div class="centered-container">
+    <h1>Verifica Sócio - {{ socio.id }}</h1>
+    <p>RG - {{ socio.rg }}</p>
+    <p>Nome - {{ socio.nome }}</p>
+    <p>Data de Nascimento - {{ socio.nasc }}</p>
+    <p>E-mail - {{ socio.email }}</p>
+    <p>Data de Associação - {{ socio.associacao }}</p>
+    <p>Nome do Pai - {{ socio.nome_pai }}</p>
+    <p>Nome da Mãe - {{ socio.nome_mae }}</p>
+    <p>Endereço - {{ socio.cidade }}, {{ socio.bairro }}, {{ socio.logradouro }}, {{ socio.num }}</p>
+    <p>Telefone Resendecial - {{ socio.tel_res }}</p>
+    <p>Celular 1 - {{ socio.cel_1 }}</p>
+    <p>Celular 2 - {{ socio.cel_2 }}</p>
+</div>
+
+{% endblock %}
