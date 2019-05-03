@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Update Socio - {{ socio.nome.split(" ")[0] }}</h1>
+    <form method="POST">
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">Nome</span>
+            </div>
+            <input name="nome" type="text" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="nome" required value="{{ socio.nome }}">
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">RG</span>
+            </div>
+            <input name="rg" type="number" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="rg" required value="{{ socio.rg }}">
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">Data Nascimento</span>
+            </div>
+            <input name="nasc"  type="date" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="nasc" required value="{{ socio.nasc }}">
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">E-mail</span>
+            </div>
+            <input name="email" type="text"  aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="email" required value="{{ socio.email }}">
+      </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">Nome do Pai</span>
+            </div>
+            <input name="nome_pai" type="text" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="nome_pai" required value="{{ socio.nome_pai }}">
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">Nome da Mãe</span>
+            </div>
+            <input name="nome_mae" type="text" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="nome_mae" required value="{{ socio.nome_mae }}">
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+               <span class="input-group-text" id="inputGroup-sizing-sm">Cidade</span>
+            </div>
+           <input name="cidade"  type="text" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="cidade" required value="{{ socio.cidade }}">
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">Bairro</span>
+            </div>
+            <input name="bairro" type="text" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="bairro" required value="{{ socio.bairro }}">
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">Logradouro</span>
+            </div>
+            <input name="logradouro" type="text" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="logradouro" required value="{{ socio.logradouro }}">
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">Numero</span>
+            </div>
+            <input name="numero" type="number" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="numero" required value="{{ socio.num }}">
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">Telefone Residencial</span>
+            </div>
+            <input name="tel_res" type="number" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="tel_res" required value="{{ socio.tel_res }}">
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">Celular 1</span>
+            </div>
+            <input name="cel_1" type="number" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="cel_1" required value="{{ socio.cel_1 }}">
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">Celular 2</span>
+            </div>
+            <input name="cel_2" type="number" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="cel_2" value="{{ socio.cel_2 }}">
+        </div>
+        <input type="submit" class="btn btn-outline-secondary btn-sm" value="Salvar">
+    </form>
+{% endblock %}

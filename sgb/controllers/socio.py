@@ -25,7 +25,7 @@ def parse_request(request):
         'num': int(request.form['numero']),
         'tel_res': int(request.form['tel_res']),
         'cel_1': int(request.form['cel_1']),
-        'cel_2': int(request.form['cel_2'])
+        'cel_2': int(request.form['cel_2']) or ''
     }
 
 
@@ -82,9 +82,40 @@ def verifica(id):
     """Retorna um único sócio para verificação de todos os dados"""
     try:
         socio = get_socio(id)
-        print(id)
-        print(socio)
         return render_template('socio/verifica.html', socio=socio)
     except Exception as e:
         print(e)
         return render_template('404.html')
+
+
+@bp.route('/socio/<int:id>/update', methods=('GET', 'POST'))
+@login_required
+def update(id):
+    """Faz o update do sócio informado pelo id"""
+    socio = get_socio(id)
+    if request.method == 'POST':
+        try:
+            request_parsed = parse_request(request)
+
+            sql = 'UPDATE socio set nome = "%s", rg = "%s", nasc = "%s", email = "%s", nome_pai = "%s", nome_mae = "%s", cidade = "%s", bairro = "%s", logradouro = "%s", num = "%s", tel_res = "%s", cel_1 = "%s", cel_2 = "%s" where id = %d' % (request_parsed['nome'], request_parsed['rg'], request_parsed['nasc'], request_parsed['email'], request_parsed['nome_pai'], request_parsed['nome_mae'], request_parsed['cidade'], request_parsed['bairro'], request_parsed['logradouro'], request_parsed['num'], request_parsed['tel_res'], request_parsed['cel_1'], request_parsed['cel_2'], id)
+            db.insert_bd(sql)
+            return redirect(url_for('socio.index'))
+        except Exception as e:
+            print(e)
+            return render_template('404.html')
+    return render_template('socio/update.html', socio=socio)
+
+
+@bp.route('/socio/<int:id>/delete', methods=('GET',))
+@login_required
+def delete(id):
+    """Deleta um socio de acordo com seu id"""
+    try:
+        socio = get_socio(id)
+        sql = 'DELETE from socio where id = %d' % id
+        db.insert_bd(sql)
+        return redirect(url_for('socio.index'))
+    except Exception as e:
+        print(e)
+        return render_template('404.html')
+    
