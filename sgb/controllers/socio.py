@@ -31,15 +31,13 @@ def parse_request(request):
 
 def get_socio(id):
     """Retorna um sócio de acordo com seu id"""
-    try:
-        socio = db.query_one('select * from socio where id = %d' % id)
+    socio = db.query_one('select * from socio where id = %d' % id)
 
-        if socio is None:
-            return render_template('404.html')
+    if socio is None:
+        raise Exception('Não encontrouo socio com o id %d' % id)
 
-        return socio
-    except:
-        return render_template('404.html')
+    return socio
+
 
 
 @bp.route('/socio')
@@ -84,7 +82,6 @@ def verifica(id):
         socio = get_socio(id)
         return render_template('socio/verifica.html', socio=socio)
     except Exception as e:
-        print(e)
         return render_template('404.html')
 
 
