@@ -28,7 +28,9 @@ def parse_request(request):
         'cel_2': int(request.form['cel_2'])
     }
 
+
 def get_socio(id):
+    """Retorna um sócio de acordo com seu id"""
     try:
         socio = db.query_one('select * from socio where id = %d' % id)
 
@@ -59,10 +61,12 @@ def create():
     if request.method == 'POST':
         try:
             request_parsed = parse_request(request)
-            sql = 'INSERT INTO socio values (default, "%s", "%s", "%s", "%s", default, "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s")' % (request_parsed['nome'], 
-                request_parsed['rg'], request_parsed['nasc'], request_parsed['email'], request_parsed['nome_pai'], 
-                request_parsed['nome_mae'], request_parsed['cidade'], request_parsed['bairro'], request_parsed['logradouro'], 
-                request_parsed['num'], request_parsed['tel_res'], request_parsed['cel_1'], request_parsed['cel_2'])
+            sql = 'INSERT INTO socio values (default, "%s", "%s", "%s", "%s", default, "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s")' % (request_parsed['nome'],
+                                                                                                                                                 request_parsed['rg'], request_parsed['nasc'], request_parsed[
+                                                                                                                                                     'email'], request_parsed['nome_pai'],
+                                                                                                                                                 request_parsed['nome_mae'], request_parsed['cidade'], request_parsed[
+                                                                                                                                                     'bairro'], request_parsed['logradouro'],
+                                                                                                                                                 request_parsed['num'], request_parsed['tel_res'], request_parsed['cel_1'], request_parsed['cel_2'])
             db.insert_bd(sql)
             return redirect(url_for('socio.index'))
         except Exception as e:
@@ -70,6 +74,7 @@ def create():
             return render_template('404.html')
 
     return render_template('socio/create.html')
+
 
 @bp.route('/socio/<int:id>', methods=('GET',))
 @login_required
@@ -83,4 +88,3 @@ def verifica(id):
     except Exception as e:
         print(e)
         return render_template('404.html')
-
