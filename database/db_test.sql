@@ -55,7 +55,7 @@ CREATE TABLE socio (
 );
 
 CREATE TABLE emprestimo(
-    id INT NOT NULL AUTO_INCREMENT,
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 	retirada DATE NOT NULL,
     devolucao DATE NOT NULL,
     tombo INT NOT NULL,
@@ -69,3 +69,4 @@ INSERT INTO funcionario values (123456, "teste", "teste");
 INSERT INTO editora values (default, 'Abril');
 INSERT INTO autor values (default, 'Anne Frank');
 INSERT INTO livro (tombo, titulo, entrada, etq, ano, v, ex, id_editora, id_autor, status, nomenclatura) values (1111, 'Diário de Ane Frank', '2017-08-22', 'ATE-1236', 2016, 2, 1, 1, 1, default, 'LIN');
+insert into emprestimo values (default, '2019-05-03', '2019-05-08', '1111', '1');

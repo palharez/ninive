@@ -15,7 +15,6 @@ CREATE TABLE funcionario(
 );
 
 
-
 CREATE TABLE editora (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     nome NVARCHAR(50) NOT NULL
@@ -57,7 +56,7 @@ CREATE TABLE socio (
 );
 
 CREATE TABLE emprestimo(
-    id INT NOT NULL AUTO_INCREMENT,
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 	retirada DATE NOT NULL,
     devolucao DATE NOT NULL,
     tombo INT NOT NULL,
@@ -65,7 +64,6 @@ CREATE TABLE emprestimo(
     FOREIGN KEY (id_socio) REFERENCES socio (id),
     FOREIGN KEY (tombo) REFERENCES livro (tombo)
 );
-
 
 SELECT 
     *
