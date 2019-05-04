@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/centeredContainer.css')  }}">
+{% endblock %}
+
+{% block content %}
+<div class="centered-container">
+    <h1>Lista de Empréstimos</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th style="width: 10%">ID</th>
+                <th style="width: 30%">Retirada</th>
+                <th style="width: 30%">Devolução</th>
+                <th style="width: 20%">Nome do livro</th>
+                <th style="width: 20%">Nome do sócio</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for emprestimo in emprestimos %}
+                <tr>
+                    <td>{{ emprestimo.id }}</td>
+                    <td>{{ emprestimo.retirada }} {{ socio.nome.split(" ")[-1] }}</td>
+                    <td>{{ emprestimo.livro }}</td>
+                    <td>{{ emprestimo.socio }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
