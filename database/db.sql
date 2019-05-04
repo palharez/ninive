@@ -57,6 +57,7 @@ CREATE TABLE socio (
 );
 
 CREATE TABLE emprestimo(
+    id INT NOT NULL AUTO_INCREMENT,
 	retirada DATE NOT NULL,
     devolucao DATE NOT NULL,
     tombo INT NOT NULL,
