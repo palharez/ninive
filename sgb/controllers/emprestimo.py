@@ -11,7 +11,8 @@ bp = Blueprint('emprestimo', __name__)
 
 def get_emprestimo(id):
     try:
-        emprestimo = db.query_one('select * from emprestimo where id = %d' % id)
+        emprestimo = db.query_one(
+            'select * from emprestimo where id = %d' % id)
 
         if emprestimo is None:
             return render_template('404.html')
@@ -42,9 +43,10 @@ def create():
     """Cria um novo emprestimo."""
     if request.method == 'POST':
         try:
-            db.insert_bd('INSERT INTO emprestimo values (default, "%s")' % nome)
+            db.insert_bd(
+                'INSERT INTO emprestimo values (default, "%s")' % nome)
             return redirect(url_for('emprestimo.index'))
-                
+
         except:
             return render_template('404.html')
 
@@ -58,7 +60,8 @@ def update(id):
     emprestimo = get_emprestimo(id)
     if request.method == 'POST':
         try:
-            db.insert_bd('UPDATE emprestimo set nome = "%s" where id = %d' % (nome, id))
+            db.insert_bd(
+                'UPDATE emprestimo set nome = "%s" where id = %d' % (nome, id))
             return redirect(url_for('emprestimo.index'))
         except:
             return render_template('404.html')

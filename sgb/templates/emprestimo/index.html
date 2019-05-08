@@ -1,10 +1,9 @@
-{% extends 'base.html' %}
-
-{% block header %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/centeredContainer.css')  }}">
-{% endblock %}
-
-{% block content %}
+{% extends 'base.html' %} {% block header %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/centeredContainer.css')  }}"
+/>
+{% endblock %} {% block content %}
 <div class="centered-container">
     <h1>Lista de Empréstimos</h1>
     <table class="table table-striped">
@@ -19,12 +18,13 @@
         </thead>
         <tbody>
             {% for emprestimo in emprestimos %}
-                <tr>
-                    <td>{{ emprestimo.id }}</td>
-                    <td>{{ emprestimo.retirada }} {{ socio.nome.split(" ")[-1] }}</td>
-                    <td>{{ emprestimo.livro }}</td>
-                    <td>{{ emprestimo.socio }}</td>
-                </tr>
+            <tr>
+                <td>{{ emprestimo.id }}</td>
+                <td>{{ emprestimo.retirada }}</td>
+                <td style="color: tomato">Retirada precisa ser implementada</td>
+                <td>{{ emprestimo.titulo }}</td>
+                <td>{{ emprestimo.nome }}</td>
+            </tr>
             {% endfor %}
         </tbody>
     </table>
