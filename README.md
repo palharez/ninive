@@ -2,7 +2,7 @@
 
 ## Installation
 
-You can install `sgb` via [pipenv](https://github.com/pypa/pipenv) from [pypa](https://github.com/pypa):
+You can install `sgb`:
 
 ```shell
 $ pipenv install --dev
@@ -10,23 +10,22 @@ $ pipenv install --dev
 
 ## Usage
 
-For linux and Mac:
+Run:
 
-```shell
-$ export FLASK_APP=sgb
-$ flask run
+``` shell
+$ python run.py
 ```
 
 ## Modules
 
--   [Flask](http://flask.pocoo.org/docs/1.0/#)
--   [MySQL](https://www.mysql.com/)
+- [Flask](http://flask.pocoo.org/docs/1.0/#)
+- [MySQL](https://www.mysql.com/)
 
 ## Authors
 
--   **Eduardo Palhares** - [palharez](https://github.com/palharez)
--   **Leonardo Alves** - [leoAlvess](https://github.com/leoAlvess)
--   **Vinicius Morini** - [vinimorini](https://github.com/vinimorini)
+- **Eduardo Palhares** - [palharez](https://github.com/palharez)
+- **Leonardo Alves** - [leoAlvess](https://github.com/leoAlvess)
+- **Vinicius Morini** - [vinimorini](https://github.com/vinimorini)
 
 ## License
 
