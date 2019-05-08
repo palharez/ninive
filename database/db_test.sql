@@ -1,7 +1,7 @@
-DROP DATABASE tcc_tests;
+DROP DATABASE TCC;
 
-CREATE DATABASE tcc_tests;
-USE tcc_tests;
+CREATE DATABASE TCC;
+USE TCC;
 
 CREATE TABLE autor (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -31,8 +31,8 @@ CREATE TABLE livro (
     id_autor INT NOT NULL,
     status ENUM('EMPRESTADO', 'ESTANTE', 'EXTRAVIADO', 'RESERVADO', 'PERDIDO') default 'ESTANTE',
     nomenclatura ENUM ('LIN', 'LBR', 'POE', 'LES'),
-    FOREIGN KEY (id_editora) REFERENCES editora (id),
-    FOREIGN KEY (id_autor) REFERENCES autor (id)
+    FOREIGN KEY (id_editora) REFERENCES editora (id) ON DELETE CASCADE,
+    FOREIGN KEY (id_autor) REFERENCES autor (id) ON DELETE CASCADE
 );
 
 CREATE TABLE socio (
@@ -60,13 +60,6 @@ CREATE TABLE emprestimo(
     devolucao DATE NOT NULL,
     tombo INT NOT NULL,
     id_socio INT NOT NULL,
-    FOREIGN KEY (id_socio) REFERENCES socio (id),
-    FOREIGN KEY (tombo) REFERENCES livro (tombo)
+    FOREIGN KEY (id_socio) REFERENCES socio (id) ON DELETE CASCADE,
+    FOREIGN KEY (tombo) REFERENCES livro (tombo) ON DELETE CASCADE
 );
-
-INSERT INTO funcionario values (123456, "teste", "teste");
-
-INSERT INTO editora values (default, 'Abril');
-INSERT INTO autor values (default, 'Anne Frank');
-INSERT INTO livro (tombo, titulo, entrada, etq, ano, v, ex, id_editora, id_autor, status, nomenclatura) values (1111, 'Diário de Ane Frank', '2017-08-22', 'ATE-1236', 2016, 2, 1, 1, 1, default, 'LIN');
-insert into emprestimo values (default, '2019-05-03', '2019-05-08', '1111', '1');

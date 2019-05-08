@@ -14,7 +14,6 @@ CREATE TABLE funcionario(
     cargo NVARCHAR(50)
 );
 
-
 CREATE TABLE editora (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     nome NVARCHAR(50) NOT NULL
@@ -32,8 +31,8 @@ CREATE TABLE livro (
     id_autor INT NOT NULL,
     status ENUM('EMPRESTADO', 'ESTANTE', 'EXTRAVIADO', 'RESERVADO', 'PERDIDO') default 'ESTANTE',
     nomenclatura ENUM ('LIN', 'LBR', 'POE', 'LES'),
-    FOREIGN KEY (id_editora) REFERENCES editora (id),
-    FOREIGN KEY (id_autor) REFERENCES autor (id)
+    FOREIGN KEY (id_editora) REFERENCES editora (id) ON DELETE CASCADE,
+    FOREIGN KEY (id_autor) REFERENCES autor (id) ON DELETE CASCADE
 );
 
 CREATE TABLE socio (
@@ -61,11 +60,6 @@ CREATE TABLE emprestimo(
     devolucao DATE NOT NULL,
     tombo INT NOT NULL,
     id_socio INT NOT NULL,
-    FOREIGN KEY (id_socio) REFERENCES socio (id),
-    FOREIGN KEY (tombo) REFERENCES livro (tombo)
+    FOREIGN KEY (id_socio) REFERENCES socio (id) ON DELETE CASCADE,
+    FOREIGN KEY (tombo) REFERENCES livro (tombo) ON DELETE CASCADE
 );
-
-SELECT 
-    *
-FROM
-    socio;
