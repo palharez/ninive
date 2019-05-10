@@ -43,7 +43,7 @@
                 <td>{{ livro.nomenclatura }}</td>
                 <td>
                     <form action="{{ url_for('livro.delete', id=livro.tombo) }}" method="post">
-                        <input class="btn btn-outline-secondary btn-sm" type="submit" value="Delete" onclick="return confirm('Tem certeza?');">
+                        <input class="btn btn-outline-secondary btn-sm" type="submit" value="Deletar" onclick="return confirm('Tem certeza?');">
                     </form>
                 </td>
                 <td><a class="btn btn-outline-secondary btn-sm" href="{{ url_for('livro.update', id=livro.tombo) }}">Editar</a></td>

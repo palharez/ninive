@@ -4,18 +4,13 @@
 {% endblock %}
 {% block content %}
 <div class="centered-container">
-    <h1>Cadastrar Empréstimo</h1>
+    <h1>Reservar Livro</h1>
     {% if data['error'] %}
     <div class="alert alert-danger" role="alert">
         {{ data['error'] }}
     </div>
     {% endif %}
     <form method="POST">
-        <div class="input-group input-group-sm mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-sm">Retirada</span>
-            </div><input name="retirada"  type="date" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="retirada" required>
-        </div>
         <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-sm">Id Sócio</span>
@@ -40,8 +35,8 @@
             </div>
             <input name="titulo" id="titulo" value="{{ data['livro']['titulo'] if data['livro'] else '' }}" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" readonly>
         </div>
-        <input type="submit" class="btn btn-outline-secondary btn-sm" value="Salvar">
+        <input type="submit" class="btn btn-outline-secondary btn-sm" value="Reservar">
     </form>
 </div>
-<script src="{{ url_for('static', filename='js/createEmprestimo.js')  }}"></script>
+<script src="{{ url_for('static', filename='js/reservaLivro.js')  }}"></script>
 {% endblock %}

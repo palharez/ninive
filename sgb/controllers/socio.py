@@ -39,6 +39,18 @@ def get_socio(id):
     return socio
 
 
+@bp.route('/socio/nome/<int:id>/emprestimo', methods=('GET',))
+def get_nome(id):
+    """Pega o nome de um socio pelo id."""
+
+    if request.method == 'GET':
+        try:            
+            socio = get_socio(id)
+            return json.dumps({ 'nome': socio['nome'] })
+        except Exception as e:
+            return json.dumps({ 'msg': 'Sócio não encontrado' })
+
+
 
 @bp.route('/socio')
 @login_required

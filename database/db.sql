@@ -63,3 +63,12 @@ CREATE TABLE emprestimo(
     FOREIGN KEY (id_socio) REFERENCES socio (id) ON DELETE CASCADE,
     FOREIGN KEY (tombo) REFERENCES livro (tombo) ON DELETE CASCADE
 );
+
+CREATE TABLE reservado(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    created_at DATETIME DEFAULT NOW(),
+    tombo INT NOT NULL,
+    id_socio INT NOT NULL,
+    FOREIGN KEY (id_socio) REFERENCES socio (id) ON DELETE CASCADE,
+    FOREIGN KEY (tombo) REFERENCES livro (tombo) ON DELETE CASCADE 
+);

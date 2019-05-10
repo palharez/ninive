@@ -124,9 +124,10 @@ def delete(id):
     try:
         get_livro(id)
 
-        db.insert_bd('DELETE FROM  livro WHERE id = %d' % id)
+        db.insert_bd('DELETE FROM livro WHERE tombo = %d' % id)
         return redirect(url_for('livro.index'))
-    except:
+    except Exception as e:
+        print(e)
         return render_template('404.html')
 
 
@@ -149,3 +150,62 @@ def update_status():
     livros = db.query_bd(sql)
 
     return render_template('livro/update_status.html', livros=livros)
+
+@bp.route('/livro/reservar', methods=('GET', 'POST'))
+@login_required
+def reservar():
+    """
+    Reserva um livro.
+    
+    Verificar se o livro já não foi reservado.
+    """
+    data = {
+        'error': '',
+        'livro': '',
+        'socio': ''
+    }
+    if request.method == 'POST':
+        try:
+            idsocio = request.form['idsocio']
+            tombo = request.form['tombo']
+
+            data['livro'] = livro = db.query_one('select * from livro where tombo = %s' % tombo)
+            data['socio'] = socio = db.query_one('select * from socio where id = %s' % idsocio)
+
+            if livro['status'] == 'ESTANTE':
+                reservar_livro(tombo, idsocio)
+                return redirect(url_for('livro.index'))
+
+            elif livro['status'] == 'EMPRESTADO':
+                data['error'] = 'Este livro não pode ser reservado! ' \
+                    'Pois já está emprestado.'
+
+            elif livro['status'] == 'PERDIDO':
+                data['error'] = 'Este livro não pode ser reservado! ' \
+                    'Pois está perdido.'
+                    
+            elif livro['status'] == 'EXTRAVIADO':
+                data['error'] = 'Este livro não pode ser reservado! ' \
+                    'Pois está extraviado.'
+
+            elif livro['status'] == 'RESERVADO':
+                reserva = db.query_one('select * from reserva where tombo = %s and id_socio = %s' % (tombo, idsocio))
+                if reserva:
+                    data['error'] = 'Este livro não pode ser reservado! ' \
+                        'Pois já está reservado.'
+                else:
+                    reservar_livro(tombo, idsocio)
+                    return redirect(url_for('livro.index'))
+
+        except Exception as e:
+            print(e)
+            return render_template('404.html')
+
+    return render_template('livro/reserva.html', data=data)
+
+
+def reservar_livro(tombo, idsocio):
+    db.insert_bd('UPDATE livro SET status = "RESERVADO" WHERE tombo = "%s" ' % tombo)
+    sql = "insert into reserva values(default, default, '%s', '%s')" % (tombo, idsocio)
+    db.insert_bd(sql)
+    

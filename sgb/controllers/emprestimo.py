@@ -30,7 +30,6 @@ def index():
         emprestimos = db.query_bd('select * from emprestimo \
             inner join livro on emprestimo.tombo = livro.tombo \
             inner join socio on emprestimo.id_socio = socio.id;')
-        print(emprestimos)
         return render_template('emprestimo/index.html', emprestimos=emprestimos)
     except Exception as e:
         print(e)
@@ -41,44 +40,66 @@ def index():
 @login_required
 def create():
     """Cria um novo emprestimo."""
+    data = {
+        'error': '',
+        'livro': '',
+        'socio': ''
+    }
     if request.method == 'POST':
         try:
-            db.insert_bd(
-                'INSERT INTO emprestimo values (default, "%s")' % nome)
-            return redirect(url_for('emprestimo.index'))
+            idsocio = request.form['idsocio']
+            tombo = request.form['tombo']
+            retirada = request.form['retirada']
 
-        except:
+            data['livro'] = livro = db.query_one('select * from livro where tombo = %s' % tombo)
+            data['socio'] = socio = db.query_one('select * from socio where id = %s' % idsocio)
+
+            if livro['status'] == 'ESTANTE':
+                sql = "insert into emprestimo values(default, '%s', '2019-09-13', '%s', '%s')" % (retirada, tombo, idsocio)
+                db.insert_bd(sql)
+                db.insert_bd('UPDATE livro SET status = "EMPRESTADO" WHERE tombo = "%s" ' % tombo)
+                return redirect(url_for('emprestimo.index'))
+
+            elif livro['status'] == 'EMPRESTADO':
+                data['error'] = 'Este livro não pode ser emprestado! ' \
+                    'Pois já está emprestado.'
+
+            elif livro['status'] == 'PERDIDO':
+                data['error'] = 'Este livro não pode ser emprestado! ' \
+                    'Pois está perdido.'
+                    
+            elif livro['status'] == 'EXTRAVIADO':
+                data['error'] = 'Este livro não pode ser emprestado! ' \
+                    'Pois está extraviado.'
+
+            elif livro['status'] == 'RESERVADO':
+                reserva = db.query_one('select * from reserva where tombo = %s and id_socio = %s' % (tombo, idsocio))
+                print(reserva)
+                if reserva:
+                    db.insert_bd("insert into emprestimo values(default, '%s', '2019-09-13', '%s', '%s')" % (retirada, tombo, idsocio))
+                    db.insert_bd("delete from reserva where id = %s" % reserva['id'])
+                    db.insert_bd('UPDATE livro SET status = "EMPRESTADO" WHERE tombo = "%s" ' % tombo)
+                    return redirect(url_for('emprestimo.index'))
+                
+                data['error'] = 'Este livro não pode ser emprestado! ' \
+                    'Pois está reservado.'
+        except Exception as e:
+            print(e)
             return render_template('404.html')
 
-    return render_template('emprestimo/create.html')
+    return render_template('emprestimo/create.html', data=data)
 
 
-@bp.route('/emprestimo/<int:id>/update', methods=('GET', 'POST'))
+@bp.route('/emprestimo/<int:id>/devolucao', methods=('GET',))
 @login_required
 def update(id):
     """Atualiza uma emprestimo pelo seu respectivo id."""
     emprestimo = get_emprestimo(id)
-    if request.method == 'POST':
-        try:
-            db.insert_bd(
-                'UPDATE emprestimo set nome = "%s" where id = %d' % (nome, id))
-            return redirect(url_for('emprestimo.index'))
-        except:
-            return render_template('404.html')
-
-    return render_template('emprestimo/update.html', emprestimo=emprestimo)
-
-
-@bp.route('/emprestimo/<int:id>/delete', methods=('POST',))
-@login_required
-def delete(id):
-    """Deleta um empretimo.
-
-   Certifica que o emprestimo existe.
-    """
-    get_emprestimo(id)
     try:
-        db.insert_bd('DELETE FROM  emprestimo WHERE id = %d' % id)
+        db.insert_bd('UPDATE livro SET status = "ESTANTE" WHERE tombo = "%s" ' % emprestimo['tombo'])
+        db.insert_bd('DELETE FROM emprestimo WHERE id = "%s"' % emprestimo['id'])
         return redirect(url_for('emprestimo.index'))
-    except:
+    except Exception as e:
+        print(e)
         return render_template('404.html')
+        
