@@ -20,6 +20,7 @@ def get_reserva(id):
     except:
         return render_template('404.html')
 
+
 @bp.route('/reserva', methods=('GET',))
 @login_required
 def index():
@@ -36,7 +37,7 @@ def index():
 
 @bp.route('/reserva/create', methods=('GET', 'POST'))
 @login_required
-def reservar():
+def create():
     """
     Reserva um livro.
     
@@ -84,4 +85,27 @@ def reservar():
             print(e)
             return render_template('404.html')
 
-    return render_template('resrva/create.html', data=data)
+    return render_template('reserva/create.html', data=data)
+
+
+def reservar_livro(tombo, idsocio):
+    db.insert_bd('UPDATE livro SET status = "RESERVADO" WHERE tombo = "%s" ' % tombo)
+    sql = "insert into reserva values(default, default, '%s', '%s')" % (tombo, idsocio)
+    db.insert_bd(sql)
+
+
+@bp.route('/reserva/<int:id>/delete', methods=('POST',))
+@login_required
+def delete(id):
+    """Deleta uma reserva.
+
+   Certifica que o autor existe.
+   Atualiza o status do livro para estante
+    """
+    reserva = get_reserva(id)
+    try:
+        db.insert_bd('DELETE FROM reserva WHERE id = %d' % id)
+        db.insert_bd('UPDATE livro SET status = "ESTANTE" WHERE tombo = "%s" ' % reserva['tombo'])
+        return redirect(url_for('reserva.index'))
+    except:
+        return render_template('404.html')

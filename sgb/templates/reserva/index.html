@@ -1,0 +1,36 @@
+{% extends 'base.html' %} {% block header %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/centeredContainer.css')  }}"
+/>
+{% endblock %} {% block content %}
+<div class="centered-container">
+    <h1>Lista de Reservas</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th style="width: 10%">Tombo</th>
+                <th style="width: 30%">Título</th>
+                <th style="width: 20%">Nome do Sócio</th>
+                <th style="width: 20%">Data de Criação</th>
+                <th>Deletar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reserva in reservas %}
+            <tr>
+                <td>{{ reserva['livro.tombo'] }}</td>
+                <td>{{ reserva.titulo }}</td>
+                <td>{{ reserva.nome }}</td>
+                <td>{{ reserva.created_at }}</td>
+                <td>
+                    <form action="{{ url_for('reserva.delete', id=reserva['id']) }}" method="post">
+                        <input class="btn btn-outline-secondary btn-sm" type="submit" value="Deletar" onclick="return confirm('Tem certeza?');">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

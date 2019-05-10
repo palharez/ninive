@@ -27,7 +27,7 @@ def create_app(dbname='TCC'):
     def hello():
         return 'Hello'
 
-    from sgb.controllers import autor, editora, funcionario, livro, landing, socio, emprestimo
+    from sgb.controllers import autor, editora, funcionario, livro, landing, socio, emprestimo, reserva
 
     app.register_blueprint(funcionario.bp)
     app.register_blueprint(autor.bp)
@@ -36,5 +36,6 @@ def create_app(dbname='TCC'):
     app.register_blueprint(landing.bp)
     app.register_blueprint(socio.bp)
     app.register_blueprint(emprestimo.bp)
+    app.register_blueprint(reserva.bp)
 
     return app
