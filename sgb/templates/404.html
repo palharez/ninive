@@ -1,2 +1,11 @@
-<h1>Não Funcionou amigão!</h1> 
-<p>404</p>
+{% extends 'base.html' %}
+
+{% block header %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/centeredContainer.css')  }}">
+{% endblock %}
+
+{% block content %}
+<div class="centered-container">
+    <h1>404</h1>
+</div>
+{% endblock %}

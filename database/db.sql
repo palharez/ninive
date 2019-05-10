@@ -64,7 +64,7 @@ CREATE TABLE emprestimo(
     FOREIGN KEY (tombo) REFERENCES livro (tombo) ON DELETE CASCADE
 );
 
-CREATE TABLE reservado(
+CREATE TABLE reserva(
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     created_at DATETIME DEFAULT NOW(),
     tombo INT NOT NULL,
