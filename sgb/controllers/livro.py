@@ -20,7 +20,6 @@ def parse_request(request):
         'etiqueta': request.form['etiqueta'],
         'ano': int(request.form['ano']),
         'exemplar': int(request.form['exemplar']),
-        'nomenclatura': request.form['nomenclatura'],
         'volume': request.form['volume']
     }
 
@@ -77,10 +76,9 @@ def create():
         try:
             request_parsed = parse_request(request)
             print(request_parsed['entrada'])
-            sql = 'INSERT INTO livro values ("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", default ,"%s")' % (request_parsed['tombo'], 
+            sql = 'INSERT INTO livro values ("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", default)' % (request_parsed['tombo'], 
                 request_parsed['titulo'], request_parsed['entrada'], request_parsed['etiqueta'], request_parsed['ano'], 
-                request_parsed['volume'], request_parsed['exemplar'], request_parsed['id_editora'], request_parsed['id_autor'], 
-                request_parsed['nomenclatura'])
+                request_parsed['volume'], request_parsed['exemplar'], request_parsed['id_editora'], request_parsed['id_autor'])
             print(sql)
             db.insert_bd(sql)
             return redirect(url_for('livro.index'))
@@ -103,7 +101,7 @@ def update(id):
     if request.method == 'POST':
         request_parsed = parse_request(request)
         try:
-            sql = 'UPDATE livro set titulo = "%s", entrada = "%s", etq = "%s", ano = "%s", ex = "%s", nomenclatura = "%s", v = "%s", id_editora = "%s", id_autor = "%s" where tombo = %d' % (request_parsed['titulo'], request_parsed['entrada'], request_parsed['etiqueta'], request_parsed['ano'], request_parsed['exemplar'], request_parsed['nomenclatura'], request_parsed['volume'], request_parsed['id_editora'], request_parsed['id_autor'], request_parsed['tombo'])
+            sql = 'UPDATE livro set titulo = "%s", entrada = "%s", etq = "%s", ano = "%s", ex = "%s", v = "%s", id_editora = "%s", id_autor = "%s" where tombo = %d' % (request_parsed['titulo'], request_parsed['entrada'], request_parsed['etiqueta'], request_parsed['ano'], request_parsed['exemplar'], request_parsed['volume'], request_parsed['id_editora'], request_parsed['id_autor'], request_parsed['tombo'])
             print(sql)
             db.insert_bd(sql)
             return redirect(url_for('livro.index'))

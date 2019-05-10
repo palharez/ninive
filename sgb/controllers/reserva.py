@@ -9,14 +9,14 @@ from sgb.controllers.funcionario import login_required
 bp = Blueprint('reserva', __name__)
 
 
-def get_autor(id):
+def get_reserva(id):
     try:
-        autor = db.query_one('select * from autor where id = %d' % id)
+        reserva = db.query_one('select * from reserva where id = %d' % id)
 
-        if autor is None:
+        if reserva is None:
             return render_template('404.html')
 
-        return autor
+        return reserva
     except:
         return render_template('404.html')
 
@@ -84,4 +84,4 @@ def reservar():
             print(e)
             return render_template('404.html')
 
-    return render_template('livro/reserva.html', data=data)
+    return render_template('resrva/create.html', data=data)

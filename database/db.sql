@@ -30,7 +30,6 @@ CREATE TABLE livro (
     id_editora INT NOT NULL,
     id_autor INT NOT NULL,
     status ENUM('EMPRESTADO', 'ESTANTE', 'EXTRAVIADO', 'RESERVADO', 'PERDIDO') default 'ESTANTE',
-    nomenclatura ENUM ('LIN', 'LBR', 'POE', 'LES'),
     FOREIGN KEY (id_editora) REFERENCES editora (id) ON DELETE CASCADE,
     FOREIGN KEY (id_autor) REFERENCES autor (id) ON DELETE CASCADE
 );
@@ -72,3 +71,5 @@ CREATE TABLE reserva(
     FOREIGN KEY (id_socio) REFERENCES socio (id) ON DELETE CASCADE,
     FOREIGN KEY (tombo) REFERENCES livro (tombo) ON DELETE CASCADE 
 );
+
+insert into funcionario(123456, 'admin', 'admin');

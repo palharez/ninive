@@ -22,7 +22,6 @@
             <th scope="col">Autor</th>
             <th scope="col">Editora</th>
             <th scope="col">Status</th>
-            <th scope="col">Nomenclatura</th>
             <th scope="col">Deletar</th>
             <th scope="col">Atualizar</th>
         </tr>
@@ -40,7 +39,6 @@
                 <td>{{ livro.nome }}</td>
                 <td>{{ livro['editora.nome'] }}</td>
                 <td>{{ livro.status.capitalize() }}</td>
-                <td>{{ livro.nomenclatura }}</td>
                 <td>
                     <form action="{{ url_for('livro.delete', id=livro.tombo) }}" method="post">
                         <input class="btn btn-outline-secondary btn-sm" type="submit" value="Deletar" onclick="return confirm('Tem certeza?');">
