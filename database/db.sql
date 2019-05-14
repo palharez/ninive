@@ -12,6 +12,7 @@ CREATE TABLE funcionario(
 	matricula INT NOT NULL UNIQUE PRIMARY KEY,
     nome NVARCHAR(255),
     cargo NVARCHAR(50)
+    caminho_imagem NVARCHAR(500)
 );
 
 CREATE TABLE editora (
@@ -30,6 +31,7 @@ CREATE TABLE livro (
     id_editora INT NOT NULL,
     id_autor INT NOT NULL,
     status ENUM('EMPRESTADO', 'ESTANTE', 'EXTRAVIADO', 'RESERVADO', 'PERDIDO') default 'ESTANTE',
+    caminho_imagem NVARCHAR(500),    
     FOREIGN KEY (id_editora) REFERENCES editora (id) ON DELETE CASCADE,
     FOREIGN KEY (id_autor) REFERENCES autor (id) ON DELETE CASCADE
 );
@@ -50,6 +52,7 @@ CREATE TABLE socio (
     tel_res NVARCHAR(20),
     cel_1 NVARCHAR(20),
     cel_2 NVARCHAR(20),
+    caminho_imagem NVARCHAR(500),
     CONSTRAINT id_socio PRIMARY KEY (id)
 );
 
@@ -72,4 +75,4 @@ CREATE TABLE reserva(
     FOREIGN KEY (tombo) REFERENCES livro (tombo) ON DELETE CASCADE 
 );
 
-insert into funcionario(123456, 'admin', 'admin');
+insert into funcionario values(123456, 'admin', 'admin', 'null');

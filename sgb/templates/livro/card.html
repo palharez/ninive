@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/centeredContainer.css')  }}">
+{% endblock %}
+
+{% block content %}
+<div class="centered-container">
+<h1>Lista de Livros</h1>
+
+<div class="row">
+{% for livro in livros %}
+<div class="col-sm-3">
+    <div class="card" style="width: 14rem;">
+        <img class="card-img-top" style="height: 12rem;" src="{{ url_for('static', filename='images/' + livro.caminho_imagem) }}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">{{ livro.titulo }}</h5>
+            <p class="card-text">Tombo: {{ livro.tombo }} <br> Status: {{ livro.status.capitalize() }}<p>
+            <div class="form-group">
+                <form action="{{ url_for('livro.delete', id=livro.tombo) }}" style="display: inline-block;" method="post">
+                    <input class="btn btn-outline-secondary btn-sm" type="submit" value="Deletar" onclick="return confirm('Tem certeza?');">
+                </form>
+                <a class="btn btn-outline-secondary btn-sm" style="display: inline-block;" href="{{ url_for('livro.update', id=livro.tombo) }}">Editar</a>    
+            </div>
+            
+        </div>
+    </div>
+</div>
+{% endfor %}
+</div>
+</div>
+{% endblock %}

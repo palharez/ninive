@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container">
     <h1>Novo Livro</h1>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-sm">Tombo</span>
@@ -62,7 +62,13 @@
             {% endfor %}
             </select>
         </div>
-        <input type="submit" class="btn btn-outline-secondary btn-sm" value="Salvar">
+        <div class="form-group">
+            <label for="image">Escolher arquivo</label>
+            <input type="file" class="form-control" value="Escolher" name="image" id="inputGroupFile04" placeholder="Escolha o arquivo">
+        </div>
+        <div>                      
+            <input type="submit" class="btn btn-outline-secondary btn-sm" value="Salvar">
+        </div>
     </form>
 </div>
 {% endblock %}

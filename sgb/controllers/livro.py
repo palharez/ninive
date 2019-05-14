@@ -7,6 +7,7 @@ from flask import (
 from werkzeug.exceptions import abort
 from sgb import db
 from sgb.controllers.funcionario import login_required
+from sgb.utils import upload_file
 
 bp = Blueprint('livro', __name__)
 
@@ -59,7 +60,8 @@ def index():
     """Exibe todas as livros cadastradas."""
     try:
         livros = db.query_bd('select * from livro inner join autor on autor.id = livro.id_autor inner join editora on editora.id = livro.id_editora; ')
-        return render_template('livro/index.html', livros=livros)
+        print(livros)
+        return render_template('livro/card.html', livros=livros)
     except Exception as e:
         print(e)
         return render_template('404.html')
@@ -75,10 +77,12 @@ def create():
     if request.method == 'POST':
         try:
             request_parsed = parse_request(request)
-            print(request_parsed['entrada'])
-            sql = 'INSERT INTO livro values ("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", default)' % (request_parsed['tombo'], 
+            file = request.files['image']
+            f = upload_file(file)
+
+            sql = 'INSERT INTO livro values ("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", default, "%s")' % (request_parsed['tombo'], 
                 request_parsed['titulo'], request_parsed['entrada'], request_parsed['etiqueta'], request_parsed['ano'], 
-                request_parsed['volume'], request_parsed['exemplar'], request_parsed['id_editora'], request_parsed['id_autor'])
+                request_parsed['volume'], request_parsed['exemplar'], request_parsed['id_editora'], request_parsed['id_autor'], f.filename)
             print(sql)
             db.insert_bd(sql)
             return redirect(url_for('livro.index'))
