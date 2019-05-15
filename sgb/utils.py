@@ -2,10 +2,6 @@ import os
 from werkzeug import secure_filename
 
 import sys
-try:
-    from PIL import Image
-except ImportError:
-    import Image
 
 root = os.path.dirname((os.path.abspath(__file__)))
 root += '/static/images'
