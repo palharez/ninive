@@ -26,9 +26,9 @@
                     <td>{{ socio.nome.split(" ")[0]  }} {{ socio.nome.split(" ")[-1] }}</td>
                     <td>{{ socio.email }}</td>
                     <td>{{ socio.cel_1 }}</td>
-                    <td><a class="btn btn-outline-secondary btn-sm" href="{{ url_for('socio.verifica', id=socio.id) }}">Verificar</a></td>
-                    <td><a class="btn btn-outline-secondary btn-sm" href="{{ url_for('socio.update', id=socio.id) }}">Atualizar</a></td>
-                    <td><a class="btn btn-outline-secondary btn-sm" href="{{ url_for('socio.delete', id=socio.id) }}">Deletar</a></td>
+                    <td><a class="btn btn-success btn-sm" href="{{ url_for('socio.verifica', id=socio.id) }}">Verificar</a></td>
+                    <td><a class="btn btn-warning btn-sm" href="{{ url_for('socio.update', id=socio.id) }}">Atualizar</a></td>
+                    <td><a class="btn btn-danger btn-sm" href="{{ url_for('socio.delete', id=socio.id) }}">Deletar</a></td>
                 </tr>
             {% endfor %}
         </tbody>
