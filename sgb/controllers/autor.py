@@ -35,26 +35,30 @@ def index():
 @login_required
 def create():
     """Cria um novo autor."""
+    error = None
     if request.method == 'POST':
         nome = request.form['nome']
-        error = None
-
         if not nome:
             error = 'Nome é obrigatório.'
-
-        if error is not None:
-            flash(error)
-            
         else:
-
             try:
-                db.insert_bd('INSERT INTO autor values (default, "%s")' % nome)
-                return redirect(url_for('autor.index'))
-                
-            except:
+                if verifica_autor_bd(nome):
+                    error = 'Autor já cadastrado!'
+                else:
+                    db.insert_bd('INSERT INTO autor values (default, "%s")' % nome)
+                    return redirect(url_for('autor.index'))
+            except Exception as e:
+                print(e)
                 return redirect(url_for('error'))
 
-    return render_template('autor/create.html')
+    return render_template('autor/create.html', error=error)
+
+
+def verifica_autor_bd(nome):
+    autor = db.query_bd('SELECT * FROM autor WHERE nome = "%s"' % nome)
+    if autor:
+        return True
+    return False
 
 
 @bp.route('/autor/<int:id>/update', methods=('GET', 'POST'))
@@ -62,24 +66,27 @@ def create():
 def update(id):
     """Atualiza um autor pelo seu respectivo id."""
     autor = get_autor(id)
+    error = None
     if request.method == 'POST':
         nome = request.form['nome']
-        error = None
 
         if not nome:
             error = 'Nome é obrigatório.'
+        print(autor)
+        if nome == autor['nome']:
+            return redirect(url_for('autor.index'))
 
-        if error is not None:
-            flash(error)
-        
         else:
             try:
-                db.insert_bd('UPDATE autor set nome = "%s" where id = %d' % (nome, id))
-                return redirect(url_for('autor.index'))
+                if verifica_autor_bd(nome):
+                    error = 'Este autor já está registrado!'
+                else:
+                    db.insert_bd('UPDATE autor set nome = "%s" where id = %d' % (nome, id))
+                    return redirect(url_for('autor.index'))
             except:
                 return render_template('404.html')
 
-    return render_template('autor/update.html', autor=autor)
+    return render_template('autor/update.html', autor=autor, error=error)
 
 
 @bp.route('/autor/<int:id>/delete', methods=('POST',))

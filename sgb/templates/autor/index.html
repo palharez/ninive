@@ -7,14 +7,68 @@
 {% block content %}
 <div class="centered-container">
     <h1>Lista de Autores</h1>
-    {% for autor in autores %}
-        <div>        
-            <p>
-                O id do autor é: {{ autor["id"] }}, o nome do autor é {{ autor["nome"] }} |
-                <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('autor.update', id=autor['id']) }}">Editar</a>
-            </p>
-            
-        </div>
-    {% endfor %}
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Editar</th>
+            <th scope="col">Deletar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for autor in autores %}
+                <tr>
+                    <th scope="row">{{ autor['id'] }}</th>
+                    <td>{{ autor['nome'] }}</td>
+                    <td>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#{{ autor['nome'] }}Center">
+                        Editar
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="{{ autor['nome'] }}Center" tabindex="-1" role="dialog" aria-labelledby="{{ autor['nome'] }}CenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="{{ autor['nome'] }}LongTitle">Editando autor do id: {{ autor['id'] }}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                <div class="modal-body">
+                                        {% if error %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ error }}
+                                        </div>
+                                        {% endif %}
+                                    <form method="post" action="{{ url_for('autor.update', id=autor['id']) }}">
+                                        <div class="input-group input-group-sm mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="inputGroup-sizing-sm">Nome</span>
+                                            </div>
+                                            <input name="nome" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="nome" value="{{ request.form['nome'] or autor['nome'] }}" required>            
+                                        </div>
+                                        <input type="submit" class="btn btn-primary btn-sm btn-block" value="Salvar">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <form action="{{ url_for('autor.delete', id=autor['id']) }}" method="post">
+                            <input class="btn btn-danger btn-sm" type="submit" value="Deletar" onclick="return confirm('Tem certeza?');">
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
+
+<script>
+$('#myModal').on('shown.bs.modal', function () {
+    $('#myInput').trigger('focus')
+})
+</script>
 {% endblock %}
