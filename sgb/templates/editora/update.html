@@ -7,6 +7,11 @@
 {% block content %}
 <div class="centered-container">
     <h4>Editando a editora do id: {{ editora['id'] }}</h4>
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endif %}
     <form method="post">
         <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">
@@ -14,10 +19,7 @@
             </div>
             <input name="nome" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="nome" value="{{ request.form['nome'] or editora['nome'] }}" required>            
         </div>
-        <input type="submit" class="btn btn-outline-secondary btn-sm" value="Salvar">
-    </form>
-    <form action="{{ url_for('editora.delete', id=editora['id']) }}" method="post">
-        <input class="btn btn-outline-secondary btn-sm" type="submit" value="Delete" onclick="return confirm('Tem certeza?');">
+        <input type="submit" class="btn btn-primary btn-sm btn-block" value="Salvar">
     </form>
 </div>
 {% endblock %}

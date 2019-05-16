@@ -37,11 +37,6 @@
                                         </button>
                                     </div>
                                 <div class="modal-body">
-                                        {% if error %}
-                                        <div class="alert alert-danger" role="alert">
-                                            {{ error }}
-                                        </div>
-                                        {% endif %}
                                     <form method="post" action="{{ url_for('autor.update', id=autor['id']) }}">
                                         <div class="input-group input-group-sm mb-3">
                                             <div class="input-group-prepend">

@@ -7,13 +7,57 @@
 {% block content %}
 <div class="centered-container">
     <h1>Lista de Editoras</h1>
-    {% for editora in editoras %}
-        <div>        
-            <p>
-                O id da editora é: {{ editora["id"] }}, o nome da editora é {{ editora["nome"] }} |
-                <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('editora.update', id=editora['id']) }}">Editar</a>
-            </p>
-        </div>
-    {% endfor %}
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Editar</th>
+            <th scope="col">Deletar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for editora in editoras %}
+                <tr>
+                    <th scope="row">{{ editora['id'] }}</th>
+                    <td>{{ editora['nome'] }}</td>
+                    <td>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#{{ editora['nome'] }}Center">
+                        Editar
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="{{ editora['nome'] }}Center" tabindex="-1" role="dialog" aria-labelledby="{{ editora['nome'] }}CenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="{{ editora['nome'] }}LongTitle">Editando editora do id: {{ editora['id'] }}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                <div class="modal-body">
+                                    <form method="post" action="{{ url_for('editora.update', id=editora['id']) }}">
+                                        <div class="input-group input-group-sm mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="inputGroup-sizing-sm">Nome</span>
+                                            </div>
+                                            <input name="nome" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="nome" value="{{ request.form['nome'] or editora['nome'] }}" required>            
+                                        </div>
+                                        <input type="submit" class="btn btn-primary btn-sm btn-block" value="Salvar">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <form action="{{ url_for('editora.delete', id=editora['id']) }}" method="post">
+                            <input class="btn btn-danger btn-sm" type="submit" value="Deletar" onclick="return confirm('Tem certeza?');">
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}

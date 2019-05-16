@@ -35,50 +35,59 @@ def index():
 @login_required
 def create():
     """Cria uma nova editora."""
+    error = None
     if request.method == 'POST':
         nome = request.form['nome']
         error = None
 
         if not nome:
             error = 'Nome é obrigatório.'
-
-        if error is not None:
-            flash(error)
-            
         else:
-
             try:
-                db.insert_bd('INSERT INTO editora values (default, "%s")' % nome)
-                return redirect(url_for('editora.index'))
+                if verifica_editora_bd(nome):
+                    error = 'Editora já cadastrada!'
+                else:
+                    db.insert_bd('INSERT INTO editora values (default, "%s")' % nome)
+                    return redirect(url_for('editora.index'))
                 
             except:
                 return render_template('404.html')
 
-    return render_template('editora/create.html')
+    return render_template('editora/create.html', error=error)
+
+def verifica_editora_bd(nome):
+    editora = db.query_bd('SELECT * FROM editora WHERE nome = "%s"' % nome)
+    if editora:
+        return True
+    return False
+
 
 @bp.route('/editora/<int:id>/update', methods=('GET', 'POST'))
 @login_required
 def update(id):
     """Atualiza uma editora pelo seu respectivo id."""
     editora = get_editora(id)
+    error = None
     if request.method == 'POST':
         nome = request.form['nome']
         error = None
 
         if not nome:
             error = 'Nome é obrigatório.'
+        if nome == editora['nome']:
+            return redirect(url_for('editora.index'))
 
-        if error is not None:
-            flash(error)
-        
         else:
             try:
-                db.insert_bd('UPDATE editora set nome = "%s" where id = %d' % (nome, id))
-                return redirect(url_for('editora.index'))
+                if verifica_editora_bd(nome):
+                    error = 'Essa editora já está registrada!'
+                else:
+                    db.insert_bd('UPDATE editora set nome = "%s" where id = %d' % (nome, id))
+                    return redirect(url_for('editora.index'))
             except:
                 return render_template('404.html')
 
-    return render_template('editora/update.html', editora=editora)
+    return render_template('editora/update.html', editora=editora, error=error)
 
 @bp.route('/editora/<int:id>/delete', methods=('POST',))
 @login_required
