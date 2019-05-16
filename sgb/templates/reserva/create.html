@@ -35,7 +35,7 @@
             </div>
             <input name="titulo" id="titulo" value="{{ data['livro']['titulo'] if data['livro'] else '' }}" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" readonly>
         </div>
-        <input type="submit" class="btn btn-outline-secondary btn-sm" value="Reservar">
+        <input type="submit" class="btn btn-primary btn-sm btn-block" value="Salvar">
     </form>
 </div>
 <script src="{{ url_for('static', filename='js/reservaLivro.js')  }}"></script>
