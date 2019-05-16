@@ -60,7 +60,6 @@ def index():
     """Exibe todas as livros cadastradas."""
     try:
         livros = db.query_bd('select * from livro inner join autor on autor.id = livro.id_autor inner join editora on editora.id = livro.id_editora; ')
-        print(livros)
         return render_template('livro/card.html', livros=livros)
     except Exception as e:
         print(e)

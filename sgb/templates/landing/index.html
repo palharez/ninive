@@ -2,13 +2,209 @@
 
 
 {% block content %}
-<h1>Landing Page</h1>
-<div class="card" style="width: 18rem;">
-    <img class="card-img-top" src="..." alt="Card image cap">
-    <div class="card-body">
-      <h5 class="card-title">Card title</h5>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-      <a href="#" class="btn btn-primary">Go somewhere</a>
+<div class="margin-bar" style="margin-bottom: 30px;">
+    <div class="row">
+        <div class="col">
+            <div class="card text-white bg-secondary" style="width: 240px">
+                <h5 class="card-header">Total</h5>
+                <div class="card-body text-black bg-light">
+                    <p class="card-text" style="color: black;">Quantidade: 30</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-white bg-secondary" style="width: 240px;">
+                <h5 class="card-header">Emprestado</h5>
+                <div class="card-body text-black bg-light">
+                    <p class="card-text" style="color: black;">Quantidade: 20</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-white bg-secondary" style="width: 240px;">
+                <h5 class="card-header">Reservado</h5>
+                <div class="card-body text-black bg-light">
+                    <p class="card-text" style="color: black;">Quantidade: 20</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-white bg-secondary" style="width: 240px;">
+                <h5 class="card-header">Estante</h5>
+                <div class="card-body text-black bg-light">
+                    <p class="card-text" style="color: black;">Quantidade: 20</p>
+                </div>
+            </div>
+        </div>      
     </div>
-  </div>
+</div>
+
+<div class="row">
+    <div class="col-5 coralk">
+
+        <div class="blacko col-12">
+            <div class="card-border">
+                <div class="card-header text-white bg-secondary">
+                        <a class="navbar-brand">Emprestimos</a>
+                        <form class="form-inline" style="float: right">
+                            <input class="form-control mr-sm-2" type="search" style="width: 120px;" placeholder="Pesquisar" aria-label="Search">
+                            <button class="btn btn-dark my-2 my-sm-0" type="submit">Buscar</button>
+                        </form>
+                        <div style="clear: both"></div>
+                </div>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th style="width: 10%">ID</th>
+                            <th style="width: 25%">Devolução</th>
+                            <th style="width: 25%">Livro</th>
+                            <th style="width: 20%">Sócio</th>
+                            <th style="width: 20%">Deletar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for emprestimo in emprestimos %}
+                        <tr>
+                            <td>{{ emprestimo.id }}</td>
+                            <td>20/06/2019</td>
+                            <td>{{ emprestimo.titulo }}</td>
+                            <td>{{ emprestimo.nome.split(" ")[0] }}</td>
+                            <td>
+                                <form action="{{ url_for('emprestimo.update', id=emprestimo['id']) }}" method="get">
+                                    <input class="btn btn-outline-secondary btn-sm" type="submit" value="Deletar" onclick="return confirm('Tem certeza?');">
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="card-footer text-white bg-secondary">
+                    <a href="{{ url_for('emprestimo.index') }}" style="float: right"><button type="button" class="btn btn-dark">Ver mais</button></a>
+                    <div style="clear: both"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="blacko col-12">
+            <div class="card-border">
+                <div class="card-header text-white bg-secondary">
+                        <a class="navbar-brand">Reservas</a>
+                        <form class="form-inline" style="float: right">
+                            <input class="form-control mr-sm-2" type="search" style="width: 120px;" placeholder="Pesquisar" aria-label="Search">
+                            <button class="btn btn-dark my-2 my-sm-0" type="submit">Buscar</button>
+                        </form>
+                        <div style="clear: both"></div>
+                </div>
+                    <table class="table stable-sm">
+                        <thead>
+                            <tr>
+                                <th style="width: 20%">ID</th>
+                                <th style="width: 20%">Título</th>
+                                <th style="width: 20%">Sócio</th>
+                                <th style="width: 20%">Criação</th>
+                                <th style="width: 20%">Deletar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for reserva in reservas %}
+                            <tr>
+                                <td>{{ reserva.id }}</td>
+                                <td>{{ reserva.titulo }}</td>
+                                <td>{{ reserva.nome.split(" ")[0] }}</td>
+                                <td>{{ reserva.created_at }}</td>
+                                <td>
+                                    <form action="{{ url_for('reserva.delete', id=reserva['id']) }}" method="post">
+                                        <input class="btn btn-outline-secondary btn-sm" type="submit" value="Deletar" onclick="return confirm('Tem certeza?');">
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                <div class="card-footer text-white bg-secondary">
+                    <a href="{{ url_for('reserva.index') }}" style="float: right"><button type="button" class="btn btn-dark">Ver mais</button></a>
+                    <div style="clear: both"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-7 bluevi">
+        <div class="card-border">
+            <div class="card-header text-white bg-secondary">
+                    <a class="navbar-brand">Livros</a>
+                    <form class="form-inline" style="float: right">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Search">
+                        <button class="btn btn-dark my-2 my-sm-0" type="submit">Buscar</button>
+                    </form>
+                    <div style="clear: both"></div>
+            </div>
+            <div class="card-padding">
+                <div class="row">
+                    {% for livro in livros %}
+                    <div class="col-6 margin-bar">
+                        <div class="card" style="width: 13.5rem;">
+                            <!-- <img class="card-img-top" style="height: 6rem;" src="{{ url_for('static', filename='images/' + livro.caminho_imagem) }}" alt="Card image cap"> -->
+                            <div class="card-body">
+                                <h5 class="card-title">{{ livro.titulo }}</h5>
+                                <p class="card-text">Tombo: {{ livro.tombo }} <br> Status: {{ livro.status.capitalize() }}<p>
+                                <div class="form-group">
+                                    <form action="{{ url_for('livro.delete', id=livro.tombo) }}" style="display: inline-block;" method="post">
+                                        <input class="btn btn-danger btn-sm" type="submit" value="Deletar" onclick="return confirm('Tem certeza?');">
+                                    </form>
+                                    <a class="btn btn-warning btn-sm" style="display: inline-block;" href="{{ url_for('livro.update', id=livro.tombo) }}">Editar</a>    
+                                    <button type="button" class="btn btn-info btn-sm">Info</button>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="card-footer text-white bg-secondary">
+                <a href="{{ url_for('livro.index') }}" style="float: right"><button type="button" class="btn btn-dark">Ver mais</button></a>
+                <div style="clear: both"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+.margin-bar {
+    margin-bottom: 10px;
+}
+
+.card {
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.card:hover {
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  }
+
+.card-border {
+    border: 1px solid black;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    background-color: white;
+}
+
+.card-body {
+    background-color: white;
+}
+
+.card-padding {
+    padding: 20px;
+    align-items: center;
+    padding-left: 10%;
+}
+
+.blacko {
+    margin-bottom: 30px;
+}
+
+</style>
+
 {% endblock %}

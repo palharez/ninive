@@ -11,7 +11,7 @@ CREATE TABLE autor (
 CREATE TABLE funcionario(
 	matricula INT NOT NULL UNIQUE PRIMARY KEY,
     nome NVARCHAR(255),
-    cargo NVARCHAR(50)
+    cargo NVARCHAR(50),
     caminho_imagem NVARCHAR(500)
 );
 
@@ -52,7 +52,6 @@ CREATE TABLE socio (
     tel_res NVARCHAR(20),
     cel_1 NVARCHAR(20),
     cel_2 NVARCHAR(20),
-    caminho_imagem NVARCHAR(500),
     CONSTRAINT id_socio PRIMARY KEY (id)
 );
 

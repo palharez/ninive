@@ -6,21 +6,33 @@
 
 {% block content %}
 <div class="centered-container">
-<h1>Lista de Livros</h1>
+<div class="">
+        <a class="navbar-brand navbar-minus-margin" style="font-size: 32px">Lista de Livros</a>
+        <form class="form-inline" style="float: right">
+            <select class="form-control">
+                <option>Tombo</option>
+                <option>Nome</option>
+            </select>&nbsp;&nbsp;
+            <input class="form-control mr-sm-2" type="search" style="width: 220px;" placeholder="Pesquisar" aria-label="Search">
+            <button class="btn btn-dark my-2 my-sm-0 btn-marg" type="submit">Buscar</button>
+        </form>
+        <div style="clear: both"></div>
+</div>
 
 <div class="row">
 {% for livro in livros %}
 <div class="col-sm-3">
-    <div class="card" style="width: 14rem;">
-        <img class="card-img-top" style="height: 12rem;" src="{{ url_for('static', filename='images/' + livro.caminho_imagem) }}" alt="Card image cap">
+    <div class="card" style="width: 240px;">
+        <img class="card-img-top" style="height: 253px;" src="{{ url_for('static', filename='images/' + livro.caminho_imagem) }}" alt="Card image cap">
         <div class="card-body">
             <h5 class="card-title">{{ livro.titulo }}</h5>
             <p class="card-text">Tombo: {{ livro.tombo }} <br> Status: {{ livro.status.capitalize() }}<p>
             <div class="form-group">
                 <form action="{{ url_for('livro.delete', id=livro.tombo) }}" style="display: inline-block;" method="post">
-                    <input class="btn btn-outline-secondary btn-sm" type="submit" value="Deletar" onclick="return confirm('Tem certeza?');">
+                    <input class="btn btn-danger btn-sm" type="submit" value="Deletar" onclick="return confirm('Tem certeza?');">
                 </form>
-                <a class="btn btn-outline-secondary btn-sm" style="display: inline-block;" href="{{ url_for('livro.update', id=livro.tombo) }}">Editar</a>    
+                <a class="btn btn-warning btn-sm" style="display: inline-block;" href="{{ url_for('livro.update', id=livro.tombo) }}">Editar</a>    
+                <button type="button" class="btn btn-info btn-sm">Info</button>
             </div>
             
         </div>
@@ -29,4 +41,26 @@
 {% endfor %}
 </div>
 </div>
+
+<style>
+    .navbar-minus-margin {
+        margin-top: -15px;
+        margin-bottom: 20px;
+    }
+    .card {
+        margin-bottom: 10px;
+    }
+
+    .form-inline {
+        margin-top: -5px;
+    }
+
+    .centered-container {
+        border: 25px solid white;
+        border-radius: 10px;
+        width: auto;
+        height: auto;
+        background-color: white;
+    }
+</style>
 {% endblock %}

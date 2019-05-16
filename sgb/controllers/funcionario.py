@@ -22,7 +22,7 @@ def login():
         if error is None:
             session.clear()
             session['funcionario_matricula'] = funcionario['matricula']
-            return redirect(url_for('autor.index'))
+            return redirect(url_for('landing.index'))
 
     return render_template('funcionario/login.html', error=error)
 

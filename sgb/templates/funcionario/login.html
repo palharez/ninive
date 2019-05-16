@@ -19,7 +19,7 @@
         </div>
     </nav>
     <div class="containerr">
-        <h1>Login</h1>
+        <h1 style="text-align: center;">Login</h1>
         <br>
         {% if error %}
         <div class="alert alert-danger" role="alert">
@@ -27,13 +27,13 @@
         </div>
         {% endif %}
         <form method="post">
-            <div class="input-group input-group-sm mb-3">
+            <div class="input-group input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroup-sizing-sm">Matricula</span>
+                    <span class="input-group-text" id="inputGroup-sizing">Matricula</span>
                 </div>
                 <input name="matricula" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="matricula" required>
             </div>
-            <input type="submit" class="btn btn-outline-secondary btn-sm" value="Entrar">
+            <input type="submit" class="btn btn-outline-secondary btn-block" value="Entrar">
         </form>
     </div>
 </body>
