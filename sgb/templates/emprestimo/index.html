@@ -5,14 +5,26 @@
 />
 {% endblock %} {% block content %}
 <div class="centered-container">
-    <h1>Lista de Empréstimos</h1>
+    <div class="">
+        <a class="navbar-brand navbar-minus-margin" style="font-size: 3em">Lista de Empréstimos</a>
+        <form class="form-inline" style="float: right">
+            <select class="form-control">
+                <option>ID</option>
+                <option>Título</option>
+                <option>Nome do Sócio</option>
+            </select>&nbsp;&nbsp;
+            <input class="form-control mr-sm-2" type="search" style="width: 220px;" placeholder="Pesquisar" aria-label="Search">
+            <button class="btn btn-dark my-2 my-sm-0 btn-marg" type="submit">Buscar</button>
+        </form>
+        <div style="clear: both"></div>
+    </div>
     <table class="table table-striped">
         <thead>
             <tr>
                 <th style="width: 10%">ID</th>
                 <th style="width: 10%">Retirada</th>
                 <th style="width: 20%">Devolução</th>
-                <th style="width: 30%">Nome do Livro</th>
+                <th style="width: 30%">Título</th>
                 <th style="width: 20%">Nome do Sócio</th>
                 <th>Deletar</th>
             </tr>
@@ -35,4 +47,13 @@
         </tbody>
     </table>
 </div>
+<style>
+.navbar-minus-margin {
+    margin-top: -15px;
+    margin-bottom: 20px;
+}
+.form-inline {
+    margin-top: 12px;
+}
+</style>
 {% endblock %}

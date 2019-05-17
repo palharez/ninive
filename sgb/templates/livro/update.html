@@ -7,7 +7,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-sm">Tombo</span>
             </div>
-            <input name="tombo" type="number" class="form-control" aria-describedby="inputGroup-sizing-default" id="tombo" value="{{ request.form['tombo'] or livro_content['livro']['tombo'] }}" required>
+            <input name="tombo" type="number" class="form-control" aria-describedby="inputGroup-sizing-default" id="tombo" value="{{ request.form['tombo'] or livro_content['livro']['tombo'] }}" readonly>
         </div>
         <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">

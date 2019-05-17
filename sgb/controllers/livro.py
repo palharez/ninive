@@ -3,6 +3,7 @@ import json
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
+from flask_paginate import Pagination
 
 from werkzeug.exceptions import abort
 from sgb import db
@@ -10,6 +11,9 @@ from sgb.controllers.funcionario import login_required
 from sgb.utils import upload_file
 
 bp = Blueprint('livro', __name__)
+
+PER_PAGE = 20
+
 
 def parse_request(request):
     return {
@@ -54,13 +58,21 @@ def get_nome(tombo):
             return render_template('404.html')
 
 
-@bp.route('/livro')
+@bp.route('/livro', defaults={'page': 1})
+@bp.route('/livro/page/<int:page>')
 @login_required
-def index():
+def index(page):
     """Exibe todas as livros cadastradas."""
     try:
-        livros = db.query_bd('select * from livro inner join autor on autor.id = livro.id_autor inner join editora on editora.id = livro.id_editora; ')
-        return render_template('livro/card.html', livros=livros)
+        perpage = 12
+        startat = ( page - 1 ) * perpage
+        perpage *= page
+        sql ='select * from livro inner join autor on autor.id = livro.id_autor \
+         inner join editora on editora.id = livro.id_editora limit %s, %s;' % (startat, perpage)
+        livros = db.query_bd(sql)
+        total_livros = db.query_bd('select * from livro')
+        totalpages = int(len(total_livros) / 12) + 1
+        return render_template('livro/card.html', livros=livros, page=page, totalpages=totalpages)
     except Exception as e:
         print(e)
         return render_template('404.html')
