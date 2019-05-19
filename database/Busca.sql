@@ -20,35 +20,35 @@ WHERE nome LIKE '%var_busca%';
 -- pelo titulo
 
 SELECT livro.*, 
-(select a.nome from autor a where a.id = livro.id_autor) as 'autor',
-(select e.nome from editora e where e.id = livro.id_editora) as 'editora'
+(SELECT a.nome FROM autor a WHERE a.id = livro.id_autor) as 'autor',
+(SELECT e.nome FROM editora e WHERE e.id = livro.id_editora) as 'editora'
  FROM livro
 WHERE livro.titulo LIKE '%var_busca%';
 
 -- pelo tombo
 
 SELECT livro.*, 
-(select a.nome from autor a where a.id = livro.id_autor) as 'autor',
-(select e.nome from editora e where e.id = livro.id_editora) as 'editora'
+(SELECT a.nome FROM autor a WHERE a.id = livro.id_autor) as 'autor',
+(SELECT e.nome FROM editora e WHERE e.id = livro.id_editora) as 'editora'
  FROM livro
 WHERE livro.tombo LIKE '%var_busca%';
 
 -- pelo nome da editora
 
 SELECT livro.*, 
-(select a.nome from autor a where a.id = livro.id_autor) as 'autor',
-(select e.nome from editora e where e.id = livro.id_editora) as 'editora'
+(SELECT a.nome FROM autor a WHERE a.id = livro.id_autor) as 'autor',
+(SELECT e.nome FROM editora e WHERE e.id = livro.id_editora) as 'editora'
  FROM livro
-WHERE (select e.nome from editora e where e.id = livro.id_editora)
+WHERE (SELECT e.nome FROM editora e WHERE e.id = livro.id_editora)
 LIKE '%var_busca%';
 
 -- pelo nome do autor
 
 SELECT livro.*, 
-(select a.nome from autor a where a.id = livro.id_autor) as 'autor',
-(select e.nome from editora e where e.id = livro.id_editora) as 'editora'
+(SELECT a.nome FROM autor a WHERE a.id = livro.id_autor) as 'autor',
+(SELECT e.nome FROM editora e WHERE e.id = livro.id_editora) as 'editora'
  FROM livro
-WHERE (select a.nome from autor a where a.id = livro.id_autor)
+WHERE (SELECT a.nome FROM autor a WHERE a.id = livro.id_autor)
 LIKE '%var_busca%';
 
 
@@ -73,6 +73,6 @@ WHERE TIMESTAMPDIFF(year, nasc,curdate()) = '%var_busca%';
 /*Insert para a retirada*/
 
 
-insert into emprestimo values(default, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 5 DAY), 1, 1);
-select * from emprestimo;
+INSERT INTO emprestimo VALUES(default, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 5 DAY), 1, 1);
+SELECT * FROM emprestimo;
 
