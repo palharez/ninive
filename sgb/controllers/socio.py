@@ -59,7 +59,8 @@ def index():
     try:
         socios = db.query_bd('select * from socio')
         return render_template('socio/index.html', socios=socios)
-    except:
+    except Exception as e:
+        print(e)
         return render_template('404.html')
 
 

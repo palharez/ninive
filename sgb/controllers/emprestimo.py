@@ -55,7 +55,7 @@ def create():
             data['socio'] = socio = db.query_one('select * from socio where id = %s' % idsocio)
 
             if livro['status'] == 'ESTANTE':
-                sql = "insert into emprestimo values(default, '%s', '2019-09-13', '%s', '%s')" % (retirada, tombo, idsocio)
+                sql = "insert into emprestimo values(default, '%s', DATE_ADD(CURDATE(), INTERVAL 5 DAY), '%s', '%s')" % (retirada, tombo, idsocio)
                 db.insert_bd(sql)
                 db.insert_bd('UPDATE livro SET status = "EMPRESTADO" WHERE tombo = "%s" ' % tombo)
                 return redirect(url_for('emprestimo.index'))
@@ -76,7 +76,7 @@ def create():
                 reserva = db.query_one('select * from reserva where tombo = %s and id_socio = %s' % (tombo, idsocio))
                 print(reserva)
                 if reserva:
-                    db.insert_bd("insert into emprestimo values(default, '%s', '2019-09-13', '%s', '%s')" % (retirada, tombo, idsocio))
+                    db.insert_bd("insert into emprestimo values(default, '%s', DATE_ADD(CURDATE(), INTERVAL 5 DAY), '%s', '%s')" % (retirada, tombo, idsocio))
                     db.insert_bd("delete from reserva where id = %s" % reserva['id'])
                     db.insert_bd('UPDATE livro SET status = "EMPRESTADO" WHERE tombo = "%s" ' % tombo)
                     return redirect(url_for('emprestimo.index'))

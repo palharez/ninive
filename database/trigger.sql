@@ -1,5 +1,25 @@
--- trigger e tabela morta da reserva
+CREATE TABLE reserva_morta(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    create_date DATE,
+    delete_date DATETIME DEFAULT NOW(),
+    tombo INT NOT NULL,
+    id_socio INT NOT NULL,
+    FOREIGN KEY (id_socio) REFERENCES socio (id) ON DELETE CASCADE,
+    FOREIGN KEY (tombo) REFERENCES livro (tombo) ON DELETE CASCADE 
+);
 
+CREATE TABLE emprestimo_morto(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	retirada DATE NOT NULL,
+    devolucao DATE NOT NULL,
+    data_retorno DATETIME DEFAULT NOW(),
+    tombo INT NOT NULL,
+    id_socio INT NOT NULL,
+    FOREIGN KEY (id_socio) REFERENCES socio (id) ON DELETE CASCADE,
+    FOREIGN KEY (tombo) REFERENCES livro (tombo) ON DELETE CASCADE
+);
+
+-- trigger e tabela morta da reserva
 DELIMITER //
 
 CREATE TRIGGER reserva_after_delete
@@ -23,17 +43,6 @@ BEGIN
 END; //
 
 DELIMITER ;
-
-
-CREATE TABLE reserva_morta(
-    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    create_date DATE,
-    delete_date DATETIME DEFAULT NOW(),
-    tombo INT NOT NULL,
-    id_socio INT NOT NULL,
-    FOREIGN KEY (id_socio) REFERENCES socio (id) ON DELETE CASCADE,
-    FOREIGN KEY (tombo) REFERENCES livro (tombo) ON DELETE CASCADE 
-);
 
 
 -- trigger e tabela morta do emprestimo
@@ -63,15 +72,3 @@ BEGIN
 END; //
 
 DELIMITER ;
-
-
-CREATE TABLE emprestimo_morto(
-    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-	retirada DATE NOT NULL,
-    devolucao DATE NOT NULL,
-    data_retorno DATETIME DEFAULT NOW(),
-    tombo INT NOT NULL,
-    id_socio INT NOT NULL,
-    FOREIGN KEY (id_socio) REFERENCES socio (id) ON DELETE CASCADE,
-    FOREIGN KEY (tombo) REFERENCES livro (tombo) ON DELETE CASCADE
-);

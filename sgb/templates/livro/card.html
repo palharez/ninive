@@ -8,12 +8,12 @@
 <div class="centered-container">
 <div class="">
         <a class="navbar-brand navbar-minus-margin" style="font-size: 3em">Lista de Livros</a>
-        <form class="form-inline" style="float: right">
-            <select class="form-control">
-                <option>Tombo</option>
-                <option>Nome</option>
+        <form class="form-inline" style="float: right" method="POST">
+            <select name="tipo" class="form-control">
+                <option value="tombo">Tombo</option>
+                <option value="titulo">Título</option>
             </select>&nbsp;&nbsp;
-            <input class="form-control mr-sm-2" type="search" style="width: 220px;" placeholder="Pesquisar" aria-label="Search">
+            <input name="busca" class="form-control mr-sm-2" type="search" style="width: 220px;" placeholder="Pesquisar" aria-label="Search">
             <button class="btn btn-dark my-2 my-sm-0 btn-marg" type="submit">Buscar</button>
         </form>
         <div style="clear: both"></div>
@@ -22,10 +22,19 @@
 <div class="row">
 {% for livro in livros %}
 <div class="col-sm-3">
-    <div class="card" style="width: 240px;">
+    <div class="card" style="width: 240px; height: 466px;" >
         <img class="card-img-top" style="height: 253px;" src="{{ url_for('static', filename='images/' + livro.caminho_imagem) }}" alt="Card image cap">
         <div class="card-body">
-            <h5 class="card-title">{{ livro.titulo }}</h5>
+            <h5 class="card-title">
+                {{ livro.titulo.split(" ")[0] }}
+                {{ livro.titulo.split(" ")[1] }}
+                {% if livro.titulo.split(" ")|length >= 3 %}
+                {{ livro.titulo.split(" ")[2] }}
+                {%endif%}
+                {% if livro.titulo.split(" ")|length >= 4 %}
+                ...
+                {%endif%}
+            </h5>
             <p class="card-text">Tombo: {{ livro.tombo }} <br> Status: {{ livro.status.capitalize() }}<p>
             <div class="form-group">
                 <form action="{{ url_for('livro.delete', id=livro.tombo) }}" style="display: inline-block;" method="post">

@@ -58,7 +58,7 @@ def get_nome(tombo):
             return render_template('404.html')
 
 
-@bp.route('/livro', defaults={'page': 1})
+@bp.route('/livro', defaults={'page': 1}, methods=('GET', 'POST'))
 @bp.route('/livro/page/<int:page>')
 @login_required
 def index(page):
@@ -67,11 +67,26 @@ def index(page):
         perpage = 12
         startat = ( page - 1 ) * perpage
         perpage *= page
-        sql ='select * from livro inner join autor on autor.id = livro.id_autor \
-         inner join editora on editora.id = livro.id_editora limit %s, %s;' % (startat, perpage)
-        livros = db.query_bd(sql)
         total_livros = db.query_bd('select * from livro')
-        totalpages = int(len(total_livros) / 12) + 1
+        totalpages = int(len(total_livros) / 12) + 1    
+
+        if request.method == 'POST':
+            busca = request.form['busca']
+            tipo = request.form['tipo']
+            print(busca, tipo)
+            sql = "SELECT livro.*,  \
+            (SELECT a.nome FROM autor a WHERE a.id = livro.id_autor) as 'autor',   \
+            (SELECT e.nome FROM editora e WHERE e.id = livro.id_editora) as 'editora' \
+            FROM livro  \
+            WHERE livro.{} LIKE '%{}%' limit {}, {};".format(tipo, busca, startat, perpage)
+            livros = db.query_bd(sql)
+            totalpages = int(len(livros) / 12) + 1    
+        else:
+            sql ='select * from livro inner join autor on autor.id = livro.id_autor \
+            inner join editora on editora.id = livro.id_editora limit %s, %s;' % (startat, perpage)
+            livros = db.query_bd(sql)
+
+        livros = livros[:12]
         return render_template('livro/card.html', livros=livros, page=page, totalpages=totalpages)
     except Exception as e:
         print(e)

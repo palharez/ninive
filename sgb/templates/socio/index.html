@@ -37,7 +37,40 @@
                     <td>{{ socio.nome.split(" ")[0]  }} {{ socio.nome.split(" ")[-1] }}</td>
                     <td>{{ socio.email }}</td>
                     <td>{{ socio.cel_1 }}</td>
-                    <td><a class="btn btn-success btn-sm" href="{{ url_for('socio.verifica', id=socio.id) }}">Verificar</a></td>
+                    <td>
+                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#{{ socio['nome'].split(' ')[0] }}Center">
+                            Verificar
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="{{ socio['nome'].split(' ')[0] }}Center" tabindex="-1" role="dialog" aria-labelledby="{{ socio['nome'].split(' ')[0] }}CenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" style="justify-content: center;" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="justify-content: center;">
+                                        <h5 class="modal-title" id="{{ socio.nome.split(' ')[0] }}LongTitle">Verifica Sócio - {{ socio.id }}
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                <div class="modal-body" style="text-align: center;">
+                                    <img src="{{ url_for('static', filename='images/who.png') }}" class="imageToStyle" style="" alt="">
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <p><b>RG</b>- {{ socio.rg }}</p>
+                                    <p><b>Nome</b> - {{ socio.nome }}</p>
+                                    <p><b>Data</b> de Nascimento - {{ socio.nasc }}</p>
+                                    <p><b>E-mail</b> - {{ socio.email }}</p>
+                                    <p><b>Data de Associação</b> - {{ socio.associacao }}</p>
+                                    <p><b>Nome do Pai</b> - {{ socio.nome_pai }}</p>
+                                    <p><b>Nome da Mãe</b> - {{ socio.nome_mae }}</p>
+                                    <p><b>Endereço</b> - {{ socio.cidade }}, {{ socio.bairro }}, {{ socio.logradouro }}, {{ socio.num }}</p>
+                                    <p><b>Telefone</b> Resendecial - {{ socio.tel_res }}</p>
+                                    <p><b>Celular 1</b> - {{ socio.cel_1 }}</p>
+                                    <p><b>Celular 2</b> - {{ socio.cel_2 }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
                     <td><a class="btn btn-warning btn-sm" href="{{ url_for('socio.update', id=socio.id) }}">Atualizar</a></td>
                     <td><a class="btn btn-danger btn-sm" href="{{ url_for('socio.delete', id=socio.id) }}">Deletar</a></td>
                 </tr>
@@ -45,6 +78,12 @@
         </tbody>
     </table>
 </div>
+<script>
+    $('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').trigger('focus')
+    })
+</script>
+
 <style>
 .navbar-minus-margin {
     margin-top: -15px;
@@ -53,5 +92,12 @@
 .form-inline {
     margin-top: 12px;
 }
+.imageToStyle {
+    border-radius: 50%; 
+    height: 250px; 
+    width: 250px; 
+    border: 5px solid #3d62ca;
+}
 </style>
+
 {% endblock %}
