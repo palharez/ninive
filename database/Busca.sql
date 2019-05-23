@@ -76,3 +76,13 @@ WHERE TIMESTAMPDIFF(year, nasc,curdate()) = '%var_busca%';
 INSERT INTO emprestimo VALUES(default, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 5 DAY), 1, 1);
 SELECT * FROM emprestimo;
 
+SELECT count(tombo) FROM livro;
+
+SELECT count(tombo) FROM livro
+WHERE status = 'emprestado';
+
+SELECT count(tombo) FROM livro
+WHERE status = 'reservado';
+
+SELECT count(tombo) FROM livro
+WHERE status = 'estante';

@@ -59,7 +59,7 @@ def get_nome(tombo):
 
 
 @bp.route('/livro', defaults={'page': 1}, methods=('GET', 'POST'))
-@bp.route('/livro/page/<int:page>')
+@bp.route('/livro/page/<int:page>', methods=('GET', 'POST'))
 @login_required
 def index(page):
     """Exibe todas as livros cadastradas."""
@@ -73,7 +73,6 @@ def index(page):
         if request.method == 'POST':
             busca = request.form['busca']
             tipo = request.form['tipo']
-            print(busca, tipo)
             sql = "SELECT livro.*,  \
             (SELECT a.nome FROM autor a WHERE a.id = livro.id_autor) as 'autor',   \
             (SELECT e.nome FROM editora e WHERE e.id = livro.id_editora) as 'editora' \
@@ -126,11 +125,15 @@ def update(id):
     livro = get_livro(id)
     editoras = db.query_bd('select * from editora')
     autores = db.query_bd('select * from autor')
-    print(livro)
 
     if request.method == 'POST':
         request_parsed = parse_request(request)
         try:
+            f = ""
+            if request.files['image']:
+                file = request.files['image']
+                f = upload_file(file)
+            name_image = f.filename if f else livro['caminho_imagem']
             sql = 'UPDATE livro set titulo = "%s", entrada = "%s", etq = "%s", ano = "%s", ex = "%s", v = "%s", id_editora = "%s", id_autor = "%s" where tombo = %d' % (request_parsed['titulo'], request_parsed['entrada'], request_parsed['etiqueta'], request_parsed['ano'], request_parsed['exemplar'], request_parsed['volume'], request_parsed['id_editora'], request_parsed['id_autor'], request_parsed['tombo'])
             print(sql)
             db.insert_bd(sql)

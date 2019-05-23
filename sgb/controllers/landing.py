@@ -19,6 +19,12 @@ def index():
             inner join livro on emprestimo.tombo = livro.tombo \
             inner join socio on emprestimo.id_socio = socio.id;')
         reservas = db.query_bd('select * from reserva inner join livro on reserva.tombo = livro.tombo inner join socio on reserva.id_socio = socio.id;')
-        return render_template('landing/index.html', livros=livros, emprestimos=emprestimos, reservas=reservas)
+        total = db.query_bd('SELECT count(tombo)as "qnt" FROM livro;')
+        emprestado = db.query_bd('SELECT count(tombo)as "qnt" FROM livro WHERE status = "emprestado";')
+        reservado = db.query_bd('SELECT count(tombo)as "qnt" FROM livro WHERE status = "reservado";')
+        estante = db.query_bd('SELECT count(tombo)as "qnt" FROM livro WHERE status = "estante";')
+
+        return render_template('landing/index.html', livros=livros, emprestimos=emprestimos, reservas=reservas,
+         total=total, reservado=reservado, emprestado=emprestado, estante=estante)
     except:
         return render_template('404.html')

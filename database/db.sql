@@ -52,6 +52,7 @@ CREATE TABLE socio (
     tel_res NVARCHAR(20),
     cel_1 NVARCHAR(20),
     cel_2 NVARCHAR(20),
+    caminho_imagem NVARCHAR(500),    
     CONSTRAINT id_socio PRIMARY KEY (id)
 );
 

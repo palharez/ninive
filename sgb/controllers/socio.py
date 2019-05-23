@@ -7,6 +7,7 @@ from flask import (
 from werkzeug.exceptions import abort
 from sgb import db
 from sgb.controllers.funcionario import login_required
+from sgb.utils import upload_file
 
 bp = Blueprint('socio', __name__)
 
@@ -51,14 +52,27 @@ def get_nome(id):
             return json.dumps({ 'msg': 'Sócio não encontrado' })
 
 
-
-@bp.route('/socio')
+@bp.route('/socio', defaults={'page': 1}, methods=('GET', 'POST'))
+@bp.route('/socio/page/<int:page>')
 @login_required
-def index():
+def index(page):
     """Exibe todos os socios cadastrados."""
     try:
-        socios = db.query_bd('select * from socio')
-        return render_template('socio/index.html', socios=socios)
+        perpage = 12
+        startat = ( page - 1 ) * perpage
+        perpage *= page
+        totalsocio = db.query_bd('select * from socio')
+        totalpages = int(len(totalsocio) / 12) + 1 
+        if request.method == 'POST':
+            busca = request.form['busca']
+            tipo = request.form['tipo']
+            sql = "SELECT * FROM socio WHERE {} LIKE '%{}%' limit {}, {};".format(tipo, busca, startat, perpage)
+            socios = db.query_bd(sql)
+            totalpages = int(len(socios) / 12) + 1 
+        else:
+            socios = db.query_bd('select * from socio limit %s, %s;' % (startat, perpage))
+        socios = socios[:12]
+        return render_template('socio/index.html', socios=socios, page=page, totalpages=totalpages)
     except Exception as e:
         print(e)
         return render_template('404.html')
@@ -72,12 +86,18 @@ def create():
     if request.method == 'POST':
         try:
             request_parsed = parse_request(request)
-            sql = 'INSERT INTO socio values (default, "%s", "%s", "%s", "%s", default, "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s")' % (request_parsed['nome'],
+            f = ""
+            if request.files['image']:
+                file = request.files['image']
+                f = upload_file(file)
+            name_image = f.filename if f else 'who.png'
+            sql = 'INSERT INTO socio values (default, "%s", "%s", "%s", "%s", default, "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s")' % (request_parsed['nome'],
                                                                                                                                                  request_parsed['rg'], request_parsed['nasc'], request_parsed[
                                                                                                                                                      'email'], request_parsed['nome_pai'],
                                                                                                                                                  request_parsed['nome_mae'], request_parsed['cidade'], request_parsed[
                                                                                                                                                      'bairro'], request_parsed['logradouro'],
-                                                                                                                                                 request_parsed['num'], request_parsed['tel_res'], request_parsed['cel_1'], request_parsed['cel_2'])
+                                                                                                                                                 request_parsed['num'], request_parsed['tel_res'], request_parsed['cel_1'], request_parsed['cel_2'], name_image)
+
             db.insert_bd(sql)
             return redirect(url_for('socio.index'))
         except Exception as e:
@@ -106,8 +126,13 @@ def update(id):
         socio = get_socio(id)
 
         if request.method == 'POST':
+            f = ""
+            if request.files['image']:
+                file = request.files['image']
+                f = upload_file(file)
+            name_image = f.filename if f else socio['caminho_imagem']
             request_parsed = parse_request(request)
-            sql = 'UPDATE socio set nome = "%s", rg = "%s", nasc = "%s", email = "%s", nome_pai = "%s", nome_mae = "%s", cidade = "%s", bairro = "%s", logradouro = "%s", num = "%s", tel_res = "%s", cel_1 = "%s", cel_2 = "%s" where id = %d' % (request_parsed['nome'], request_parsed['rg'], request_parsed['nasc'], request_parsed['email'], request_parsed['nome_pai'], request_parsed['nome_mae'], request_parsed['cidade'], request_parsed['bairro'], request_parsed['logradouro'], request_parsed['num'], request_parsed['tel_res'], request_parsed['cel_1'], request_parsed['cel_2'], id)
+            sql = 'UPDATE socio set nome = "%s", rg = "%s", nasc = "%s", email = "%s", nome_pai = "%s", nome_mae = "%s", cidade = "%s", bairro = "%s", logradouro = "%s", num = "%s", tel_res = "%s", cel_1 = "%s", cel_2 = "%s", caminho_imagem = "%s" where id = %d' % (request_parsed['nome'], request_parsed['rg'], request_parsed['nasc'], request_parsed['email'], request_parsed['nome_pai'], request_parsed['nome_mae'], request_parsed['cidade'], request_parsed['bairro'], request_parsed['logradouro'], request_parsed['num'], request_parsed['tel_res'], request_parsed['cel_1'], request_parsed['cel_2'], name_image, id)
             db.insert_bd(sql)
             return redirect(url_for('socio.index'))
 

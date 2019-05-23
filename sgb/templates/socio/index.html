@@ -8,12 +8,12 @@
 <div class="centered-container">
     <div class="">
         <a class="navbar-brand navbar-minus-margin" style="font-size: 3em">Lista de Sócios</a>
-        <form class="form-inline" style="float: right">
-            <select class="form-control">
-                <option>RG</option>
-                <option>Nome</option>
+        <form class="form-inline" style="float: right" method="POST" action="{{ url_for('socio.index')}}">
+            <select name="tipo" class="form-control">
+                <option value="nome">Nome</option>
+                <option value="rg">RG</option>
             </select>&nbsp;&nbsp;
-            <input class="form-control mr-sm-2" type="search" style="width: 220px;" placeholder="Pesquisar" aria-label="Search">
+            <input name="busca" class="form-control mr-sm-2" type="search" style="width: 220px;" placeholder="Pesquisar" aria-label="Search">
             <button class="btn btn-dark my-2 my-sm-0 btn-marg" type="submit">Buscar</button>
         </form>
         <div style="clear: both"></div>
@@ -52,13 +52,13 @@
                                         </button>
                                     </div>
                                 <div class="modal-body" style="text-align: center;">
-                                    <img src="{{ url_for('static', filename='images/who.png') }}" class="imageToStyle" style="" alt="">
+                                    <img src="{{ url_for('static', filename='images/' + socio.caminho_imagem ) }}" class="imageToStyle" style="" alt="">
                                     <br>
                                     <br>
                                     <br>
                                     <p><b>RG</b>- {{ socio.rg }}</p>
                                     <p><b>Nome</b> - {{ socio.nome }}</p>
-                                    <p><b>Data</b> de Nascimento - {{ socio.nasc }}</p>
+                                    <p><b>Data de Nascimento</b> - {{ socio.nasc }}</p>
                                     <p><b>E-mail</b> - {{ socio.email }}</p>
                                     <p><b>Data de Associação</b> - {{ socio.associacao }}</p>
                                     <p><b>Nome do Pai</b> - {{ socio.nome_pai }}</p>
@@ -77,6 +77,33 @@
             {% endfor %}
         </tbody>
     </table>
+    </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item {% if page == 1 %} disabled {% endif %}">
+                <a class="page-link" href="{{ url_for('socio.index', page=page-1) }}">Anterior</a>
+            </li>
+            {% if page != 1 %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('socio.index', page=page-1) }}">{{ page - 1 }}</a>
+                </li>
+            {% endif %}
+            <li class="page-item active">
+                <a class="page-link" href="#">{{ page }}</a>
+                <span class="sr-only">(current)</span>
+            </li>
+
+            {% if page != totalpages %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('socio.index', page=page+1) }}">{{ page + 1 }}</a>
+            </li>
+        {% endif %}
+            <li class="page-item {% if page == totalpages %} disabled {% endif %}">
+                <a class="page-link" href="{{ url_for('socio.index', page=page+1) }}">Próxima</a>
+            </li>
+    </ul>
+    </nav>
+    </div>
 </div>
 <script>
     $('#myModal').on('shown.bs.modal', function () {
@@ -85,6 +112,10 @@
 </script>
 
 <style>
+.pagination {
+    margin-top: 30px;
+    margin-bottom: -20px;
+}
 .navbar-minus-margin {
     margin-top: -15px;
     margin-bottom: 20px;

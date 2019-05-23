@@ -8,7 +8,7 @@
             <div class="card text-white bg-secondary" style="width: 240px">
                 <h5 class="card-header">Total</h5>
                 <div class="card-body text-black bg-light">
-                    <p class="card-text" style="color: black;">Quantidade: 60</p>
+                <p class="card-text" style="color: black;">Quantidade: {{total[0].qnt}}</p>
                 </div>
             </div>
         </div>
@@ -16,7 +16,7 @@
             <div class="card text-white bg-secondary" style="width: 240px;">
                 <h5 class="card-header">Emprestado</h5>
                 <div class="card-body text-black bg-light">
-                    <p class="card-text" style="color: black;">Quantidade: 20</p>
+                    <p class="card-text" style="color: black;">Quantidade: {{emprestado[0].qnt}}</p>
                 </div>
             </div>
         </div>
@@ -24,7 +24,7 @@
             <div class="card text-white bg-secondary" style="width: 240px;">
                 <h5 class="card-header">Reservado</h5>
                 <div class="card-body text-black bg-light">
-                    <p class="card-text" style="color: black;">Quantidade: 20</p>
+                    <p class="card-text" style="color: black;">Quantidade: {{reservado[0].qnt}}</p>
                 </div>
             </div>
         </div>
@@ -32,7 +32,7 @@
             <div class="card text-white bg-secondary" style="width: 240px;">
                 <h5 class="card-header">Estante</h5>
                 <div class="card-body text-black bg-light">
-                    <p class="card-text" style="color: black;">Quantidade: 20</p>
+                    <p class="card-text" style="color: black;">Quantidade: {{estante[0].qnt}}</p>
                 </div>
             </div>
         </div>      
@@ -91,7 +91,6 @@
                                 <th style="width: 20%">ID</th>
                                 <th style="width: 20%">Título</th>
                                 <th style="width: 20%">Sócio</th>
-                                <th style="width: 20%">Criação</th>
                                 <th style="width: 20%">Deletar</th>
                             </tr>
                         </thead>
@@ -101,7 +100,6 @@
                                 <td>{{ reserva.id }}</td>
                                 <td>{{ reserva.titulo }}</td>
                                 <td>{{ reserva.nome.split(" ")[0] }}</td>
-                                <td>{{ reserva.created_at }}</td>
                                 <td>
                                     <form action="{{ url_for('reserva.delete', id=reserva['id']) }}" method="post">
                                         <input class="btn btn-danger btn-sm" type="submit" value="Deletar" onclick="return confirm('Tem certeza?');">
