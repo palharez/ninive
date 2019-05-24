@@ -7,16 +7,16 @@
 {% block content %}
 <div class="centered-container">
 <div class="">
-        <a class="navbar-brand navbar-minus-margin" style="font-size: 3em">Lista de Livros</a>
-        <form class="form-inline" style="float: right" method="POST" action="{{ url_for('livro.index') }}">
-            <select name="tipo" class="form-control">
-                <option value="titulo">Título</option>
-                <option value="tombo">Tombo</option>
-            </select>&nbsp;&nbsp;
-            <input name="busca" class="form-control mr-sm-2" type="search" style="width: 220px;" placeholder="Pesquisar" aria-label="Search">
-            <button class="btn btn-dark my-2 my-sm-0 btn-marg" type="submit">Buscar</button>
-        </form>
-        <div style="clear: both"></div>
+    <a class="navbar-brand navbar-minus-margin" style="font-size: 3em">Lista de Livros</a>
+    <form class="form-inline" style="float: right" method="POST" action="{{ url_for('livro.index') }}">
+        <select name="tipo" class="form-control">
+            <option value="titulo">Título</option>
+            <option value="tombo">Tombo</option>
+        </select>&nbsp;&nbsp;
+        <input name="busca" class="form-control mr-sm-2" type="search" style="width: 220px;" placeholder="Pesquisar" aria-label="Search">
+        <button class="btn btn-dark my-2 my-sm-0 btn-marg" type="submit">Buscar</button>
+    </form>
+    <div style="clear: both"></div>
 </div>
 
 <div class="row">
@@ -54,10 +54,11 @@
                                     <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                            <div class="modal-body" style="text-align: center;">
-                                <img src="{{ url_for('static', filename='images/' + livro.caminho_imagem) }}" class="imgsModal" alt="Responsive image">
-                                <div style="float: right;">
-                                    {{ livro }}
+                                <div class="modal-body" style="text-align: center;">
+                                    <img src="{{ url_for('static', filename='images/' + livro.caminho_imagem) }}" class="imgsModal" alt="Responsive image">
+                                    <div style="float: right;">
+                                        {{ livro }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -66,7 +67,6 @@
             </div>
         </div>
     </div>
-</div>
 {% endfor %}
 </div>
 <nav aria-label="Page navigation example">

@@ -1,107 +1,157 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Nínive - Sistema de Gerenciamento de Biblioteca</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')  }}">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet"> 
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>   {% block header %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand logo" href="{{ url_for('landing.index') }}" style="font-family: 'Lobster', cursive;">Nínive</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Autor
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{{ url_for('autor.index') }}">Listar</a>
+                <a class="dropdown-item" href="{{ url_for('autor.create') }}">Cadastrar</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Editora
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{{ url_for('editora.index') }}">Listar</a>
+                <a class="dropdown-item" href="{{ url_for('editora.create') }}">Cadastrar</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Livros
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{{ url_for('livro.index') }}">Listar</a>
+                <a class="dropdown-item" href="{{ url_for('livro.create') }}">Cadastrar</a>
+                <a class="dropdown-item" href="{{ url_for('livro.update_status') }}">Status</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Socio
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{{ url_for('socio.index') }}">Listar</a>
+                <a class="dropdown-item" href="{{ url_for('socio.create') }}">Cadastrar</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Emprestimo
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{{ url_for('emprestimo.index') }}">Listar</a>
+                <a class="dropdown-item" href="{{ url_for('emprestimo.create') }}">Cadastrar</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Reserva
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{{ url_for('reserva.index') }}">Listar</a>
+                <a class="dropdown-item" href="{{ url_for('reserva.create') }}">Cadastrar</a>
+                </div>
+            </li>
+            </ul>
+            <div class="form-inline my-2 my-lg-0">
+                <div class="navbar-nav mr-auto">
+                    <a class="nav-link botao-logout" href="{{ url_for('funcionario.logout') }}">Sair</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+<div class="container-invi" style="width: auto; height: 36px;">
 
-
-{% block content %}
-<div class="margin-bar" style="margin-bottom: 30px;">
-    <div class="row">
-        <div class="col">
-            <div class="card text-white bg-secondary" style="width: 240px">
-                <h5 class="card-header">Total</h5>
-                <div class="card-body text-black bg-light">
-                <p class="card-text" style="color: black;">Quantidade: {{total[0].qnt}}</p>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card text-white bg-secondary" style="width: 240px;">
-                <h5 class="card-header">Emprestado</h5>
-                <div class="card-body text-black bg-light">
-                    <p class="card-text" style="color: black;">Quantidade: {{emprestado[0].qnt}}</p>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card text-white bg-secondary" style="width: 240px;">
-                <h5 class="card-header">Reservado</h5>
-                <div class="card-body text-black bg-light">
-                    <p class="card-text" style="color: black;">Quantidade: {{reservado[0].qnt}}</p>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card text-white bg-secondary" style="width: 240px;">
-                <h5 class="card-header">Estante</h5>
-                <div class="card-body text-black bg-light">
-                    <p class="card-text" style="color: black;">Quantidade: {{estante[0].qnt}}</p>
-                </div>
-            </div>
-        </div>      
-    </div>
 </div>
 
-<div class="row">
-    <div class="col-5 coralk">
-
-        <div class="blacko col-12">
-            <div class="card-border">
-                <div class="card-header text-white bg-secondary">
-                        <a class="navbar-brand">Emprestimos</a>
-                </div>
-                <table class="table table-sm">
-                    <thead>
-                        <tr>
-                            <th style="width: 10%">ID</th>
-                            <th style="width: 25%">Devolução</th>
-                            <th style="width: 25%">Livro</th>
-                            <th style="width: 20%">Sócio</th>
-                            <th style="width: 20%">Deletar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for emprestimo in emprestimos %}
-                        <tr>
-                            <td>{{ emprestimo.id }}</td>
-                            <td>20/06/2019</td>
-                            <td>{{ emprestimo.titulo }}</td>
-                            <td>{{ emprestimo.nome.split(" ")[0] }}</td>
-                            <td>
-                                <form action="{{ url_for('emprestimo.update', id=emprestimo['id']) }}" method="get">
-                                    <input class="btn btn-danger btn-sm" type="submit" value="Deletar" onclick="return confirm('Tem certeza?');">
-                                </form>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <div class="card-footer text-white bg-secondary">
-                    <a href="{{ url_for('emprestimo.index') }}" style="float: right"><button type="button" class="btn btn-dark">Ver mais</button></a>
-                    <div style="clear: both"></div>
+<div class="container">
+    <div class="margin-bar" style="margin-bottom: 30px;">
+        <div class="row">
+            <div class="col">
+                <div class="card text-white bg-secondary" style="width: 240px">
+                    <h5 class="card-header">Total</h5>
+                    <div class="card-body text-black bg-light">
+                    <p class="card-text" style="color: black;">Quantidade: {{total[0].qnt}}</p>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="blacko col-12">
-            <div class="card-border">
-                <div class="card-header text-white bg-secondary">
-                        <a class="navbar-brand">Reservas</a>
+            <div class="col">
+                <div class="card text-white bg-secondary" style="width: 240px;">
+                    <h5 class="card-header">Emprestado</h5>
+                    <div class="card-body text-black bg-light">
+                        <p class="card-text" style="color: black;">Quantidade: {{emprestado[0].qnt}}</p>
+                    </div>
                 </div>
-                    <table class="table stable-sm">
+            </div>
+            <div class="col">
+                <div class="card text-white bg-secondary" style="width: 240px;">
+                    <h5 class="card-header">Reservado</h5>
+                    <div class="card-body text-black bg-light">
+                        <p class="card-text" style="color: black;">Quantidade: {{reservado[0].qnt}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card text-white bg-secondary" style="width: 240px;">
+                    <h5 class="card-header">Estante</h5>
+                    <div class="card-body text-black bg-light">
+                        <p class="card-text" style="color: black;">Quantidade: {{estante[0].qnt}}</p>
+                    </div>
+                </div>
+            </div>      
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-5 coralk">
+
+            <div class="blacko col-12">
+                <div class="card-border">
+                    <div class="card-header text-white bg-secondary">
+                            <a class="navbar-brand">Emprestimos</a>
+                    </div>
+                    <table class="table table-sm">
                         <thead>
                             <tr>
-                                <th style="width: 20%">ID</th>
-                                <th style="width: 20%">Título</th>
+                                <th style="width: 10%">ID</th>
+                                <th style="width: 25%">Devolução</th>
+                                <th style="width: 25%">Livro</th>
                                 <th style="width: 20%">Sócio</th>
                                 <th style="width: 20%">Deletar</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for reserva in reservas %}
+                            {% for emprestimo in emprestimos %}
                             <tr>
-                                <td>{{ reserva.id }}</td>
-                                <td>{{ reserva.titulo }}</td>
-                                <td>{{ reserva.nome.split(" ")[0] }}</td>
+                                <td>{{ emprestimo.id }}</td>
+                                <td>20/06/2019</td>
+                                <td>{{ emprestimo.titulo }}</td>
+                                <td>{{ emprestimo.nome.split(" ")[0] }}</td>
                                 <td>
-                                    <form action="{{ url_for('reserva.delete', id=reserva['id']) }}" method="post">
+                                    <form action="{{ url_for('emprestimo.update', id=emprestimo['id']) }}" method="get">
                                         <input class="btn btn-danger btn-sm" type="submit" value="Deletar" onclick="return confirm('Tem certeza?');">
                                     </form>
                                 </td>
@@ -109,55 +159,117 @@
                             {% endfor %}
                         </tbody>
                     </table>
-                <div class="card-footer text-white bg-secondary">
-                    <a href="{{ url_for('reserva.index') }}" style="float: right"><button type="button" class="btn btn-dark">Ver mais</button></a>
-                    <div style="clear: both"></div>
+                    <div class="card-footer text-white bg-secondary">
+                        <a href="{{ url_for('emprestimo.index') }}" style="float: right"><button type="button" class="btn btn-dark">Ver mais</button></a>
+                        <div style="clear: both"></div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-    </div>
-    <div class="col-7 bluevi">
-        <div class="card-border">
-            <div class="card-header text-white bg-secondary">
-                    <a class="navbar-brand">Livros</a>
-                    <form class="form-inline" style="float: right">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Search">
-                        <button class="btn btn-dark my-2 my-sm-0" type="submit">Buscar</button>
-                    </form>
-                    <div style="clear: both"></div>
+            <div class="blacko col-12">
+                <div class="card-border">
+                    <div class="card-header text-white bg-secondary">
+                            <a class="navbar-brand">Reservas</a>
+                    </div>
+                        <table class="table stable-sm">
+                            <thead>
+                                <tr>
+                                    <th style="width: 20%">ID</th>
+                                    <th style="width: 20%">Título</th>
+                                    <th style="width: 20%">Sócio</th>
+                                    <th style="width: 20%">Deletar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for reserva in reservas %}
+                                <tr>
+                                    <td>{{ reserva.id }}</td>
+                                    <td>{{ reserva.titulo }}</td>
+                                    <td>{{ reserva.nome.split(" ")[0] }}</td>
+                                    <td>
+                                        <form action="{{ url_for('reserva.delete', id=reserva['id']) }}" method="post">
+                                            <input class="btn btn-danger btn-sm" type="submit" value="Deletar" onclick="return confirm('Tem certeza?');">
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    <div class="card-footer text-white bg-secondary">
+                        <a href="{{ url_for('reserva.index') }}" style="float: right"><button type="button" class="btn btn-dark">Ver mais</button></a>
+                        <div style="clear: both"></div>
+                    </div>
+                </div>
             </div>
-            <div class="card-padding">
-                <div class="row">
-                    {% for livro in livros %}
-                    <div class="col-6 margin-bar">
-                        <div class="card" style="width: 13.5rem;">
-                            <!-- <img class="card-img-top" style="height: 6rem;" src="{{ url_for('static', filename='images/' + livro.caminho_imagem) }}" alt="Card image cap"> -->
-                            <div class="card-body">
-                                <h5 class="card-title">{{ livro.titulo }}</h5>
-                                <p class="card-text">Tombo: {{ livro.tombo }} <br> Status: {{ livro.status.capitalize() }}<p>
-                                <div class="form-group">
-                                    <form action="{{ url_for('livro.delete', id=livro.tombo) }}" style="display: inline-block;" method="post">
-                                        <input class="btn btn-danger btn-sm" type="submit" value="Deletar" onclick="return confirm('Tem certeza?');">
-                                    </form>
-                                    <a class="btn btn-warning btn-sm" style="display: inline-block;" href="{{ url_for('livro.update', id=livro.tombo) }}">Editar</a>    
-                                    <button type="button" class="btn btn-info btn-sm">Info</button>
+
+        </div>
+        <div class="col-7 bluevi">
+            <div class="card-border">
+                <div class="card-header text-white bg-secondary">
+                    <div class="">
+                        <a class="navbar-brand navbar-minus-margin">Lista de Livros</a>
+                        <form class="form-inline" style="float: right" method="POST" action="{{ url_for('livro.index') }}">
+                            <select name="tipo" class="form-control">
+                                <option value="titulo">Título</option>
+                                <option value="tombo">Tombo</option>
+                            </select>&nbsp;&nbsp;
+                            <input name="busca" class="form-control mr-sm-2" type="search" style="width: 220px;" placeholder="Pesquisar" aria-label="Search">
+                            <button class="btn btn-dark my-2 my-sm-0 btn-marg" type="submit">Buscar</button>
+                        </form>
+                        <div style="clear: both"></div>
+                    </div>
+                </div>
+                <div class="card-padding">
+                    <div class="row">
+                        {% for livro in livros %}
+                        <div class="col-6 margin-bar">
+                            <div class="card" style="width: 13.5rem;">
+                                <!-- <img class="card-img-top" style="height: 6rem;" src="{{ url_for('static', filename='images/' + livro.caminho_imagem) }}" alt="Card image cap"> -->
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ livro.titulo }}</h5>
+                                    <p class="card-text">Tombo: {{ livro.tombo }} <br> Status: {{ livro.status.capitalize() }}<p>
+                                    <div class="form-group">
+                                        <form action="{{ url_for('livro.delete', id=livro.tombo) }}" style="display: inline-block;" method="post">
+                                            <input class="btn btn-danger btn-sm" type="submit" value="Deletar" onclick="return confirm('Tem certeza?');">
+                                        </form>
+                                        <a class="btn btn-warning btn-sm" style="display: inline-block;" href="{{ url_for('livro.update', id=livro.tombo) }}">Editar</a>    
+                                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#{{ livro.tombo }}Center">
+                                            Info
+                                        </button>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="{{ livro.tombo }}Center" tabindex="-1" role="dialog" aria-labelledby="{{ livro.tombo }}CenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" style="justify-content: center;" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header" style="justify-content: center;">
+                                                        <h5 class="modal-title" id="{{ livro.tombo }}LongTitle">Verifica Livro - {{ livro.tombo }}
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body" style="text-align: center;">
+                                                        <img src="{{ url_for('static', filename='images/' + livro.caminho_imagem) }}" class="imgsModal" alt="Responsive image">
+                                                        <div style="float: right;">
+                                                            {{ livro }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
                 </div>
-            </div>
-            <div class="card-footer text-white bg-secondary">
-                <a href="{{ url_for('livro.index') }}" style="float: right"><button type="button" class="btn btn-dark">Ver mais</button></a>
-                <div style="clear: both"></div>
+                <div class="card-footer text-white bg-secondary">
+                    <a href="{{ url_for('livro.index') }}" style="float: right"><button type="button" class="btn btn-dark">Ver mais</button></a>
+                    <div style="clear: both"></div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
 
 <style>
 .margin-bar {
@@ -193,6 +305,20 @@
     margin-bottom: 30px;
 }
 
+.container {
+    margin-top: 3%;
+    border: 25px solid #DDDDDD;
+    border-radius: 10px;
+    width: auto;
+    height: auto;
+    background-color: #DDDDDD;
+}
+
+body {
+    background-color: #DDDDDD;
+}
+
 </style>
 
-{% endblock %}
+</body>
+</html>
