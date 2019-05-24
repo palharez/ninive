@@ -20,13 +20,27 @@ def get_editora(id):
     except:
         return render_template('404.html')
 
-@bp.route('/editora')
+@bp.route('/editora', defaults={'page': 1}, methods=('GET', 'POST'))
+@bp.route('/editora/page/<int:page>')
 @login_required
-def index():
+def index(page):
     """Exibe todas as editoras cadastradas."""
     try:
-        editoras = db.query_bd('select * from editora')
-        return render_template('editora/index.html', editoras=editoras)
+        perpage = 9
+        startat = ( page - 1 ) * perpage
+        perpage *= page
+        totaleditoras = db.query_bd('select * from editora')
+        totalpages = int(len(totaleditoras) / 9) + 1
+        if request.method == 'POST':
+            busca = request.form['busca']
+            tipo = request.form['tipo']
+            sql = "SELECT * FROM editora WHERE {} LIKE '%{}%' limit {}, {};".format(tipo, busca, startat, perpage)
+            editoras = db.query_bd(sql)
+            totalpages = int(len(editoras) / 9) + 1 
+        else:
+            editoras = db.query_bd('select * from editora limit %s, %s;' % (startat, perpage))
+        editoras = editoras[:9]
+        return render_template('editora/index.html', editoras=editoras, page=page, totalpages=totalpages)
     except:
         return render_template('404.html')
 
@@ -36,6 +50,7 @@ def index():
 def create():
     """Cria uma nova editora."""
     error = None
+    success = False
     if request.method == 'POST':
         nome = request.form['nome']
         error = None
@@ -48,12 +63,11 @@ def create():
                     error = 'Editora já cadastrada!'
                 else:
                     db.insert_bd('INSERT INTO editora values (default, "%s")' % nome)
-                    return redirect(url_for('editora.index'))
-                
+                    success = True
             except:
                 return render_template('404.html')
 
-    return render_template('editora/create.html', error=error)
+    return render_template('editora/create.html', error=error, success=success)
 
 def verifica_editora_bd(nome):
     editora = db.query_bd('SELECT * FROM editora WHERE nome = "%s"' % nome)

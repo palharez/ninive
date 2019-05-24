@@ -45,6 +45,7 @@ def create():
         'livro': '',
         'socio': ''
     }
+    success = False
     if request.method == 'POST':
         try:
             idsocio = request.form['idsocio']
@@ -58,7 +59,7 @@ def create():
                 sql = "insert into emprestimo values(default, '%s', DATE_ADD(CURDATE(), INTERVAL 5 DAY), '%s', '%s')" % (retirada, tombo, idsocio)
                 db.insert_bd(sql)
                 db.insert_bd('UPDATE livro SET status = "EMPRESTADO" WHERE tombo = "%s" ' % tombo)
-                return redirect(url_for('emprestimo.index'))
+                success = True
 
             elif livro['status'] == 'EMPRESTADO':
                 data['error'] = 'Este livro não pode ser emprestado! ' \
@@ -79,7 +80,7 @@ def create():
                     db.insert_bd("insert into emprestimo values(default, '%s', DATE_ADD(CURDATE(), INTERVAL 5 DAY), '%s', '%s')" % (retirada, tombo, idsocio))
                     db.insert_bd("delete from reserva where id = %s" % reserva['id'])
                     db.insert_bd('UPDATE livro SET status = "EMPRESTADO" WHERE tombo = "%s" ' % tombo)
-                    return redirect(url_for('emprestimo.index'))
+                    success = True
                 
                 data['error'] = 'Este livro não pode ser emprestado! ' \
                     'Pois está reservado.'
@@ -87,7 +88,7 @@ def create():
             print(e)
             return render_template('404.html')
 
-    return render_template('emprestimo/create.html', data=data)
+    return render_template('emprestimo/create.html', data=data, success=success)
 
 
 @bp.route('/emprestimo/<int:id>/devolucao', methods=('GET',))

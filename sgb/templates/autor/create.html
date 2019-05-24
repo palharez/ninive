@@ -12,6 +12,11 @@
         {{ error }}
     </div>
     {% endif %}
+    {% if success %}
+    <div class="alert alert-success" role="alert">
+        <span>Autor criado com sucesso!</span>
+    </div>
+    {% endif %}
     <form method="post">
         <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">

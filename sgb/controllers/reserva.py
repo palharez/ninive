@@ -48,6 +48,7 @@ def create():
         'livro': '',
         'socio': ''
     }
+    success = False
     if request.method == 'POST':
         try:
             idsocio = request.form['idsocio']
@@ -58,7 +59,7 @@ def create():
 
             if livro['status'] == 'ESTANTE':
                 reservar_livro(tombo, idsocio)
-                return redirect(url_for('livro.index'))
+                success = True
 
             elif livro['status'] == 'EMPRESTADO':
                 data['error'] = 'Este livro não pode ser reservado! ' \
@@ -79,13 +80,13 @@ def create():
                         'Pois já está reservado.'
                 else:
                     reservar_livro(tombo, idsocio)
-                    return redirect(url_for('livro.index'))
+                    success = True
 
         except Exception as e:
             print(e)
             return render_template('404.html')
 
-    return render_template('reserva/create.html', data=data)
+    return render_template('reserva/create.html', data=data, success=success)
 
 
 def reservar_livro(tombo, idsocio):

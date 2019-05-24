@@ -10,6 +10,11 @@
         {{ data['error'] }}
     </div>
     {% endif %}
+    {% if success %}
+    <div class="alert alert-success" role="alert">
+        <span>Empréstimo criado com sucesso!</span>
+    </div>
+    {% endif %}
     <form method="POST">
         <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">

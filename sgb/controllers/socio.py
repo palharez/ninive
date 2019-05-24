@@ -82,7 +82,7 @@ def index(page):
 @login_required
 def create():
     """Cria um novo socio."""
-
+    success = False
     if request.method == 'POST':
         try:
             request_parsed = parse_request(request)
@@ -99,12 +99,12 @@ def create():
                                                                                                                                                  request_parsed['num'], request_parsed['tel_res'], request_parsed['cel_1'], request_parsed['cel_2'], name_image)
 
             db.insert_bd(sql)
-            return redirect(url_for('socio.index'))
+            success = True
         except Exception as e:
             print(e)
             return render_template('404.html')
 
-    return render_template('socio/create.html')
+    return render_template('socio/create.html', success=success)
 
 
 @bp.route('/socio/<int:id>', methods=('GET',))

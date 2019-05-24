@@ -2,6 +2,11 @@
 
 {% block content %}
     <h1>Novo Socio</h1>
+    {% if success %}
+    <div class="alert alert-success" role="alert">
+        <span>Socio criado com sucesso!</span>
+    </div>
+    {% endif %}
     <form method="POST" enctype="multipart/form-data">
         <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">

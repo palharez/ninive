@@ -20,13 +20,27 @@ def get_autor(id):
     except:
         return render_template('404.html')
 
-@bp.route('/autor')
+@bp.route('/autor', defaults={'page': 1}, methods=('GET', 'POST'))
+@bp.route('/autor/page/<int:page>')    
 @login_required
-def index():
+def index(page):
     """Exibe todos os autores cadastrados, ordem decrescente"""
     try:
-        autores = db.query_bd('select * from autor')
-        return render_template('autor/index.html', autores=autores)
+        perpage = 9
+        startat = ( page - 1 ) * perpage
+        perpage *= page
+        totalautores = db.query_bd('select * from autor')
+        totalpages = int(len(totalautores) / 9) + 1
+        if request.method == 'POST':
+            busca = request.form['busca']
+            tipo = request.form['tipo']
+            sql = "SELECT * FROM autor WHERE {} LIKE '%{}%' limit {}, {};".format(tipo, busca, startat, perpage)
+            autores = db.query_bd(sql)
+            totalpages = int(len(autores) / 9) + 1
+        else:
+            autores = db.query_bd('select * from autor limit %s, %s;' % (startat, perpage))
+        autores = autores[:9]
+        return render_template('autor/index.html', autores=autores, page=page, totalpages=totalpages)
     except:
         return render_template('404.html')
 
@@ -36,6 +50,7 @@ def index():
 def create():
     """Cria um novo autor."""
     error = None
+    success = False
     if request.method == 'POST':
         nome = request.form['nome']
         if not nome:
@@ -46,12 +61,12 @@ def create():
                     error = 'Autor já cadastrado!'
                 else:
                     db.insert_bd('INSERT INTO autor values (default, "%s")' % nome)
-                    return redirect(url_for('autor.index'))
+                    success = True
             except Exception as e:
                 print(e)
                 return redirect(url_for('error'))
 
-    return render_template('autor/create.html', error=error)
+    return render_template('autor/create.html', error=error, success=success)
 
 
 def verifica_autor_bd(nome):

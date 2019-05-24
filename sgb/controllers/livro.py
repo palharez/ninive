@@ -98,7 +98,7 @@ def create():
     """Cria um novo livro."""
     editoras = db.query_bd('select * from editora')
     autores = db.query_bd('select * from autor')
-
+    success = False
     if request.method == 'POST':
         try:
             request_parsed = parse_request(request)
@@ -108,15 +108,14 @@ def create():
             sql = 'INSERT INTO livro values ("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", default, "%s")' % (request_parsed['tombo'], 
                 request_parsed['titulo'], request_parsed['entrada'], request_parsed['etiqueta'], request_parsed['ano'], 
                 request_parsed['volume'], request_parsed['exemplar'], request_parsed['id_editora'], request_parsed['id_autor'], f.filename)
-            print(sql)
             db.insert_bd(sql)
-            return redirect(url_for('livro.index'))
+            success = True
         except Exception as e:
             print(e)
             return render_template('404.html')
 
 
-    return render_template('livro/create.html', livro_content={'editoras': editoras, 'autores': autores})
+    return render_template('livro/create.html', livro_content={'editoras': editoras, 'autores': autores}, success=success)
 
 @bp.route('/livro/<int:id>/update', methods=('GET', 'POST'))
 @login_required
