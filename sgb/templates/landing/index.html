@@ -247,9 +247,63 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body" style="text-align: center;">
-                                                        <img src="{{ url_for('static', filename='images/' + livro.caminho_imagem) }}" class="imgsModal" alt="Responsive image">
-                                                        <div style="float: right;">
-                                                            {{ livro }}
+                                                        <div>
+                                                        </div>
+                                                        <br />
+                                                        <div>
+                                                            <table class="table table-bordered">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td colspan="2">
+                                                                            <img src="{{ url_for('static', filename='images/' + livro.caminho_imagem) }}" class="imgsModal" alt="Responsive image">
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th scope="row">Tombo</th>
+                                                                        <td>{{ livro.tombo }}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th scope="row">Título</th>
+                                                                        <td>{{ livro.titulo }}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th scope="row">Entrada</th>
+                                                                        <td>{{ livro.entrada }}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th scope="row">Entrada</th>
+                                                                        <td>{{ livro.entrada }}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th scope="row">Etiqueta</th>
+                                                                        <td>{{ livro.etq }}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th scope="row">Ano</th>
+                                                                        <td>{{ livro.ano }}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Volume</th>
+                                                                        <td>{{ livro.v }}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Exemplar</th>
+                                                                        <td>{{ livro.ex }}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Editora</th>
+                                                                        <td>{{ livro['editora.nome'] }}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Autor</th>
+                                                                        <td>{{ livro.nome }}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Status</th>
+                                                                        <td>{{ livro.status.capitalize() }}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
                                                         </div>
                                                     </div>
                                                 </div>

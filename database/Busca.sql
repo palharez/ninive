@@ -86,3 +86,55 @@ WHERE status = 'reservado';
 
 SELECT count(tombo) FROM livro
 WHERE status = 'estante';
+
+
+/* reserva pelo socio */
+SELECT reserva.*, 
+(SELECT s.nome FROM socio s WHERE s.id = reserva.id_socio) as 'socio',
+(SELECT l.titulo FROM livro l WHERE l.tombo = reserva.tombo) as 'livro'
+ FROM reserva
+WHERE (SELECT s.nome FROM socio s WHERE s.id = reserva.id_socio)
+LIKE '%var_busca%';
+
+/* reserva pelo livro */
+SELECT reserva.*, 
+(SELECT s.nome FROM socio s WHERE s.id = reserva.id_socio) as 'socio',
+(SELECT l.titulo FROM livro l WHERE l.tombo = reserva.tombo) as 'livro'
+ FROM reserva
+WHERE (SELECT l.titulo FROM livro l WHERE l.tombo = reserva.tombo)
+LIKE '%var_busca%';
+
+/* reserva pelo id */
+SELECT reserva.*, 
+(SELECT s.nome FROM socio s WHERE s.id = reserva.id_socio) as 'socio',
+(SELECT l.titulo FROM livro l WHERE l.tombo = reserva.tombo) as 'livro'
+ FROM reserva
+WHERE reserva.id
+LIKE '%var_busca%';
+
+/* emprestimo pelo socio */
+SELECT emprestimo.*, 
+(SELECT s.nome FROM socio s WHERE s.id = emprestimo.id_socio) as 'socio',
+(SELECT l.titulo FROM livro l WHERE l.tombo = emprestimo.tombo) as 'livro'
+ FROM emprestimo
+WHERE (SELECT s.nome FROM socio s WHERE s.id = emprestimo.id_socio)
+LIKE '%var_busca%';
+
+/* emprestimo pelo livro */
+SELECT emprestimo.*, 
+(SELECT s.nome FROM socio s WHERE s.id = emprestimo.id_socio) as 'socio',
+(SELECT l.titulo FROM livro l WHERE l.tombo = emprestimo.tombo) as 'livro'
+ FROM emprestimo
+WHERE (SELECT l.titulo FROM livro l WHERE l.tombo = emprestimo.tombo)
+LIKE '%var_busca%';
+
+/* emprestimo pelo id */
+SELECT emprestimo.*, 
+(SELECT s.nome FROM socio s WHERE s.id = emprestimo.id_socio) as 'socio',
+(SELECT l.titulo FROM livro l WHERE l.tombo = emprestimo.tombo) as 'livro'
+ FROM emprestimo
+WHERE emprestimo.id
+LIKE '%var_busca%';
+
+
+/* */

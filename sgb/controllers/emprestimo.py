@@ -22,15 +22,51 @@ def get_emprestimo(id):
         return render_template('404.html')
 
 
-@bp.route('/emprestimo', methods=('GET',))
+@bp.route('/emprestimo', defaults={'page': 1}, methods=('GET', 'POST'))
+@bp.route('/emprestimo/page/<int:page>')
 @login_required
-def index():
+def index(page):
     """Exibe todos as emprstimos cadastradas."""
     try:
-        emprestimos = db.query_bd('select * from emprestimo \
+        perpage = 12
+        startat = ( page - 1 ) * perpage
+        perpage *= page
+        totalemprestimo = db.query_bd('select * from emprestimo \
             inner join livro on emprestimo.tombo = livro.tombo \
             inner join socio on emprestimo.id_socio = socio.id;')
-        return render_template('emprestimo/index.html', emprestimos=emprestimos)
+        totalpages = int(len(totalemprestimo) / 12) + 1 
+        if request.method == 'POST':
+            busca = request.form['busca']
+            tipo = request.form['tipo']
+            if tipo == "titulo":
+                sql = "SELECT emprestimo.*,  \
+                    (SELECT s.nome FROM socio s WHERE s.id = emprestimo.id_socio) as 'nome', \
+                    (SELECT l.titulo FROM livro l WHERE l.tombo = emprestimo.tombo) as 'titulo' \
+                    FROM emprestimo \
+                    WHERE (SELECT l.titulo FROM livro l WHERE l.tombo = emprestimo.tombo) \
+                    LIKE '%{}%' limit {}, {};".format(busca, startat, perpage)
+            elif tipo == "nome":
+                sql = "SELECT emprestimo.*,  \
+                    (SELECT s.nome FROM socio s WHERE s.id = emprestimo.id_socio) as 'nome', \
+                    (SELECT l.titulo FROM livro l WHERE l.tombo = emprestimo.tombo) as 'titulo' \
+                    FROM emprestimo \
+                    WHERE (SELECT s.nome FROM socio s WHERE s.id = emprestimo.id_socio) \
+                    LIKE '%{}%' limit {}, {};".format(busca, startat, perpage)
+            elif tipo == "id":
+                sql = "SELECT emprestimo.*,  \
+                    (SELECT s.nome FROM socio s WHERE s.id = emprestimo.id_socio) as 'nome', \
+                    (SELECT l.titulo FROM livro l WHERE l.tombo = emprestimo.tombo) as 'titulo' \
+                    FROM emprestimo \
+                    WHERE emprestimo.id \
+                    LIKE '%{}%' limit {}, {};".format(busca, startat, perpage)
+            emprestimos = db.query_bd(sql)
+            totalpages = int(len(emprestimos) / 12) + 1 
+        else:
+            emprestimos = db.query_bd('select * from emprestimo \
+            inner join livro on emprestimo.tombo = livro.tombo \
+            inner join socio on emprestimo.id_socio = socio.id limit %s, %s;' % (startat, perpage))
+        emprestimos = emprestimos[:12]
+        return render_template('emprestimo/index.html', emprestimos=emprestimos, page=page, totalpages=totalpages)
     except Exception as e:
         print(e)
         return render_template('404.html')

@@ -21,15 +21,45 @@ def get_reserva(id):
         return render_template('404.html')
 
 
-@bp.route('/reserva', methods=('GET',))
+@bp.route('/reserva', defaults={'page': 1}, methods=('GET', 'POST'))
+@bp.route('/socio/page/<int:page>')
 @login_required
-def index():
+def index(page):
     """Exibe todos as emprstimos cadastradas."""
     try:
-        reservas = db.query_bd('select * from reserva \
+        perpage = 12
+        startat = ( page - 1 ) * perpage
+        perpage *= page
+        totalreserva = db.query_bd('select * from reserva \
             inner join livro on reserva.tombo = livro.tombo \
             inner join socio on reserva.id_socio = socio.id;')
-        return render_template('reserva/index.html', reservas=reservas)
+        totalpages = int(len(totalreserva) / 12) + 1 
+        if request.method == 'POST':
+            busca = request.form['busca']
+            tipo = request.form['tipo']
+            if tipo == "tombo":
+                sql = "SELECT reserva.*,  \
+                    (SELECT s.nome FROM socio s WHERE s.id = reserva.id_socio) as 'nome', \
+                    (SELECT l.titulo FROM livro l WHERE l.tombo = reserva.tombo) as 'titulo' \
+                    FROM reserva \
+                    WHERE reserva.tombo \
+                    LIKE '%{}%' limit {}, {};".format(busca, startat, perpage)
+            elif tipo == "nome":
+                sql = "SELECT reserva.*,  \
+                    (SELECT s.nome FROM socio s WHERE s.id = reserva.id_socio) as 'nome', \
+                    (SELECT l.titulo FROM livro l WHERE l.tombo = reserva.tombo) as 'titulo' \
+                    FROM reserva \
+                    WHERE (SELECT s.nome FROM socio s WHERE s.id = reserva.id_socio) \
+                    LIKE '%{}%' limit {}, {};".format(busca, startat, perpage)
+            reservas = db.query_bd(sql)
+            print(reservas)
+            totalpages = int(len(reservas) / 12) + 1 
+        else:
+            reservas = db.query_bd('select * from reserva \
+            inner join livro on reserva.tombo = livro.tombo \
+            inner join socio on reserva.id_socio = socio.id limit %s, %s;' % (startat, perpage))
+        reservas = reservas[:12]
+        return render_template('reserva/index.html', reservas=reservas, page=page, totalpages=totalpages)
     except Exception as e:
         print(e)
         return render_template('404.html')
