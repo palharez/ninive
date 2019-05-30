@@ -1,0 +1,48 @@
+{% extends 'base.html' %} {% block header %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/centeredContainer.css')  }}" />
+{% endblock %} {% block content %}
+<div class="centered-container">
+    <h1>Relatório do empréstimo 
+        <button type="button" class="btn btn-lg btn-warning" style="float: right; font-size: medium;">Quantidade: {{ lengt }}</button>
+    </h1>
+    <div class="margin-topper">
+
+    {% if emprestimos %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Cod.</th>
+                    <th>Retirada</th>
+                    <th>Devolução</th>
+                    <th>Sócio</th>
+                    <th>Título</th>
+                    <th>Autor</th>
+                    <th>Editora</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for emprestimo in emprestimos %}
+                <tr>
+                    <td>{{ emprestimo.id }}</td>
+                    <td>{{ emprestimo.retirada }}</td>
+                    <td>{{ emprestimo.data_retorno }}</td>
+                    <td>{{ emprestimo.nome }}</td>
+                    <td>{{ emprestimo.titulo }}</td>
+                    <td>{{ emprestimo['autor.nome'] }}</td>
+                    <td>{{ emprestimo['editora.nome'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        {% else %}
+            <div class="alert alert-danger" role="alert">
+                Não foram feitos empréstimos nessa data!
+            </div>
+        {% endif %}   
+    </div>
+</div>
+<style>
+    .margin-topper {
+        margin-top: 3%;
+    }
+</style>
+{% endblock %}

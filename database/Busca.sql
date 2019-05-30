@@ -137,4 +137,31 @@ WHERE emprestimo.id
 LIKE '%var_busca%';
 
 
-/* */
+/* emprestimos feitos pelo socio*/ 
+SELECT emprestimo_morto.*, 
+socio.nome as 'socio',
+livro.titulo as 'livro'
+FROM emprestimo_morto
+INNER JOIN livro ON emprestimo_morto.tombo = livro.tombo
+INNER JOIN socio ON emprestimo_morto.id_socio = socio.id
+WHERE socio.id = 'var_busca'
+order by emprestimo_morto.id desc;
+
+/* Relatorio dos livros */
+
+SELECT emprestimo_morto.*, livro.*,
+editora.*, autor.*, socio.*,
+FROM emprestimo_morto
+INNER JOIN livro ON emprestimo_morto.tombo = livro.tombo
+INNER JOIN autor on livro.id_autor = autor.id
+INNER JOIN editora on livro.id_editora = editora.id
+INNER JOIN socio ON emprestimo_morto.id_socio = socio.id
+GROUP BY emprestimo_morto.tombo
+WHERE MONTH(emprestimo_morto.retirada) = 'var' and YEAR(emprestimo_morto.retirada) = 'var';
+
+select * from emprestimo_morto 
+inner join livro on livro.tombo = emprestimo_morto.tombo
+inner join editora on livro.id_editora = editora.id
+inner join autor on livro.id_autor = autor.id
+where month(emprestimo_morto.retirada) = 05
+and year(emprestimo_morto.retirada) = 2019;

@@ -79,6 +79,7 @@ def index(page):
             FROM livro  \
             WHERE livro.{} LIKE '%{}%' limit {}, {};".format(tipo, busca, startat, perpage)
             livros = db.query_bd(sql)
+            print(livros)
             totalpages = int(len(livros) / 12) + 1    
         else:
             sql ='select * from livro inner join autor on autor.id = livro.id_autor \

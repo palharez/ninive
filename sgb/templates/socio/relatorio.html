@@ -1,0 +1,44 @@
+{% extends 'base.html' %} {% block header %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/centeredContainer.css')  }}" />
+{% endblock %} {% block content %}
+<div class="centered-container">
+    <h1>Relatório do Sócio - {{ socio[0].nome }}</h1>
+    <div class="margin-topper">
+
+    {% if emprestimos_socio %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Cod.</th>
+                    <th>Retirada</th>
+                    <th>Devolução</th>
+                    <th>Título</th>
+                    <th>Autor</th>
+                    <th>Editora</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for emprestimo in emprestimos_socio %}
+                <tr>
+                    <td>{{ emprestimo.id }}</td>
+                    <td>{{ emprestimo.retirada }}</td>
+                    <td>{{ emprestimo.data_retorno }}</td>
+                    <td>{{ emprestimo.titulo }}</td>
+                    <td>{{ emprestimo['autor.nome'] }}</td>
+                    <td>{{ emprestimo['editora.nome'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        {% else %}
+            <div class="alert alert-danger" role="alert">
+                Este sócio não fez nenhum empréstimo!
+            </div>
+        {% endif %}   
+    </div>
+</div>
+<style>
+    .margin-topper {
+        margin-top: 3%;
+    }
+</style>
+{% endblock %}

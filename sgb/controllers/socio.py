@@ -156,3 +156,25 @@ def delete(id):
         print(e)
         return render_template('404.html')
     
+
+@bp.route('/socio/<int:id>/relatorio', methods=('GET',))
+@login_required
+def relatorio(id):
+    """Deleta um socio de acordo com seu id"""
+    try:
+        socio = db.query_bd('select * from socio where id = %d' % id)
+        print(socio)
+        sql = 'SELECT * \
+        FROM emprestimo_morto \
+        INNER JOIN livro ON emprestimo_morto.tombo = livro.tombo \
+        INNER JOIN socio ON emprestimo_morto.id_socio = socio.id \
+        inner join editora on livro.id_editora = editora.id \
+        inner join autor on livro.id_autor = autor.id \
+        WHERE socio.id = %d \
+        order by emprestimo_morto.id desc;' % id
+        emprestimos_socio = db.query_bd(sql)
+        print(emprestimos_socio)
+        return render_template('socio/relatorio.html', emprestimos_socio=emprestimos_socio, socio=socio)
+    except Exception as e:
+        print(e)
+        return render_template('404.html')

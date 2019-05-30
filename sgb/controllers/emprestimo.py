@@ -140,3 +140,28 @@ def update(id):
         print(e)
         return render_template('404.html')
         
+
+@bp.route('/emprestimo/relatorio', methods=('GET', 'POST'))
+@login_required
+def relatorio():
+    emprestimos = ''
+    try:
+        editoras = db.query_bd('select * from editora')
+        autores = db.query_bd('select * from autor')
+        if request.method == 'POST':
+            data = request.form['data'].split('/')
+            sql = 'select * from emprestimo_morto  \
+                    inner join livro on livro.tombo = emprestimo_morto.tombo \
+                    inner join socio on socio.id = emprestimo_morto.id_socio \
+                    inner join editora on livro.id_editora = editora.id \
+                    inner join autor on livro.id_autor = autor.id \
+                    where month(emprestimo_morto.retirada) = %d \
+                    and year(emprestimo_morto.retirada) = %d;' % (int(data[0]), int(data[1]))
+            emprestimos = db.query_bd(sql)
+            lengt = len(emprestimos)
+            return render_template('emprestimo/relatorio.html', emprestimos=emprestimos, lengt=lengt)
+    except Exception as e:
+        print(e)
+        return render_template('404.html')
+    
+    return render_template('emprestimo/relatorio.html', emprestimos=emprestimos)
