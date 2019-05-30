@@ -4,12 +4,22 @@ const inputTitulo = document.getElementById("titulo");
 const inputIdSocio = document.getElementById("idsocio");
 const inputSocio = document.getElementById("socio");
 
-inputTombo.addEventListener("keyup", () => {
+inputTombo.addEventListener("click", () => {
     let tombo = inputTombo.value;
     getTitulo(tombo);
 });
 
-inputIdSocio.addEventListener("keyup", () => {
+inputTombo.addEventListener("keydown", () => {
+    let tombo = inputTombo.value;
+    getTitulo(tombo);
+});
+
+inputIdSocio.addEventListener("click", () => {
+    let id = inputIdSocio.value;
+    getNome(id);
+});
+
+inputIdSocio.addEventListener("keydown", () => {
     let id = inputIdSocio.value;
     getNome(id);
 });

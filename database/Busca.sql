@@ -159,9 +159,10 @@ INNER JOIN socio ON emprestimo_morto.id_socio = socio.id
 GROUP BY emprestimo_morto.tombo
 WHERE MONTH(emprestimo_morto.retirada) = 'var' and YEAR(emprestimo_morto.retirada) = 'var';
 
-select * from emprestimo_morto 
+select livro.titulo, autor.nome, editora.nome, COUNT(emprestimo_morto.tombo)
+ from emprestimo_morto 
 inner join livro on livro.tombo = emprestimo_morto.tombo
 inner join editora on livro.id_editora = editora.id
 inner join autor on livro.id_autor = autor.id
-where month(emprestimo_morto.retirada) = 05
-and year(emprestimo_morto.retirada) = 2019;
+GROUP BY emprestimo_morto.tombo
+ORDER BY COUNT(emprestimo_morto.tombo) DESC;

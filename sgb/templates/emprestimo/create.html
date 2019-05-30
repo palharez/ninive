@@ -23,9 +23,13 @@
         </div>
         <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-sm">Id Sócio</span>
+                <span class="input-group-text" id="inputGroup-sizing-sm">Cod. Sócio</span>
             </div>
-            <input name="idsocio" value="{{ data['socio']['id'] if data['socio'] else ''}}" type="text" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="idsocio" required>
+            <select name="idsocio" class="form-control" id="idsocio">     
+            {% for socio_id in socios_id %}
+                <option value="{{socio_id.id}}"> {{socio_id.id}}</option>   
+            {% endfor %}
+            </select>
         </div>
         <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">
@@ -37,7 +41,11 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-sm">Tombo Livro</span>
             </div>
-            <input name="tombo"  type="text" value="{{ data['livro']['tombo'] if data['livro'] else '' }}" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="tombo" required>
+            <select name="tombo" class="form-control" id="tombo">     
+            {% for livro in livros_tombo %}
+                <option value="{{livro.tombo}}">{{livro.tombo}}</option>   
+            {% endfor %}
+            </select>
         </div>
         <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">

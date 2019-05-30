@@ -10,7 +10,7 @@
         <a class="navbar-brand navbar-minus-margin" style="font-size: 3em">Lista de Editoras</a>
         <form class="form-inline" style="float: right" method="POST" action="{{ url_for('editora.index')}}">
             <select name="tipo" class="form-control">
-                <option value="id">ID</option>
+                <option value="id">Cod</option>
                 <option value="nome">Nome</option>
             </select>&nbsp;&nbsp;
             <input name="busca" class="form-control mr-sm-2" type="search" style="width: 220px;" placeholder="Pesquisar" aria-label="Search">
@@ -21,7 +21,7 @@
     <table class="table">
         <thead class="thead-light">
             <tr>
-            <th scope="col">ID</th>
+            <th scope="col">Cod.</th>
             <th scope="col">Nome</th>
             <th scope="col">Editar</th>
             <th scope="col">Deletar</th>
@@ -42,7 +42,7 @@
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="{{ editora['nome'] }}LongTitle">Editando editora do id: {{ editora['id'] }}</h5>
+                                        <h5 class="modal-title" id="{{ editora['nome'] }}LongTitle">Editando editora do Cod.: {{ editora['id'] }}</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                         </button>

@@ -8,7 +8,18 @@ inputTombo.addEventListener("keyup", () => {
     getTitulo(tombo);
 });
 
+inputTombo.addEventListener("click", () => {
+    let tombo = inputTombo.value;
+    getTitulo(tombo);
+});
+
+
 inputIdSocio.addEventListener("keyup", () => {
+    let id = inputIdSocio.value;
+    getNome(id);
+});
+
+inputIdSocio.addEventListener("click", () => {
     let id = inputIdSocio.value;
     getNome(id);
 });

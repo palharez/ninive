@@ -79,6 +79,13 @@ def create():
         'socio': ''
     }
     success = False
+    try:
+        socios_id = db.query_bd('select id from socio order by id')
+        livros_tombo = db.query_bd('select tombo from livro order by tombo')
+    except Exception as e:
+        print(e)
+        return render_template('404.html')
+
     if request.method == 'POST':
         try:
             idsocio = request.form['idsocio']
@@ -116,7 +123,7 @@ def create():
             print(e)
             return render_template('404.html')
 
-    return render_template('reserva/create.html', data=data, success=success)
+    return render_template('reserva/create.html', data=data, success=success, socios_id=socios_id, livros_tombo=livros_tombo)
 
 
 def reservar_livro(tombo, idsocio):

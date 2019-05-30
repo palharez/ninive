@@ -9,7 +9,7 @@
         <a class="navbar-brand navbar-minus-margin" style="font-size: 3em">Lista de Empréstimos</a>
         <form class="form-inline" style="float: right" method="POST" action="{{ url_for('emprestimo.index')}}">
             <select name="tipo" class="form-control">
-                <option value="id">ID</option>
+                <option value="id">Cod.</option>
                 <option value="titulo">Título</option>
                 <option value="nome">Nome do Sócio</option>
             </select>&nbsp;&nbsp;
@@ -21,7 +21,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th style="width: 10%">ID</th>
+                <th style="width: 10%">Cod.</th>
                 <th style="width: 10%">Retirada</th>
                 <th style="width: 20%">Devolução</th>
                 <th style="width: 30%">Título</th>
