@@ -7,6 +7,11 @@
         <span>Socio criado com sucesso!</span>
     </div>
     {% endif %}
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+        <span>{{ error }}</span>
+    </div>
+    {% endif %}
     <form method="POST" enctype="multipart/form-data">
         <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">
@@ -24,55 +29,55 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-sm">Data Nascimento</span>
             </div>
-            <input name="nasc"  type="date" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="nasc" required>
+            <input name="nasc"  type="date" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="nasc">
         </div>
         <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-sm">E-mail</span>
             </div>
-            <input name="email" type="text"  aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="email" required>
+            <input name="email" type="text"  aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="email">
       </div>
         <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-sm">Nome do Pai</span>
             </div>
-            <input name="nome_pai" type="text" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="nome_pai" required>
+            <input name="nome_pai" type="text" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="nome_pai">
         </div>
         <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-sm">Nome da Mãe</span>
             </div>
-            <input name="nome_mae" type="text" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="nome_mae" required>
+            <input name="nome_mae" type="text" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="nome_mae">
         </div>
         <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">
                <span class="input-group-text" id="inputGroup-sizing-sm">Cidade</span>
             </div>
-           <input name="cidade"  type="text" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="cidade" required>
+           <input name="cidade"  type="text" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="cidade">
         </div>
         <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-sm">Bairro</span>
             </div>
-            <input name="bairro" type="text" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="bairro" required>
+            <input name="bairro" type="text" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="bairro">
         </div>
         <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-sm">Logradouro</span>
             </div>
-            <input name="logradouro" type="text" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="logradouro" required>
+            <input name="logradouro" type="text" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="logradouro">
         </div>
         <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-sm">Numero</span>
             </div>
-            <input name="numero" type="number" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="numero" required>
+            <input name="numero" type="number" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="numero">
         </div>
         <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-sm">Telefone Residencial</span>
             </div>
-            <input name="tel_res" type="number" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="tel_res" required>
+            <input name="tel_res" type="number" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="tel_res">
         </div>
         <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">

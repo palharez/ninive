@@ -137,7 +137,7 @@ def reservar_livro(tombo, idsocio):
 def delete(id):
     """Deleta uma reserva.
 
-   Certifica que o autor existe.
+   Certifica que a reserva existe.
    Atualiza o status do livro para estante
     """
     reserva = get_reserva(id)
@@ -147,3 +147,20 @@ def delete(id):
         return redirect(url_for('reserva.index'))
     except:
         return render_template('404.html')
+
+
+@bp.route('/reserva/<int:id>/emprestimo', methods=('POST',))
+@login_required
+def emprestimo(id):
+    """
+    Deleta uma reserva e gera um empréstimo.
+
+    Certifica que a reserva existe.
+    Atualiza o status do livro para emprestado
+    """
+    reserva = get_reserva(id)
+    try:
+        pass
+    except Exception as e:
+        print(e)
+        return render_template('404.html')    

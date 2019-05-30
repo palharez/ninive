@@ -1,11 +1,19 @@
 {% extends 'base.html' %}
 
 {% block header %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/centeredContainer.css')  }}">
 {% endblock %}
 
 {% block content %}
 <div class="centered-container">
     <h1>404</h1>
 </div>
+
+<style>
+.centered-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+</style>
 {% endblock %}

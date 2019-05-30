@@ -79,11 +79,15 @@ def index(page):
             FROM livro  \
             WHERE livro.{} LIKE '%{}%' limit {}, {};".format(tipo, busca, startat, perpage)
             livros = db.query_bd(sql)
-            print(livros)
             totalpages = int(len(livros) / 12) + 1    
         else:
-            sql ='select * from livro inner join autor on autor.id = livro.id_autor \
-            inner join editora on editora.id = livro.id_editora limit %s, %s;' % (startat, perpage)
+            sql = "SELECT livro.*,  \
+            (SELECT a.nome FROM autor a WHERE a.id = livro.id_autor) as 'autor',   \
+            (SELECT e.nome FROM editora e WHERE e.id = livro.id_editora) as 'editora' \
+            FROM livro  \
+            limit {}, {};".format(startat, perpage)
+            # sql ='select * from livro inner join autor on autor.id = livro.id_autor \
+            # inner join editora on editora.id = livro.id_editora limit %s, %s;' % (startat, perpage)
             livros = db.query_bd(sql)
 
         livros = livros[:12]

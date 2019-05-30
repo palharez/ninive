@@ -16,17 +16,17 @@ def parse_request(request):
     return {
         'nome': request.form['nome'],
         'rg': int(request.form['rg']),
-        'nasc': request.form['nasc'],
-        'email': request.form['email'],
-        'nome_pai': request.form['nome_pai'],
-        'nome_mae': request.form['nome_mae'],
-        'cidade': request.form['cidade'],
-        'bairro': request.form['bairro'],
-        'logradouro': request.form['logradouro'],
-        'num': int(request.form['numero']),
-        'tel_res': int(request.form['tel_res']),
+        'nasc': request.form['nasc'] if request.form['nasc'] else '',
+        'email': request.form['email'] if request.form['email'] else '',
+        'nome_pai': request.form['nome_pai'] if request.form['nome_pai'] else '',
+        'nome_mae': request.form['nome_mae'] if request.form['nome_mae'] else '',
+        'cidade': request.form['cidade'] if request.form['cidade'] else '',
+        'bairro': request.form['bairro'] if request.form['bairro'] else '',
+        'logradouro': request.form['logradouro'] if request.form['logradouro'] else '',
+        'num': int(request.form['numero']) if request.form['numero'] else '',
+        'tel_res': int(request.form['tel_res']) if request.form['tel_res'] else '',
         'cel_1': int(request.form['cel_1']),
-        'cel_2': int(request.form['cel_2']) or ''
+        'cel_2': int(request.form['cel_2']) if request.form['cel_2'] else ''
     }
 
 
@@ -83,6 +83,7 @@ def index(page):
 def create():
     """Cria um novo socio."""
     success = False
+    error = False
     if request.method == 'POST':
         try:
             request_parsed = parse_request(request)
@@ -102,9 +103,9 @@ def create():
             success = True
         except Exception as e:
             print(e)
-            return render_template('404.html')
+            error = 'Campos inválidos.'
 
-    return render_template('socio/create.html', success=success)
+    return render_template('socio/create.html', success=success, error=error)
 
 
 @bp.route('/socio/<int:id>', methods=('GET',))

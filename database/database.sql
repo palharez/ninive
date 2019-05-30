@@ -250,7 +250,6 @@ CREATE TABLE `reserva` (
 
 LOCK TABLES `reserva` WRITE;
 /*!40000 ALTER TABLE `reserva` DISABLE KEYS */;
-INSERT INTO `reserva` VALUES (1,'2019-05-17 21:37:07',14,1);
 /*!40000 ALTER TABLE `reserva` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -328,7 +327,7 @@ CREATE TABLE `socio` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(255) CHARACTER SET utf8 NOT NULL,
   `rg` char(12) NOT NULL,
-  `nasc` date NOT NULL,
+  `nasc` date DEFAULT NULL,
   `email` varchar(255) CHARACTER SET utf8 NOT NULL,
   `associacao` datetime DEFAULT CURRENT_TIMESTAMP,
   `nome_pai` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
@@ -351,7 +350,7 @@ CREATE TABLE `socio` (
 
 LOCK TABLES `socio` WRITE;
 /*!40000 ALTER TABLE `socio` DISABLE KEYS */;
-INSERT INTO `socio` VALUES (1,'Eduardo de Andrade Palhares Jr','12345978','1997-07-16','xeduardopalhares@gmail.com','2019-05-15 04:37:04','Eduardo de Andrade Palhares','Adriana Cristina Silvestre da Silva','Cotia','Jd. Rio das Pedras','Rua Potengi','609','1156894478','1159897944','1148978965');
+INSERT INTO `socio` VALUES (1,'Eduardo de Andrade Palhares Jr','12345978','1997-07-16','xeduardopalhares@gmail.com','2019-05-15 04:37:04','Eduardo de Andrade Palhares','Adriana Cristina Silvestre da Silva','Cotia','Jd. Rio das Pedras','Rua Potengi','609','1156894478','1159897944','1148978965', '30045071.png');
 /*!40000 ALTER TABLE `socio` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
