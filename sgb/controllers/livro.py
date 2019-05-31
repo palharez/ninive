@@ -104,6 +104,7 @@ def create():
     editoras = db.query_bd('select * from editora')
     autores = db.query_bd('select * from autor')
     success = False
+    error = ''
     if request.method == 'POST':
         try:
             request_parsed = parse_request(request)
@@ -116,11 +117,11 @@ def create():
             db.insert_bd(sql)
             success = True
         except Exception as e:
-            print(e)
+            error = 'Não foi possível cadastrar esse livro. Verifique se o tombo já foi registrado!'
             return render_template('404.html')
 
 
-    return render_template('livro/create.html', livro_content={'editoras': editoras, 'autores': autores}, success=success)
+    return render_template('livro/create.html', livro_content={'editoras': editoras, 'autores': autores}, success=success, error=error)
 
 @bp.route('/livro/<int:id>/update', methods=('GET', 'POST'))
 @login_required
@@ -129,6 +130,7 @@ def update(id):
     livro = get_livro(id)
     editoras = db.query_bd('select * from editora')
     autores = db.query_bd('select * from autor')
+    error = ''
 
     if request.method == 'POST':
         request_parsed = parse_request(request)
@@ -143,9 +145,9 @@ def update(id):
             db.insert_bd(sql)
             return redirect(url_for('livro.index'))
         except:
-            return render_template('404.html')
+            error = 'Não foi possível atualizar esse livro!'
 
-    return render_template('livro/update.html', livro_content={'editoras': editoras, 'autores': autores, 'livro': livro})
+    return render_template('livro/update.html', livro_content={'editoras': editoras, 'autores': autores, 'livro': livro}, error=error)
 
 
 @bp.route('/livro/<int:id>/delete', methods=('POST',))
@@ -170,7 +172,7 @@ def delete(id):
 @login_required
 def update_status():
     """Atualiza o status do livro."""
-    
+    error = ''
     if request.method == 'POST':
         try:
             status = request.form['status']
@@ -179,9 +181,29 @@ def update_status():
             db.insert_bd(sql)
             return redirect(url_for('livro.index'))
         except Exception as e:
-            return render_template('404.html')
+            error = 'Não foi possível atualizar esse livro!'
 
     sql = 'select tombo, status from livro'
     livros = db.query_bd(sql)
 
-    return render_template('livro/update_status.html', livros=livros)
+    return render_template('livro/update_status.html', livros=livros, erro=error)
+
+
+@bp.route('/livro/mais_saidos', methods=('GET',))
+@login_required
+def lista_saidos():
+    """Lista os livros mais saídos"""
+    try:
+        sql = 'select livro.*, autor.nome, editora.nome, COUNT(emprestimo_morto.tombo)  \
+            from emprestimo_morto  \
+            inner join livro on livro.tombo = emprestimo_morto.tombo \
+            inner join editora on livro.id_editora = editora.id \
+            inner join autor on livro.id_autor = autor.id \
+            GROUP BY emprestimo_morto.tombo \
+            ORDER BY COUNT(emprestimo_morto.tombo) DESC;'
+        livros = db.query_bd(sql)
+        print(livros)
+        return render_template('livro/index.html', livros=livros)
+        # return render_template('404.html')
+    except Exception as e:
+        return render_template('404.html')

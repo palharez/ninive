@@ -25,6 +25,7 @@
                 <th style="width: 20%">Nome do Sócio</th>
                 <th style="width: 20%">Data de Criação</th>
                 <th>Deletar</th>
+                <th>Reservar</th>
             </tr>
         </thead>
         <tbody>
@@ -39,6 +40,7 @@
                         <input class="btn btn-danger btn-sm" type="submit" value="Deletar" onclick="return confirm('Tem certeza?');">
                     </form>
                 </td>
+                 <td><a class="btn btn-warning btn-sm" href="{{ url_for('reserva.emprestimo', id=reserva['id']) }}">Reservar</a></td>
             </tr>
             {% endfor %}
         </tbody>

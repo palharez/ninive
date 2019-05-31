@@ -149,7 +149,7 @@ def delete(id):
         return render_template('404.html')
 
 
-@bp.route('/reserva/<int:id>/emprestimo', methods=('POST',))
+@bp.route('/reserva/<int:id>/emprestimo', methods=('GET',))
 @login_required
 def emprestimo(id):
     """
@@ -160,7 +160,11 @@ def emprestimo(id):
     """
     reserva = get_reserva(id)
     try:
-        pass
+        db.insert_bd('DELETE FROM reserva WHERE id = %d' % id)
+        db.insert_bd('UPDATE livro SET status = "EMPRESTADO" WHERE tombo = "%s" ' % reserva['tombo'])
+        sql = "insert into emprestimo values(default, date_format(now(), '%%Y-%%m-%%d'), DATE_ADD(CURDATE(), INTERVAL 5 DAY), '%s', '%s')" % (reserva['tombo'], reserva['id_socio'])
+        db.insert_bd(sql)
+        return redirect(url_for('reserva.index'))
     except Exception as e:
         print(e)
         return render_template('404.html')    

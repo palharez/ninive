@@ -46,6 +46,7 @@
                 <a class="dropdown-item" href="{{ url_for('livro.index') }}">Listar</a>
                 <a class="dropdown-item" href="{{ url_for('livro.create') }}">Cadastrar</a>
                 <a class="dropdown-item" href="{{ url_for('livro.update_status') }}">Status</a>
+                <a class="dropdown-item" href="{{ url_for('livro.lista_saidos') }}">Mais Saídos</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -92,7 +93,7 @@
     <div class="margin-bar" style="margin-bottom: 30px;">
         <div class="row">
             <div class="col">
-                <div class="card text-white bg-secondary" style="width: 240px">
+                <div class="card text-white bg-dark" style="width: 240px">
                     <h5 class="card-header">Total</h5>
                     <div class="card-body text-black bg-light">
                     <p class="card-text" style="color: black;">Quantidade: {{total[0].qnt}}</p>
@@ -100,7 +101,7 @@
                 </div>
             </div>
             <div class="col">
-                <div class="card text-white bg-secondary" style="width: 240px;">
+                <div class="card text-white bg-dark" style="width: 240px;">
                     <h5 class="card-header">Emprestado</h5>
                     <div class="card-body text-black bg-light">
                         <p class="card-text" style="color: black;">Quantidade: {{emprestado[0].qnt}}</p>
@@ -108,7 +109,7 @@
                 </div>
             </div>
             <div class="col">
-                <div class="card text-white bg-secondary" style="width: 240px;">
+                <div class="card text-white bg-dark" style="width: 240px;">
                     <h5 class="card-header">Reservado</h5>
                     <div class="card-body text-black bg-light">
                         <p class="card-text" style="color: black;">Quantidade: {{reservado[0].qnt}}</p>
@@ -116,7 +117,7 @@
                 </div>
             </div>
             <div class="col">
-                <div class="card text-white bg-secondary" style="width: 240px;">
+                <div class="card text-white bg-dark" style="width: 240px;">
                     <h5 class="card-header">Estante</h5>
                     <div class="card-body text-black bg-light">
                         <p class="card-text" style="color: black;">Quantidade: {{estante[0].qnt}}</p>
