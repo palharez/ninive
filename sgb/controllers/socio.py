@@ -7,7 +7,7 @@ from flask import (
 from werkzeug.exceptions import abort
 from sgb import db
 from sgb.controllers.funcionario import login_required
-from sgb.utils import upload_file
+from sgb.utils import upload_file, atualizao_status_socio
 
 bp = Blueprint('socio', __name__)
 
@@ -58,6 +58,7 @@ def get_nome(id):
 def index(page):
     """Exibe todos os socios cadastrados."""
     try:
+        atualizao_status_socio()
         perpage = 12
         startat = ( page - 1 ) * perpage
         perpage *= page
@@ -78,6 +79,48 @@ def index(page):
         return render_template('404.html')
 
 
+@bp.route('/socio/get_nome/<int:rg>', methods=('GET',))
+def get_nome_socio(rg):
+    """pega o nome de um livro pelo rg."""
+
+    if request.method == 'GET':
+        try:            
+            socio = db.query_bd('select * from socio where rg = "%s"' % rg)
+            if socio:
+                print(socio)
+                socio = socio[0]
+            print(socio)
+            content = {
+                'nome': socio['nome'],
+                'status': socio['status']
+            }
+            return json.dumps(content)
+        except Exception as e:
+            print(e)
+            return render_template('404.html')
+
+
+@bp.route('/socio/update_status', methods=('GET', 'POST'))
+@login_required
+def update_status():
+    """Atualiza o status do livro."""
+    error = ''
+    if request.method == 'POST':
+        try:
+            status = request.form['status']
+            rg = request.form['rg']
+            sql = 'UPDATE socio SET status = "%s" WHERE rg = "%s" ' % (status, rg)
+            db.insert_bd(sql)
+            return redirect(url_for('socio.index'))
+        except Exception as e:
+            error = 'Não foi possível atualizar esse socio!'
+
+    sql = 'select rg, status from socio'
+    socios = db.query_bd(sql)
+
+    return render_template('socio/update_status.html', socios=socios, erro=error)
+
+
 @bp.route('/socio/create', methods=('GET', 'POST'))
 @login_required
 def create():
@@ -92,7 +135,7 @@ def create():
                 file = request.files['image']
                 f = upload_file(file)
             name_image = f.filename if f else 'who.png'
-            sql = 'INSERT INTO socio values (default, "%s", "%s", "%s", "%s", default, "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s")' % (request_parsed['nome'],
+            sql = 'INSERT INTO socio values (default, "%s", "%s", "%s", "%s", default, "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", default)' % (request_parsed['nome'],
                                                                                                                                                  request_parsed['rg'], request_parsed['nasc'], request_parsed[
                                                                                                                                                      'email'], request_parsed['nome_pai'],
                                                                                                                                                  request_parsed['nome_mae'], request_parsed['cidade'], request_parsed[

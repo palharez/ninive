@@ -5,6 +5,7 @@ from flask import (
 from werkzeug.exceptions import abort
 from sgb import db
 from sgb.controllers.funcionario import login_required
+from sgb.utils import atualiza_punicao_socio
 
 bp = Blueprint('emprestimo', __name__)
 
@@ -98,7 +99,10 @@ def create():
             data['livro'] = livro = db.query_one('select * from livro where tombo = %s' % tombo)
             data['socio'] = socio = db.query_one('select * from socio where id = %s' % idsocio)
 
-            if livro['status'] == 'ESTANTE':
+            if data['socio']['status'] == 'SUSPENSO':
+                data['error'] = 'Não é possível criar empréstimo pois o sócio está suspenso!'
+
+            elif livro['status'] == 'ESTANTE':
                 sql = "insert into emprestimo values(default, '%s', DATE_ADD(CURDATE(), INTERVAL 5 DAY), '%s', '%s')" % (retirada, tombo, idsocio)
                 db.insert_bd(sql)
                 db.insert_bd('UPDATE livro SET status = "EMPRESTADO" WHERE tombo = "%s" ' % tombo)
@@ -118,7 +122,6 @@ def create():
 
             elif livro['status'] == 'RESERVADO':
                 reserva = db.query_one('select * from reserva where tombo = %s and id_socio = %s' % (tombo, idsocio))
-                print(reserva)
                 if reserva:
                     db.insert_bd("insert into emprestimo values(default, '%s', DATE_ADD(CURDATE(), INTERVAL 5 DAY), '%s', '%s')" % (retirada, tombo, idsocio))
                     db.insert_bd("delete from reserva where id = %s" % reserva['id'])
@@ -140,6 +143,7 @@ def update(id):
     """Atualiza uma emprestimo pelo seu respectivo id."""
     emprestimo = get_emprestimo(id)
     try:
+        atualiza_punicao_socio(id)
         db.insert_bd('UPDATE livro SET status = "ESTANTE" WHERE tombo = "%s" ' % emprestimo['tombo'])
         db.insert_bd('DELETE FROM emprestimo WHERE id = "%s"' % emprestimo['id'])
         return redirect(url_for('emprestimo.index'))

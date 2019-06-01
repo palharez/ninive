@@ -75,4 +75,11 @@ CREATE TABLE reserva(
     FOREIGN KEY (tombo) REFERENCES livro (tombo) ON DELETE CASCADE 
 );
 
+CREATE TABLE punicao(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    id_socio INT NOT NULL,
+    data_punicao DATE NOT NULL,
+    FOREIGN KEY (id_socio) REFERENCES socio (id) ON DELETE CASCADE
+);
+
 insert into funcionario values(123456, 'admin', 'admin', 'null');

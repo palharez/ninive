@@ -94,7 +94,10 @@ def create():
             data['livro'] = livro = db.query_one('select * from livro where tombo = %s' % tombo)
             data['socio'] = socio = db.query_one('select * from socio where id = %s' % idsocio)
 
-            if livro['status'] == 'ESTANTE':
+            if data['socio']['status'] == 'SUSPENSO':
+                data['error'] = 'Não é possível criar empréstimo pois o sócio está suspenso!'
+
+            elif livro['status'] == 'ESTANTE':
                 reservar_livro(tombo, idsocio)
                 success = True
 

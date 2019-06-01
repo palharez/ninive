@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h3>Atualizar Status do Sócio</h1>
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endif %}
+    <form method="POST">
+        <div class="form-group">
+            <label for="rg">Rg</label>
+            <select name="rg" class="form-control" id="rg">     
+            {% for socio in socios %}
+                <option value="{{socio.rg}}"> {{socio.rg}}</option> 
+            {% endfor %}
+            </select>
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Nome</span>
+            </div>
+            <input name="nome" id="nome" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" readonly>
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Status Antigo</span>
+            </div>
+            <input name="statusAntigo" id="statusAntigo" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" readonly>
+        </div>
+        <div class="form-group">
+            <label for="status">Status Novo</label>
+            <select name="status" class="form-control" id="status">     
+                <option value="ATIVO">ATIVO</option>
+                <option value="SUSPENSO">SUSPENSO</option>
+            </select>
+        </div>
+        <input type="submit" class="btn btn-primary btn-sm btn-block" value="Salvar">
+    </form>
+
+    <script src="{{ url_for('static', filename='js/updateStatusSocio.js')  }}"></script>
+{% endblock %}
