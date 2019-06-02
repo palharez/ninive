@@ -40,6 +40,22 @@ def get_socio(id):
     return socio
 
 
+@bp.route('/socio/get_id/<int:id>', methods=('GET',))
+def get_id(id):
+    """
+    Pega o nome de um socio pelo id.
+
+    Retorna uma carteirinha do sócio.
+    """
+    if request.method == 'GET':
+        try:            
+            socio = get_socio(id)
+            return render_template('socio/id.html', socio=socio)
+        except Exception as e:
+            print(e)
+            return render_template('404.html')
+
+
 @bp.route('/socio/nome/<int:id>/emprestimo', methods=('GET',))
 def get_nome(id):
     """Pega o nome de um socio pelo id."""
@@ -217,7 +233,6 @@ def relatorio(id):
         WHERE socio.id = %d \
         order by emprestimo_morto.id desc;' % id
         emprestimos_socio = db.query_bd(sql)
-        print(emprestimos_socio)
         return render_template('socio/relatorio.html', emprestimos_socio=emprestimos_socio, socio=socio)
     except Exception as e:
         print(e)

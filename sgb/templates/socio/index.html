@@ -13,6 +13,7 @@
                 <option value="nome">Nome</option>
                 <option value="rg">RG</option>
                 <option value="status">Status</option>
+                <option value="id" selected>Código</option>
             </select>&nbsp;&nbsp;
             <input name="busca" class="form-control mr-sm-2" type="search" style="width: 220px;" placeholder="Pesquisar" aria-label="Search">
             <button class="btn btn-dark my-2 my-sm-0 btn-marg" type="submit">Buscar</button>
@@ -22,7 +23,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th style="width: 20%">RG</th>
+                <th style="width: 20%">Código</th>
                 <th style="width: 30%">Nome</th>
                 <th style="width: 20%">E-mail</th>
                 <th style="width: 20%">Status</th>
@@ -34,7 +35,7 @@
         <tbody>
             {% for socio in socios %}
                 <tr>
-                    <td>{{ socio.rg }}</td>
+                    <td>{{ socio.id }}</td>
                     <td>{{ socio.nome.split(" ")[0]  }} {{ socio.nome.split(" ")[-1] }}</td>
                     <td>{{ socio.email }}</td>
                     <td>{{ socio.status.capitalize() }}</td>
@@ -71,6 +72,9 @@
                                     <p><b>Status</b> - {{ socio.status.capitalize() }}</p>
                                     <div class="form-group row" style="padding-left: 20px; padding-right: 20px;">
                                         <a class="btn btn-primary btn-block" href="{{ url_for('socio.relatorio', id=socio.id) }}">Gerar Relatório</a>
+                                    </div>
+                                    <div class="form-group row" style="padding-left: 20px; padding-right: 20px; margin-top: -10px;">
+                                        <a class="btn btn-info btn-block" href="{{ url_for('socio.get_id', id=socio.id) }}" target="_blank">Gerar Carteirinha</a>
                                     </div>
                                 </div>
                             </div>

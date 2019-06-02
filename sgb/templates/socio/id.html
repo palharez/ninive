@@ -1,0 +1,94 @@
+<html>
+
+<head>
+    <title>Nínive - ID {{ socio.nome }}</title>
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+</head>
+
+<body>
+    <div id="holder">
+        <div class="box">
+            <div class="tie"></div>
+            <h1 style="font-family: 'Lobster', cursive; font-size: xx-large">Nínive</h1>
+            <img src="{{ url_for('static', filename='images/' + socio.caminho_imagem ) }}" alt="" />
+            <h1 class="rname">{{ socio.nome.split(" ")[0] }} {{ socio.nome.split(" ")[-1] }}</h1>
+            <h1 class="postitle">Código: {{ socio.id }}</h1>
+            <h1 class="sig">___________</h1>
+            <h1 class="postitle">Assinatura</h1>
+        </div>
+    </div>
+</body>
+
+</html>
+
+
+
+<style>
+    * {
+        margin: 0;
+        border: 0;
+        /*
+  border:1px solid red;
+  */
+    }
+
+    #holder {
+        width: 250px;
+        margin: 90px auto;
+        display: block;
+        text-align: center;
+    }
+
+    #holder .box {
+        width: 250px;
+        height: 440px;
+        border-radius: 25px 25px 8px 8px;
+        background: -webkit-linear-gradient(top, #eee, #fff, #ddd);
+
+    }
+
+    #holder .box img {
+        width: 120px;
+        margin: 18px 0 0 0;
+        border: 1px solid #eee;
+        border-radius: 2px;
+        background-color: rgba(255, 255, 255, 0.5);
+        padding: 4px;
+    }
+
+    #holder .box h1 {
+        font-family: 'trebuchet ms', 'sans serif';
+        font-weight: normal;
+        font-size: 22px;
+        margin: 15px 0 3px 0;
+    }
+
+    #holder .box .tie {
+        background-image: -webkit-linear-gradient(top, #999, #666);
+        height: 50px;
+        border-radius: 25px 25px 0 0;
+    }
+
+    #holder .box h1.rname {
+        font-family: 'century gothic', 'sans serif';
+        font-size: 15px;
+        margin: 5px 0 0 0;
+        padding: 0;
+    }
+
+    #holder .box h1.sig {
+        font-family: 'Mrs Sheppards', cursive;
+    }
+
+    #holder .box h1.postitle {
+        font-size: 12px;
+        font-weight: bold;
+        margin: 0;
+        padding: 0;
+        text-transform: uppercase;
+    }
+
+    #holder:hover {
+        cursor: none;
+    }
+</style>

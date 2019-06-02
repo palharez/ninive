@@ -1,7 +1,7 @@
-DROP DATABASE TCC;
+DROP DATABASE tcc_tests;
 
-CREATE DATABASE TCC;
-USE TCC;
+CREATE DATABASE tcc_tests;
+USE tcc_tests;
 
 CREATE TABLE autor (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -34,23 +34,26 @@ CREATE TABLE livro (
     FOREIGN KEY (id_autor) REFERENCES autor (id) ON DELETE CASCADE
 );
 
-CREATE TABLE socio (
-    id INT NOT NULL AUTO_INCREMENT,
-    nome NVARCHAR(255) NOT NULL,
-    rg CHAR(12) NOT NULL,
-    nasc DATE NOT NULL,
-    email NVARCHAR(255) NOT NULL,
-    associacao DATETIME DEFAULT NOW(),
-    nome_pai NVARCHAR(255),
-    nome_mae NVARCHAR(255),
-    cidade NVARCHAR(255),
-    bairro NVARCHAR(255),
-    logradouro NVARCHAR(255),
-    num NVARCHAR(20),
-    tel_res NVARCHAR(20),
-    cel_1 NVARCHAR(20),
-    cel_2 NVARCHAR(20),
-    CONSTRAINT id_socio PRIMARY KEY (id)
+
+CREATE TABLE `socio` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `rg` char(12) NOT NULL,
+  `nasc` date NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `associacao` datetime DEFAULT CURRENT_TIMESTAMP,
+  `nome_pai` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `nome_mae` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `cidade` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `bairro` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `logradouro` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `num` varchar(20) CHARACTER SET utf8 DEFAULT NULL,
+  `tel_res` varchar(20) CHARACTER SET utf8 DEFAULT NULL,
+  `cel_1` varchar(20) CHARACTER SET utf8 DEFAULT NULL,
+  `cel_2` varchar(20) CHARACTER SET utf8 DEFAULT NULL,
+  `caminho_imagem` varchar(500) CHARACTER SET utf8 DEFAULT NULL,
+  `status` enum('ATIVO','SUSPENSO') DEFAULT 'ATIVO',
+  PRIMARY KEY (`id`)
 );
 
 CREATE TABLE emprestimo(
@@ -70,4 +73,39 @@ CREATE TABLE reserva(
     id_socio INT NOT NULL,
     FOREIGN KEY (id_socio) REFERENCES socio (id) ON DELETE CASCADE,
     FOREIGN KEY (tombo) REFERENCES livro (tombo) ON DELETE CASCADE 
+);
+
+CREATE TABLE `emprestimo_morto` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `retirada` date NOT NULL,
+  `devolucao` date NOT NULL,
+  `data_retorno` datetime DEFAULT CURRENT_TIMESTAMP,
+  `tombo` int(11) NOT NULL,
+  `id_socio` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_socio` (`id_socio`),
+  KEY `tombo` (`tombo`),
+  CONSTRAINT `emprestimo_morto_ibfk_1` FOREIGN KEY (`id_socio`) REFERENCES `socio` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `emprestimo_morto_ibfk_2` FOREIGN KEY (`tombo`) REFERENCES `livro` (`tombo`) ON DELETE CASCADE
+);
+
+CREATE TABLE `reserva_morta` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `create_date` date DEFAULT NULL,
+  `delete_date` datetime DEFAULT CURRENT_TIMESTAMP,
+  `tombo` int(11) NOT NULL,
+  `id_socio` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_socio` (`id_socio`),
+  KEY `tombo` (`tombo`),
+  CONSTRAINT `reserva_morta_ibfk_1` FOREIGN KEY (`id_socio`) REFERENCES `socio` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `reserva_morta_ibfk_2` FOREIGN KEY (`tombo`) REFERENCES `livro` (`tombo`) ON DELETE CASCADE
+);
+
+
+CREATE TABLE punicao(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    id_socio INT NOT NULL,
+    data_punicao DATE NOT NULL,
+    FOREIGN KEY (id_socio) REFERENCES socio (id) ON DELETE CASCADE
 );

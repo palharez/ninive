@@ -30,7 +30,7 @@ class TestLivro(unittest.TestCase):
     def test_get_livros(self):
         insert("INSERT INTO editora values (default, 'Abril')")
         insert("INSERT INTO autor values (default, 'Anne Frank')")
-        insert("INSERT INTO livro (tombo, titulo, entrada, etq, ano, v, ex, id_editora, id_autor, status, nomenclatura) values (1111, 'Diário de Anne Frank', '2017-08-22', 'ATE-1236', 2016, 2, 1, 1, 1, default, 'LIN')")
+        insert("INSERT INTO livro (tombo, titulo, entrada, etq, ano, v, ex, id_editora, id_autor, status, nomenclatura, caminho) values (1111, 'Diário de Anne Frank', '2017-08-22', 'ATE-1236', 2016, 2, 1, 1, 1, default, 'LIN', "")")
 
         response = self.app_test.get('/livro')
         response_str = response.data.decode('utf-8')
@@ -41,7 +41,7 @@ class TestLivro(unittest.TestCase):
     def test_get_livro_status(self):
         insert("INSERT INTO editora values (default, 'Abril')")
         insert("INSERT INTO autor values (default, 'Anne Frank')")
-        insert("INSERT INTO livro (tombo, titulo, entrada, etq, ano, v, ex, id_editora, id_autor, status, nomenclatura) values (1111, 'Diário de Anne Frank', '2017-08-22', 'ATE-1236', 2016, 2, 1, 1, 1, default, 'LIN')")
+        insert("INSERT INTO livro (tombo, titulo, entrada, etq, ano, v, ex, id_editora, id_autor, status, nomenclatura, caminho) values (1111, 'Diário de Anne Frank', '2017-08-22', 'ATE-1236', 2016, 2, 1, 1, 1, default, 'LIN', "")")
 
         response = self.app_test.get('/livro')
         self.assertEqual(200, response.status_code)
@@ -60,7 +60,8 @@ class TestLivro(unittest.TestCase):
             'ano': 2010,
             'exemplar': 1,
             'nomenclatura': 'LIN',
-            'volume': 1
+            'volume': 1,
+            'caminho': ""
         })      
         print(response.data.decode('utf-8'))
         self.assertEqual(302, response.status_code)
@@ -79,7 +80,8 @@ class TestLivro(unittest.TestCase):
             'ano': 2010,
             'exemplar': 1,
             'nomenclatura': 'LIN',
-            'volume': 1
+            'volume': 1,
+            "caminho": ""
         })
 
         response = self.app_test.get('/livro')
