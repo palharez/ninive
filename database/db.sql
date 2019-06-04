@@ -31,7 +31,8 @@ CREATE TABLE livro (
     id_editora INT NOT NULL,
     id_autor INT NOT NULL,
     status ENUM('EMPRESTADO', 'ESTANTE', 'EXTRAVIADO', 'RESERVADO', 'PERDIDO') default 'ESTANTE',
-    caminho_imagem NVARCHAR(500),    
+    caminho_imagem NVARCHAR(500),
+    qtd INT NOT NULL DEFAULT 1,
     FOREIGN KEY (id_editora) REFERENCES editora (id) ON DELETE CASCADE,
     FOREIGN KEY (id_autor) REFERENCES autor (id) ON DELETE CASCADE
 );
