@@ -6,6 +6,8 @@ from werkzeug.exceptions import abort
 from sgb import db
 from sgb.controllers.funcionario import login_required
 from sgb.utils import atualiza_punicao_socio
+from datetime import timedelta
+from datetime import datetime
 
 bp = Blueprint('emprestimo', __name__)
 
@@ -82,6 +84,7 @@ def create():
         'livro': '',
         'socio': ''
     }
+    datadevolucao = ''
     success = False
     try:
         socios_id = db.query_bd('select id from socio order by id')
@@ -95,6 +98,8 @@ def create():
             idsocio = request.form['idsocio']
             tombo = request.form['tombo']
             retirada = request.form['retirada']
+            datadevolucao = datetime.strptime(retirada, '%Y-%m-%d') + timedelta(days=5)
+            devolucao = str(datadevolucao).split(" ")[0]
 
             data['livro'] = livro = db.query_one('select * from livro where tombo = %s' % tombo)
             data['socio'] = socio = db.query_one('select * from socio where id = %s' % idsocio)
@@ -103,7 +108,7 @@ def create():
                 data['error'] = 'Não é possível criar empréstimo pois o sócio está suspenso!'
 
             elif livro['status'] == 'ESTANTE':
-                sql = "insert into emprestimo values(default, '%s', DATE_ADD(CURDATE(), INTERVAL 5 DAY), '%s', '%s')" % (retirada, tombo, idsocio)
+                sql = "insert into emprestimo values(default, '%s', '%s', '%s', '%s')" % (retirada, devolucao, tombo, idsocio)
                 db.insert_bd(sql)
                 db.insert_bd('UPDATE livro SET status = "EMPRESTADO" WHERE tombo = "%s" ' % tombo)
                 success = True
@@ -123,7 +128,7 @@ def create():
             elif livro['status'] == 'RESERVADO':
                 reserva = db.query_one('select * from reserva where tombo = %s and id_socio = %s' % (tombo, idsocio))
                 if reserva:
-                    db.insert_bd("insert into emprestimo values(default, '%s', DATE_ADD(CURDATE(), INTERVAL 5 DAY), '%s', '%s')" % (retirada, tombo, idsocio))
+                    db.insert_bd("insert into emprestimo values(default, '%s', '%s', '%s', '%s')" % (retirada, devolucao, tombo, idsocio))
                     db.insert_bd("delete from reserva where id = %s" % reserva['id'])
                     db.insert_bd('UPDATE livro SET status = "EMPRESTADO" WHERE tombo = "%s" ' % tombo)
                     success = True
@@ -134,7 +139,7 @@ def create():
             print(e)
             return render_template('404.html')
 
-    return render_template('emprestimo/create.html', data=data, success=success, socios_id=socios_id, livros_tombo=livros_tombo)
+    return render_template('emprestimo/create.html', data=data, success=success, socios_id=socios_id, livros_tombo=livros_tombo, datadevolucao=datadevolucao)
 
 
 @bp.route('/emprestimo/<int:id>/devolucao', methods=('GET',))

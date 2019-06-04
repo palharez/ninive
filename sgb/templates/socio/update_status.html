@@ -9,10 +9,10 @@
     {% endif %}
     <form method="POST">
         <div class="form-group">
-            <label for="rg">Rg</label>
-            <select name="rg" class="form-control" id="rg">     
+            <label for="id">Codigo</label>
+            <select name="id" class="form-control" id="id">     
             {% for socio in socios %}
-                <option value="{{socio.rg}}"> {{socio.rg}}</option> 
+                <option value="{{socio.id}}"> {{socio.id}}</option> 
             {% endfor %}
             </select>
         </div>

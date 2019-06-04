@@ -1,16 +1,16 @@
-const inputRg = document.getElementById("rg");
+const inputId = document.getElementById("id");
 const inputNome = document.getElementById("nome");
 const inputStatusAntigo = document.getElementById("statusAntigo");
 
-inputRg.addEventListener("click", () => {
-    let selectedOptionIndex = inputRg.selectedIndex;
-    let selectedOptions = inputRg.options;
-    let rg = selectedOptions[selectedOptionIndex].text;
-    getNome(rg);
+inputId.addEventListener("click", () => {
+    let selectedOptionIndex = inputId.selectedIndex;
+    let selectedOptions = inputId.options;
+    let id = selectedOptions[selectedOptionIndex].text;
+    getNome(id);
 });
 
-function getNome(rg){
-    fetch(`http://localhost:5000/socio/get_nome/${rg}`)
+function getNome(id){
+    fetch(`http://localhost:5000/socio/get_nome/${id}`)
         .then(response => response.json())
         .then(json => { 
             inputNome.value = json.nome;

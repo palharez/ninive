@@ -95,13 +95,13 @@ def index(page):
         return render_template('404.html')
 
 
-@bp.route('/socio/get_nome/<int:rg>', methods=('GET',))
-def get_nome_socio(rg):
-    """pega o nome de um livro pelo rg."""
+@bp.route('/socio/get_nome/<int:id>', methods=('GET',))
+def get_nome_socio(id):
+    """pega o nome de um livro pelo id."""
 
     if request.method == 'GET':
         try:            
-            socio = db.query_bd('select * from socio where rg = "%s"' % rg)
+            socio = db.query_bd('select * from socio where id = "%s"' % id)
             if socio:
                 print(socio)
                 socio = socio[0]
@@ -124,14 +124,14 @@ def update_status():
     if request.method == 'POST':
         try:
             status = request.form['status']
-            rg = request.form['rg']
-            sql = 'UPDATE socio SET status = "%s" WHERE rg = "%s" ' % (status, rg)
+            id = request.form['id']
+            sql = 'UPDATE socio SET status = "%s" WHERE id = "%s" ' % (status, id)
             db.insert_bd(sql)
             return redirect(url_for('socio.index'))
         except Exception as e:
             error = 'Não foi possível atualizar esse socio!'
 
-    sql = 'select rg, status from socio'
+    sql = 'select id, status from socio'
     socios = db.query_bd(sql)
 
     return render_template('socio/update_status.html', socios=socios, erro=error)

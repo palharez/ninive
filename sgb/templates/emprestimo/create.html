@@ -12,7 +12,7 @@
     {% endif %}
     {% if success %}
     <div class="alert alert-success" role="alert">
-        <span>Empréstimo criado com sucesso!</span>
+        <span>Empréstimo criado com sucesso! Devolução em {{ datadevolucao.strftime('%d/%m/%Y') }}.</span>
     </div>
     {% endif %}
     <form method="POST">
