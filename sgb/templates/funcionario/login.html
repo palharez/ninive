@@ -34,8 +34,42 @@
                     <span class="input-group-text" id="inputGroup-sizing">Matricula</span>
                 </div>
                 <input type="password" name="matricula" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="matricula" required>
+                <div class="input-group-append">
+                    <button type="button" aria-label="Default" class="btn btn-outline-secondary" aria-describedby="inputGroup-sizing-default" id="showPassword"><img id="eyePassword" src="{{ url_for('static', filename='images/disabled-eye.png') }}"></button>
+                </div>
             </div>
             <input type="submit" class="btn btn-primary btn-block" value="Entrar">
         </form>
     </div>
+
+    <script>
+        const inputShowPassword = document.getElementById("showPassword");
+        const inputPassword = document.getElementById("matricula");
+        const tagImgEye = document.getElementById("eyePassword");
+
+        let isChecked = false;
+
+        inputShowPassword.addEventListener("click", () => {
+            if (!isChecked) {
+                inputPassword.type = 'text';
+                isChecked = true;
+                tagImgEye.src = "/static/images/enabled-eye.png"
+            } else {
+                inputPassword.type = 'password';
+                isChecked = false;
+                tagImgEye.src = "/static/images/disabled-eye.png"
+            }
+        });
+    </script>
+
+    <style>
+        #matricula {
+            border-right: 0;
+        }
+
+        #showPassword {
+            border-color: #CED4DA;
+            border-left: 0;
+        }
+    </style>
 </body>

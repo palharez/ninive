@@ -24,8 +24,8 @@
                 <th style="width: 30%">Título</th>
                 <th style="width: 20%">Nome do Sócio</th>
                 <th style="width: 20%">Data de Criação</th>
+                <th>Emprestar</th>
                 <th>Deletar</th>
-                <th>Reservar</th>
             </tr>
         </thead>
         <tbody>
@@ -34,13 +34,13 @@
                 <td>{{ reserva.tombo }}</td>
                 <td>{{ reserva.titulo }}</td>
                 <td>{{ reserva.nome }}</td>
-                <td>{{ reserva.created_at }}</td>
+                <td>{{ reserva.created_at.strftime('%d/%m/%Y') }}</td>
+                <td><a class="btn btn-warning btn-sm" href="{{ url_for('reserva.emprestimo', id=reserva['id']) }}">Emprestar</a></td>
                 <td>
                     <form action="{{ url_for('reserva.delete', id=reserva['id']) }}" method="post">
                         <input class="btn btn-danger btn-sm" type="submit" value="Deletar" onclick="return confirm('Tem certeza?');">
                     </form>
                 </td>
-                 <td><a class="btn btn-warning btn-sm" href="{{ url_for('reserva.emprestimo', id=reserva['id']) }}">Reservar</a></td>
             </tr>
             {% endfor %}
         </tbody>

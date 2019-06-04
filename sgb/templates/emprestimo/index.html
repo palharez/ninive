@@ -33,8 +33,8 @@
             {% for emprestimo in emprestimos %}
             <tr>
                 <td>{{ emprestimo.id }}</td>
-                <td>{{ emprestimo.retirada }}</td>
-                <td>{{ emprestimo.devolucao }}</td>
+                <td>{{ emprestimo.retirada.strftime('%d/%m/%Y') }}</td>
+                <td>{{ emprestimo.devolucao.strftime('%d/%m/%Y') }}</td>
                 <td>{{ emprestimo.titulo }}</td>
                 <td>{{ emprestimo.nome }}</td>
                 <td>

@@ -142,7 +142,7 @@
                             <tr>
                                 <th style="width: 10%">Cod.</th>
                                 <th style="width: 25%">Devolução</th>
-                                <th style="width: 25%">Livro</th>
+                                <th style="width: 25%">Tombo</th>
                                 <th style="width: 20%">Sócio</th>
                                 <th style="width: 20%">Deletar</th>
                             </tr>
@@ -152,7 +152,7 @@
                             <tr>
                                 <td>{{ emprestimo.id }}</td>
                                 <td>20/06/2019</td>
-                                <td>{{ emprestimo.titulo }}</td>
+                                <td>{{ emprestimo.tombo }}</td>
                                 <td>{{ emprestimo.nome.split(" ")[0] }}</td>
                                 <td>
                                     <form action="{{ url_for('emprestimo.update', id=emprestimo['id']) }}" method="get">
@@ -178,17 +178,17 @@
                         <table class="table stable-sm">
                             <thead>
                                 <tr>
-                                    <th style="width: 20%">Cod.</th>
-                                    <th style="width: 20%">Título</th>
-                                    <th style="width: 20%">Sócio</th>
-                                    <th style="width: 20%">Deletar</th>
+                                    <th style="width: 25%">Cod.</th>
+                                    <th style="width: 25%">Tombo</th>
+                                    <th style="width: 25%">Sócio</th>
+                                    <th style="width: 25%">Deletar</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for reserva in reservas %}
                                 <tr>
                                     <td>{{ reserva.id }}</td>
-                                    <td>{{ reserva.titulo }}</td>
+                                    <td>{{ reserva.tombo }}</td>
                                     <td>{{ reserva.nome.split(" ")[0] }}</td>
                                     <td>
                                         <form action="{{ url_for('reserva.delete', id=reserva['id']) }}" method="post">
