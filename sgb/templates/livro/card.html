@@ -36,7 +36,7 @@
                 ...
                 {%endif%}
             </h5>
-            <p class="card-text">Tombo: {{ livro.tombo }} <br> Status: {{ livro.status.capitalize() }}<p>
+            <p class="card-text"><b>Tombo:</b> {{ livro.tombo }} <br /> <b>Status:</b> {{ livro.status.capitalize() }} <br /> <b>Qtd. Estoque:</b> {{ livro.qtd }}</p>
             <div class="form-group">
                 <form action="{{ url_for('livro.delete', id=livro.tombo) }}" style="display: inline-block;" method="post">
                     <input class="btn btn-danger btn-sm" type="submit" value="Deletar" onclick="return confirm('Tem certeza?');">
@@ -108,6 +108,10 @@
                                                     <tr>
                                                         <th>Status</th>
                                                         <td>{{ livro.status.capitalize() }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Quantidade</th>
+                                                        <td>{{ livro.qtd }}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>

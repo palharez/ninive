@@ -103,15 +103,22 @@ def create():
 
             data['livro'] = livro = db.query_one('select * from livro where tombo = %s' % tombo)
             data['socio'] = socio = db.query_one('select * from socio where id = %s' % idsocio)
+            qtdlivro = livro['qtd']
 
-            if data['socio']['status'] == 'SUSPENSO':
+            if qtdlivro <= 0:
+                data['error'] = 'Este livro não está disponível!'
+
+            elif data['socio']['status'] == 'SUSPENSO':
                 data['error'] = 'Não é possível criar empréstimo pois o sócio está suspenso!'
 
             elif livro['status'] == 'ESTANTE':
+                qtdlivro -= 1
                 sql = "insert into emprestimo values(default, '%s', '%s', '%s', '%s')" % (retirada, devolucao, tombo, idsocio)
                 db.insert_bd(sql)
-                db.insert_bd('UPDATE livro SET status = "EMPRESTADO" WHERE tombo = "%s" ' % tombo)
+                db.insert_bd('UPDATE livro SET qtd = "%s" WHERE tombo = "%s" ' % (qtdlivro, tombo))
                 success = True
+                if qtdlivro == 0:
+                    db.insert_bd('UPDATE livro SET status = "EMPRESTADO" WHERE tombo = "%s" ' % tombo)
 
             elif livro['status'] == 'EMPRESTADO':
                 data['error'] = 'Este livro não pode ser emprestado! ' \
@@ -128,13 +135,17 @@ def create():
             elif livro['status'] == 'RESERVADO':
                 reserva = db.query_one('select * from reserva where tombo = %s and id_socio = %s' % (tombo, idsocio))
                 if reserva:
+                    qtdlivro -= 1
                     db.insert_bd("insert into emprestimo values(default, '%s', '%s', '%s', '%s')" % (retirada, devolucao, tombo, idsocio))
                     db.insert_bd("delete from reserva where id = %s" % reserva['id'])
-                    db.insert_bd('UPDATE livro SET status = "EMPRESTADO" WHERE tombo = "%s" ' % tombo)
+                    db.insert_bd('UPDATE livro SET qtd = "%s" WHERE tombo = "%s" ' % (qtdlivro, tombo))
                     success = True
+                    if qtdlivro == 0:
+                        db.insert_bd('UPDATE livro SET status = "EMPRESTADO" WHERE tombo = "%s" ' % tombo)
                 
                 data['error'] = 'Este livro não pode ser emprestado! ' \
                     'Pois está reservado.'
+                
         except Exception as e:
             print(e)
             return render_template('404.html')
@@ -148,8 +159,12 @@ def update(id):
     """Atualiza uma emprestimo pelo seu respectivo id."""
     emprestimo = get_emprestimo(id)
     try:
+        livro = db.query_one('select * from livro where tombo = %s' % emprestimo['tombo'])
+        qtdlivro = livro['qtd']
+        qtdlivro += 1
+
         atualiza_punicao_socio(id)
-        db.insert_bd('UPDATE livro SET status = "ESTANTE" WHERE tombo = "%s" ' % emprestimo['tombo'])
+        db.insert_bd('UPDATE livro SET status = "ESTANTE", qtd = "%s" WHERE tombo = "%s" ' % (qtdlivro, emprestimo['tombo']))
         db.insert_bd('DELETE FROM emprestimo WHERE id = "%s"' % emprestimo['id'])
         return redirect(url_for('emprestimo.index'))
     except Exception as e:

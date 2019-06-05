@@ -50,6 +50,12 @@
             </div>
            <input name="exemplar"  type="text" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="exemplar" value="{{ request.form['exemplar'] or livro_content['livro']['ex'] }}" required>
         </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+               <span class="input-group-text" id="inputGroup-sizing-sm">Quantidade</span>
+            </div>
+           <input name="quantidade"  type="number" aria-label="Default" class="form-control" aria-describedby="inputGroup-sizing-default" id="quantidade" value="{{ request.form['quantidade'] or livro_content['livro']['qtd'] }}" required>
+        </div>
         <div class="form-group">
             <label for="autor">Autores</label>
             <select name="autor" class="form-control" id="autor">     

@@ -94,11 +94,17 @@ def create():
             data['livro'] = livro = db.query_one('select * from livro where tombo = %s' % tombo)
             data['socio'] = socio = db.query_one('select * from socio where id = %s' % idsocio)
 
-            if data['socio']['status'] == 'SUSPENSO':
+            qtdlivro = livro['qtd']
+
+            if qtdlivro <= 0:
+                data['error'] = 'Este livro não está disponível!'
+
+            elif data['socio']['status'] == 'SUSPENSO':
                 data['error'] = 'Não é possível criar reserva pois o sócio está suspenso!'
 
             elif livro['status'] == 'ESTANTE':
-                reservar_livro(tombo, idsocio)
+                qtdlivro -= 1
+                reservar_livro(tombo, idsocio, qtdlivro)
                 success = True
 
             elif livro['status'] == 'EMPRESTADO':
@@ -119,7 +125,8 @@ def create():
                     data['error'] = 'Este livro não pode ser reservado! ' \
                         'Pois já está reservado.'
                 else:
-                    reservar_livro(tombo, idsocio)
+                    qtdlivro -= 1
+                    reservar_livro(tombo, idsocio, qtdlivro)
                     success = True
 
         except Exception as e:
@@ -129,10 +136,12 @@ def create():
     return render_template('reserva/create.html', data=data, success=success, socios_id=socios_id, livros_tombo=livros_tombo)
 
 
-def reservar_livro(tombo, idsocio):
-    db.insert_bd('UPDATE livro SET status = "RESERVADO" WHERE tombo = "%s" ' % tombo)
+def reservar_livro(tombo, idsocio, qtdlivro):
+    db.insert_bd('UPDATE livro SET qtd = "%s" WHERE tombo = "%s" ' % (qtdlivro, tombo))
     sql = "insert into reserva values(default, default, '%s', '%s')" % (tombo, idsocio)
     db.insert_bd(sql)
+    if qtdlivro == 0:
+        db.insert_bd('UPDATE livro SET status = "Reservado" WHERE tombo = "%s" ' % tombo)
 
 
 @bp.route('/reserva/<int:id>/delete', methods=('POST',))
@@ -145,10 +154,14 @@ def delete(id):
     """
     reserva = get_reserva(id)
     try:
+        livro = db.query_one('select * from livro where tombo = %s' % reserva['tombo'])
+        qtdlivro = livro['qtd']
+        qtdlivro += 1
+        db.insert_bd('UPDATE livro SET status = "ESTANTE", qtd = "%s" WHERE tombo = "%s" ' % (qtdlivro, reserva['tombo']))
         db.insert_bd('DELETE FROM reserva WHERE id = %d' % id)
-        db.insert_bd('UPDATE livro SET status = "ESTANTE" WHERE tombo = "%s" ' % reserva['tombo'])
         return redirect(url_for('reserva.index'))
-    except:
+    except Exception as e:
+        print(e)
         return render_template('404.html')
 
 
@@ -163,8 +176,15 @@ def emprestimo(id):
     """
     reserva = get_reserva(id)
     try:
+        livro = db.query_one('select * from livro where tombo = %s' % reserva['tombo'])
+        print(livro)
+        qtdlivro = livro['qtd']
+        if qtdlivro != 0:
+            qtdlivro -= 1
+        db.insert_bd('UPDATE livro SET qtd = "%s" WHERE tombo = "%s" ' % (qtdlivro, reserva['tombo']))
+        if qtdlivro == 0:
+            db.insert_bd('UPDATE livro SET status = "EMPRESTADO" WHERE tombo = "%s" ' % reserva['tombo'])
         db.insert_bd('DELETE FROM reserva WHERE id = %d' % id)
-        db.insert_bd('UPDATE livro SET status = "EMPRESTADO" WHERE tombo = "%s" ' % reserva['tombo'])
         sql = "insert into emprestimo values(default, date_format(now(), '%%Y-%%m-%%d'), DATE_ADD(CURDATE(), INTERVAL 5 DAY), '%s', '%s')" % (reserva['tombo'], reserva['id_socio'])
         db.insert_bd(sql)
         return redirect(url_for('reserva.index'))

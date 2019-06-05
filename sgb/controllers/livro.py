@@ -25,7 +25,8 @@ def parse_request(request):
         'etiqueta': request.form['etiqueta'],
         'ano': int(request.form['ano']),
         'exemplar': int(request.form['exemplar']),
-        'volume': request.form['volume']
+        'volume': request.form['volume'],
+        'quantidade': request.form['quantidade']
     }
 
 
@@ -111,9 +112,9 @@ def create():
             file = request.files['image']
             f = upload_file(file)
 
-            sql = 'INSERT INTO livro values ("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", default, "%s")' % (request_parsed['tombo'], 
+            sql = 'INSERT INTO livro values ("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", default, "%s", "%s")' % (request_parsed['tombo'], 
                 request_parsed['titulo'], request_parsed['entrada'], request_parsed['etiqueta'], request_parsed['ano'], 
-                request_parsed['volume'], request_parsed['exemplar'], request_parsed['id_editora'], request_parsed['id_autor'], f.filename)
+                request_parsed['volume'], request_parsed['exemplar'], request_parsed['id_editora'], request_parsed['id_autor'], f.filename, request_parsed['quantidade'])
             db.insert_bd(sql)
             success = True
         except Exception as e:
@@ -140,8 +141,7 @@ def update(id):
                 file = request.files['image']
                 f = upload_file(file)
             name_image = f.filename if f else livro['caminho_imagem']
-            sql = 'UPDATE livro set titulo = "%s", entrada = "%s", etq = "%s", ano = "%s", ex = "%s", v = "%s", id_editora = "%s", id_autor = "%s" where tombo = %d' % (request_parsed['titulo'], request_parsed['entrada'], request_parsed['etiqueta'], request_parsed['ano'], request_parsed['exemplar'], request_parsed['volume'], request_parsed['id_editora'], request_parsed['id_autor'], request_parsed['tombo'])
-            print(sql)
+            sql = 'UPDATE livro set titulo = "%s", entrada = "%s", etq = "%s", ano = "%s", ex = "%s", v = "%s", id_editora = "%s", id_autor = "%s", qtd = "%s" where tombo = %d' % (request_parsed['titulo'], request_parsed['entrada'], request_parsed['etiqueta'], request_parsed['ano'], request_parsed['exemplar'], request_parsed['volume'], request_parsed['id_editora'], request_parsed['id_autor'], request_parsed['quantidade'],request_parsed['tombo'])
             db.insert_bd(sql)
             return redirect(url_for('livro.index'))
         except:
@@ -202,7 +202,6 @@ def lista_saidos():
             GROUP BY emprestimo_morto.tombo \
             ORDER BY COUNT(emprestimo_morto.tombo) DESC;'
         livros = db.query_bd(sql)
-        print(livros)
         return render_template('livro/index.html', livros=livros)
         # return render_template('404.html')
     except Exception as e:
