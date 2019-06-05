@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/centeredContainer.css')  }}" />
 {% endblock %} {% block content %}
 <div class="centered-container">
-    <h1>Relatório do Sócio - {{ socio[0].nome }}</h1>
+    <h1>Relatório do Sócio - {{ socio[0].nome.split(" ")[0]  }} {{ socio[0].nome.split(" ")[-1] }} <button type="button" class="btn btn-lg btn-warning" style="float: right; font-size: medium;">Quantidade: {{ emprestimos_socio|length }}</button></h1>
     <div class="margin-topper">
 
     {% if emprestimos_socio %}
