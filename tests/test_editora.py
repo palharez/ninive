@@ -33,12 +33,12 @@ class TestEditora(unittest.TestCase):
         
         self.assertEqual(200, response.status_code)
 
-    def test_retorna_302_quando_cria_uma_editora(self):
+    def test_retorna_200_quando_cria_uma_editora(self):
         response = self.app_test.post('/editora/create', data={
             'nome': 'Abril'
         })      
 
-        self.assertEqual(302, response.status_code)
+        self.assertEqual(200, response.status_code)
 
     def test_retorna_uma_editora_quando_criado(self):
         self.app_test.post('/editora/create', data={

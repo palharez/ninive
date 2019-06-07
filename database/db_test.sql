@@ -11,7 +11,8 @@ CREATE TABLE autor (
 CREATE TABLE funcionario(
 	matricula INT NOT NULL UNIQUE PRIMARY KEY,
     nome NVARCHAR(255),
-    cargo NVARCHAR(50)
+    cargo NVARCHAR(50),
+    caminho_imagem NVARCHAR(500)    
 );
 
 CREATE TABLE editora (
@@ -19,19 +20,24 @@ CREATE TABLE editora (
     nome NVARCHAR(50) NOT NULL
 );
 
-CREATE TABLE livro (
-    tombo INT NOT NULL PRIMARY KEY,
-    titulo NVARCHAR(50) NOT NULL,
-    entrada DATE NOT NULL,
-    etq NVARCHAR(10) NOT NULL,
-    ano INT NOT NULL,
-    v INT NOT NULL,
-    ex INT NOT NULL,
-    id_editora INT NOT NULL,
-    id_autor INT NOT NULL,
-    status ENUM('EMPRESTADO', 'ESTANTE', 'EXTRAVIADO', 'RESERVADO', 'PERDIDO') default 'ESTANTE',
-    FOREIGN KEY (id_editora) REFERENCES editora (id) ON DELETE CASCADE,
-    FOREIGN KEY (id_autor) REFERENCES autor (id) ON DELETE CASCADE
+CREATE TABLE `livro` (
+  `tombo` int(11) NOT NULL,
+  `titulo` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `entrada` date NOT NULL,
+  `etq` varchar(10) CHARACTER SET utf8 NOT NULL,
+  `ano` int(11) NOT NULL,
+  `v` int(11) NOT NULL,
+  `ex` int(11) NOT NULL,
+  `id_editora` int(11) NOT NULL,
+  `id_autor` int(11) NOT NULL,
+  `status` enum('EMPRESTADO','ESTANTE','EXTRAVIADO','RESERVADO','PERDIDO') DEFAULT 'ESTANTE',
+  `caminho_imagem` varchar(500) CHARACTER SET utf8 DEFAULT NULL,
+  `qtd` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`tombo`),
+  KEY `id_editora` (`id_editora`),
+  KEY `id_autor` (`id_autor`),
+  CONSTRAINT `livro_ibfk_1` FOREIGN KEY (`id_editora`) REFERENCES `editora` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `livro_ibfk_2` FOREIGN KEY (`id_autor`) REFERENCES `autor` (`id`) ON DELETE CASCADE
 );
 
 
@@ -109,3 +115,5 @@ CREATE TABLE punicao(
     data_punicao DATE NOT NULL,
     FOREIGN KEY (id_socio) REFERENCES socio (id) ON DELETE CASCADE
 );
+
+insert into funcionario values(123456, 'admin', 'admin', 'null');

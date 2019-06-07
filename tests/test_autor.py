@@ -33,12 +33,12 @@ class TestAutor(unittest.TestCase):
         
         self.assertEqual(200, response.status_code)
 
-    def test_retorna_302_quando_cria_um_usuario(self):
+    def test_retorna_200_quando_cria_um_usuario(self):
         response = self.app_test.post('/autor/create', data={
             'nome': 'Eduardo'
         })      
 
-        self.assertEqual(302, response.status_code)
+        self.assertEqual(200, response.status_code)
 
     def test_retorna_um_usuario_quando_criado(self):
         self.app_test.post('/autor/create', data={
