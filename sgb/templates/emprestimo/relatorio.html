@@ -24,8 +24,8 @@
                 {% for emprestimo in emprestimos %}
                 <tr>
                     <td>{{ emprestimo.id }}</td>
-                    <td>{{ emprestimo.retirada }}</td>
-                    <td>{{ emprestimo.data_retorno }}</td>
+                    <td>{{ emprestimo.retirada.strftime('%d/%m/%Y')  }}</td>
+                    <td>{{ emprestimo.data_retorno.strftime('%d/%m/%Y')  }}</td>
                     <td>{{ emprestimo.nome }}</td>
                     <td>{{ emprestimo.titulo }}</td>
                     <td>{{ emprestimo['autor.nome'] }}</td>
