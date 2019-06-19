@@ -15,7 +15,7 @@ bp = Blueprint('socio', __name__)
 def parse_request(request):
     return {
         'nome': request.form['nome'],
-        'rg': int(request.form['rg']),
+        'rg': request.form['rg'],
         'nasc': request.form['nasc'] if request.form['nasc'] else '',
         'email': request.form['email'] if request.form['email'] else '',
         'nome_pai': request.form['nome_pai'] if request.form['nome_pai'] else '',

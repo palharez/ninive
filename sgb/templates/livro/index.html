@@ -19,8 +19,6 @@
             <th scope="col">Exemplar</th>
             <th scope="col">Autor</th>
             <th scope="col">Editora</th>
-            <th scope="col">Status</th>
-            <th scope="col">Qtd. Estoque</th>
         </tr>
     </thead>
     <tbody>
@@ -35,8 +33,6 @@
                 <td>{{ livro.ex }}</td>
                 <td>{{ livro.nome }}</td>
                 <td>{{ livro['editora.nome'] }}</td>
-                <td>{{ livro.status.capitalize() }}</td>
-                <td>{{ livro.qtd }}</td>
             </tr>
         {% endfor %}
     </tbody>

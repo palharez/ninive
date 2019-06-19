@@ -199,7 +199,7 @@ CREATE TABLE `livro` (
   `entrada` date NOT NULL,
   `etq` varchar(10) CHARACTER SET utf8 NOT NULL,
   `ano` int(11) NOT NULL,
-  `v` int(11) NOT NULL,
+  `v` varchar(50) NOT NULL,
   `ex` int(11) NOT NULL,
   `id_editora` int(11) NOT NULL,
   `id_autor` int(11) NOT NULL,
@@ -352,7 +352,7 @@ DROP TABLE IF EXISTS `socio`;
 CREATE TABLE `socio` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `rg` char(12) NOT NULL,
+  `rg` varchar(255) NOT NULL,
   `nasc` date NOT NULL,
   `email` varchar(255) CHARACTER SET utf8 NOT NULL,
   `associacao` datetime DEFAULT CURRENT_TIMESTAMP,
