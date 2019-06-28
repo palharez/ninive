@@ -13,7 +13,7 @@ $ pipenv install --dev
 Run:
 
 ``` shell
-$ python run.py
+$ python runner.py
 ```
 
 ## Modules
